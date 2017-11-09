@@ -23,6 +23,7 @@
     "test:coverage:xml": "nyc report --reporter=cobertura",
     "test:coverage:html:open": "opn coverage/index.html",
     "test:coverage:report": "run-s test:coverage:html test:coverage:html:open",
+    "translate": "jsonsort src/translations",
     "review": "run-s lint lint-sass test:clean test:coverage test:coverage:verify test:coverage:report"
   },
   "ava": {
@@ -42,6 +43,7 @@
     "react": "^15.6.2",
     "react-dom": "^15.6.2",
     "react-helmet": "^5.2.0",
+    "react-intl": "^2.4.0",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2"
   },
@@ -74,6 +76,7 @@
     "expect-jsx": "^5.0.0",
     "file-loader": "^1.1.5",
     "jsdom": "^11.3.0",
+    "json-sort-cli": "^1.0.5",
     "less-loader": "^4.0.5",
     "mock-require": "^2.0.2",
     "node-sass": "^4.6.0",

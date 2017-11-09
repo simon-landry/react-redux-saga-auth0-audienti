@@ -1,9 +1,11 @@
 import React from 'react';
 
-const Dashboard = () => (
+import { injectIntl } from 'components/Intl';
+
+export const Dashboard = ({ formatMessage }) => (
   <div>
-    <h1>Dashboard</h1>
+    <h1>{formatMessage('Dashboard')}</h1>
   </div>
 );
 
-export default Dashboard;
+export default injectIntl(Dashboard);

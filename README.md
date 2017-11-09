@@ -31,8 +31,15 @@ yarn build
 
 ### Testing
 ```
-yarn lint
-yarn lint-sass
-yarn test
+yarn lint // Run eslint (all js/jsx files)
+yarn lint-sass // Run sass lint (scss files)
+yarn test // Do unit testing
+yarn test:coverage // Do testing with coverage report
+yarn test:coverage:report // Do testing with coverage report with html tab
+yarn review // Do all testings together
 ```
 
+### Translate
+```
+yarn translate
+```

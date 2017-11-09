@@ -9,7 +9,7 @@ const Router = () => (
     <Switch>
       <Route exact path="/dashboard" component={Dashboard} />
       <Redirect exact path="/" to="/dashboard" />
-      <Route path="*" componet={Page404} />
+      <Route path="*" component={Page404} />
     </Switch>
   </BrowserRouter>
 );

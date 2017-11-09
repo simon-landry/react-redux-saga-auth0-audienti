@@ -28,3 +28,11 @@ yarn start
 ```
 yarn build
 ```
+
+### Testing
+```
+yarn lint
+yarn lint-sass
+yarn test
+```
+

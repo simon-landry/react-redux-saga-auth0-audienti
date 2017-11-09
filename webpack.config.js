@@ -20,7 +20,7 @@ module.exports = configName => {
       Provided environment "${configName}" was not found.
       Please use one of the following ones:
       ${Object.keys(webpackConfigs).join(' ')}
-    `)
+    `);
   }
 
   const loadedInstance = new LoadedConfig();
@@ -32,7 +32,7 @@ module.exports = configName => {
   dotenv.load();
 
   // Set the global environment
-  process.env.NODE_ENV = loadedInstance.env
+  process.env.NODE_ENV = loadedInstance.env;
 
   return loadedInstance.config;
-}
+};

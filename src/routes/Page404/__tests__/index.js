@@ -1,10 +1,14 @@
 import React from 'react';
 import test from 'ava';
-import Page404 from '../index';
+import { noop } from 'lodash';
+
+import { Page404 } from '../index';
 
 const { expect, shallow } = testHelper;
 
-const testProps = {};
+const testProps = {
+  formatMessage: noop
+};
 
 const shallowRenderer = (props = testProps) =>
   shallow(<Page404 {...props} />);

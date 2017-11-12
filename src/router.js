@@ -5,13 +5,15 @@ import AuthorizationHandler from 'components/AuthorizationHandler';
 import App from 'components/App';
 import Callback from 'routes/Callback';
 import Dashboard from 'routes/Dashboard';
+import Projects from 'routes/Projects';
 import Page404 from 'routes/Page404';
 
 const AuthorizedRoutes = props => (
   <AuthorizationHandler {...props}>
     <App>
       <Switch>
-        <Route exact path="/dashboard" component={Dashboard} />
+        <Route path="/dashboard" component={Dashboard} />
+        <Route path="/projects" component={Projects} />
         <Redirect exact path="/" to="/dashboard" />
         <Route path="*" component={Page404} />
       </Switch>

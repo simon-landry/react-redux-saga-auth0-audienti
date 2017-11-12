@@ -2,7 +2,7 @@ import React from 'react';
 import test from 'ava';
 import { noop } from 'lodash';
 
-import { Dashboard } from '../index';
+import { Main } from '../Main';
 
 const { expect, shallow } = testHelper;
 
@@ -11,7 +11,7 @@ const testProps = {
 };
 
 const shallowRenderer = (props = testProps) =>
-  shallow(<Dashboard {...props} />);
+  shallow(<Main {...props} />);
 
 test('Renders a div', () => {
   const component = shallowRenderer();

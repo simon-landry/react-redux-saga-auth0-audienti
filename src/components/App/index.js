@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
+import { NavLink } from 'react-router-dom';
+import { Breadcrumbs } from 'react-breadcrumbs-dynamic';
 
 import { clearAuthToken } from 'redux/auth/actions';
 
@@ -12,6 +14,15 @@ export const App = ({ children, clearAuthToken }) => (
     }}>
       Logout
     </button>
+    <br /><br />
+    <Breadcrumbs
+      separator={<b> > </b>}
+      item={NavLink}
+      finalItem="b"
+      finalProps={{
+        style: { color: 'black' }
+      }}
+    />
     {children}
   </div>
 );

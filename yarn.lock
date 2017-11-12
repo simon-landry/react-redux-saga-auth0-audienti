@@ -6061,7 +6061,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.6.0:
+prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.6.0:
   version "15.6.0"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.0.tgz#ceaf083022fc46b4a35f69e13ef75aed0d639856"
   dependencies:
@@ -6192,6 +6192,19 @@ rc@^1.0.1, rc@^1.1.6, rc@^1.1.7:
 react-addons-test-utils@^15.6.2:
   version "15.6.2"
   resolved "https://registry.yarnpkg.com/react-addons-test-utils/-/react-addons-test-utils-15.6.2.tgz#c12b6efdc2247c10da7b8770d185080a7b047156"
+
+react-breadcrumbs-dynamic@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/react-breadcrumbs-dynamic/-/react-breadcrumbs-dynamic-1.0.9.tgz#7912d264c22aaa9f10dfa5b0d7023128cf9f83a0"
+  dependencies:
+    react-broadcast "^0.5.2"
+
+react-broadcast@^0.5.2:
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/react-broadcast/-/react-broadcast-0.5.2.tgz#97d326094346003373f4cc4af1150fac5d2f625b"
+  dependencies:
+    invariant "^2.2.1"
+    prop-types "^15.5.6"
 
 react-deep-force-update@^2.1.1:
   version "2.1.1"

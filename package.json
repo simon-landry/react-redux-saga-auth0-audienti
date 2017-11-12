@@ -44,6 +44,7 @@
     "moment": "^2.19.1",
     "prop-types": "^15.6.0",
     "react": "^15.6.2",
+    "react-breadcrumbs-dynamic": "^1.0.9",
     "react-dom": "^15.6.2",
     "react-helmet": "^5.2.0",
     "react-intl": "^2.4.0",

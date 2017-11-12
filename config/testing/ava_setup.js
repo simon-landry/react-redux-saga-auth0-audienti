@@ -10,6 +10,7 @@ import enzymify from 'expect-enzyme';
 import expectJSX from 'expect-jsx';
 import expect, { spyOn, createSpy } from 'expect';
 import { shallow, mount } from 'enzyme';
+import dotenv from 'dotenv';
 
 import testRuntimeConfiguration from './testRuntimeConfig.json';
 
@@ -34,6 +35,9 @@ global.navigator = window.navigator;
 
 global.localStorage = new MemoryStorage('LOCALSTORAGE-MOCK');
 global.memoryDB = new MemoryStorage('MEMORYDB-MOCK');
+
+// load all env variables
+dotenv.config();
 
 /**
  * The tests do not get access to the environment variables setup via Dotenv,

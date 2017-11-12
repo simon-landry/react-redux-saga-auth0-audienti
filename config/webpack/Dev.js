@@ -15,12 +15,13 @@ class WebpackDevConfig extends WebpackBaseConfig {
         'react-hot-loader/patch',
         'babel-polyfill',
         './client.js'
-      ],
-      plugins: [
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoEmitOnErrorsPlugin()
       ]
     };
+
+    this.config.plugins = this.config.plugins.concat([
+      new webpack.HotModuleReplacementPlugin(),
+      new webpack.NoEmitOnErrorsPlugin()
+    ]);
 
     this.config.module.rules = this.config.module.rules.concat([
       {

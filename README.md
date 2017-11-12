@@ -14,7 +14,7 @@ node
 
 ### Installing
 
-Please copy paste .env.sample to .env and .env.prod under your root folder.  
+Please copy paste .env.sample to .env under your root folder.  
 You can ask values to fill it from admin.
 
 ```

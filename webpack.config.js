@@ -1,5 +1,4 @@
 /* eslint no-console: "off" */
-const dotenv = require('dotenv');
 const webpackConfigs = require('./config/webpack');
 
 const defaultConfig = 'dev';
@@ -23,16 +22,9 @@ module.exports = configName => {
     `);
   }
 
-  const loadedInstance = new LoadedConfig();
-
-  // Load the environment variables
-  if (loadedInstance.env === 'production') {
-    dotenv.config({ path: '.env.prod' });
-  }
-  dotenv.load();
-
   // Set the global environment
-  process.env.NODE_ENV = loadedInstance.env;
+  process.env.NODE_ENV = LoadedConfig.env;
 
+  const loadedInstance = new LoadedConfig();
   return loadedInstance.config;
 };

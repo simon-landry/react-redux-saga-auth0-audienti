@@ -28,21 +28,22 @@ class WebpackDistConfig extends WebpackBaseConfig {
         publicPath: '/',
         filename: 'assets/app.js',
         chunkFilename: 'assets/[id].[hash].chunk.js'
-      },
-      plugins: [
-        new webpack.DefinePlugin({
-          'process.env.NODE_ENV': '"production"'
-        }),
-        new webpack.optimize.AggressiveMergingPlugin(),
-        new webpack.NoEmitOnErrorsPlugin(),
-        new CopyWebpackPlugin([
-          { from: root('public/.htaccess'), to: root('dist/') },
-          { from: root('public/index.html'), to: root('dist/') },
-          { from: root('public/favicon.ico'), to: root('dist/') },
-          { from: root('src/assets'), to: root('dist/assets') },
-        ])
-      ]
+      }
     };
+
+    this.config.plugins = this.config.plugins.concat([
+      new webpack.DefinePlugin({
+        'process.env.NODE_ENV': '"production"'
+      }),
+      new webpack.optimize.AggressiveMergingPlugin(),
+      new webpack.NoEmitOnErrorsPlugin(),
+      new CopyWebpackPlugin([
+        { from: root('public/.htaccess'), to: root('dist/') },
+        { from: root('public/index.html'), to: root('dist/') },
+        { from: root('public/favicon.ico'), to: root('dist/') },
+        { from: root('src/assets'), to: root('dist/assets') },
+      ])
+    ]);
 
     // Deactivate hot-reloading if we run dist build on the dev server
     this.config.devServer.hot = false;

@@ -3,6 +3,7 @@
  */
 const fs = require('fs');
 const path = require('path');
+const Dotenv = require('dotenv-webpack');
 
 const npmBase = path.join(__dirname, '../../node_modules');
 class WebpackBaseConfig {
@@ -132,7 +133,9 @@ class WebpackBaseConfig {
         filename: 'app.js',
         publicPath: '/assets/'
       },
-      plugins: [],
+      plugins: [
+        new Dotenv()
+      ],
       resolve: {
         extensions: ['.js', '.jsx'],
         modules: ['node_modules', WebpackBaseConfig.srcPathAbsolute]

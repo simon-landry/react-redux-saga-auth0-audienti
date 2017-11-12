@@ -15,5 +15,6 @@ const shallowRenderer = (props = testProps) =>
 
 test('Renders a div', () => {
   const component = shallowRenderer();
+  console.log(component.instance);
   expect(component).toBeA('div');
 });

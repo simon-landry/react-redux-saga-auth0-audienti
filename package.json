@@ -10,7 +10,7 @@
     "lint-fix": "eslint . --fix",
     "lint-sass": "sass-lint -c .sass-lint.yml 'src/styles/**/*.scss' -v -q",
     "reinstall": "rimraf node_modules && yarn",
-    "serve:dev": "webpack-dev-server --open --env dev",
+    "serve:dev": "webpack-dev-server --open --env dev  --host 0.0.0.0",
     "serve:dist": "webpack-dev-server NODE_ENV=production --open --env dist -p --progress",
     "start": "npm run serve:dev",
     "test": "cross-env NODE_PATH=src NODE_ENV=test ava --concurrency 18",

@@ -29,3 +29,7 @@ documentation/*.html
 # env files
 .env
 .env.prod
+.env.staging
+.env.development
+.env.production
+.env.test

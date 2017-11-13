@@ -20,7 +20,7 @@ class WebpackBaseConfig {
   }
 
   /**
-   * Seet the config data.
+   * Set the config data.
    * This will always return a new config
    * @param {Object} data Keys to assign
    * @return {Object}
@@ -72,6 +72,7 @@ class WebpackBaseConfig {
         contentBase: ['./public/', './src/'],
         publicPath: '/assets/',
         historyApiFallback: true,
+        disableHostCheck: true,
         hot: true,
         inline: true,
         port: 3000

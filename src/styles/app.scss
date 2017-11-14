@@ -1,4 +1,23 @@
 // Import all styles
 
+// Override Boostrap variables
+@import "bootstrap-variables";
+
 @import "./global/index"; // Global Variables
+
+// Import Bootstrap source files
+@import "node_modules/bootstrap/scss/bootstrap";
+
+// Override core variables
+@import "core-variables";
+
+// Import core styles
+@import "core/core";
+
+// Import UI Kits
+@import "uikits/uikits";
+
+// Custom styles
+@import "custom";
+
 @import "./base/index"; // Base Styles

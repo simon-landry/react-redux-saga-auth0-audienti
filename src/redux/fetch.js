@@ -13,7 +13,7 @@ function queryWithAuth(query, auth = true) {
   return auth ? stringify({ ...query, ...accessTokenQuery }) : stringify(query);
 }
 
-export function makeApiUrl(endpoint, query) {
+export function makeApiUrl(endpoint, query, auth = true) {
   const queryString = queryWithAuth(query, auth);
   return `${endpoint}${queryString ? '?' : ''}${queryString}`;
 }
@@ -54,8 +54,8 @@ async function processResponse(response) {
   };
 }
 
-export async function get(endpoint, query) {
-  const url = makeApiUrl(endpoint, query);
+export async function get(endpoint, query, auth = true) {
+  const url = makeApiUrl(endpoint, query, auth);
   try {
     const res = await fetch(url);
     const status = checkStatus(res);
@@ -71,8 +71,8 @@ export async function get(endpoint, query) {
   }
 }
 
-async function postOrPutOrDelete(method, endpoint, { requestBody = {} } = {}) {
-  const url = makeApiUrl(endpoint, query);
+async function postOrPutOrDelete(method, endpoint, { query, auth = true, requestBody = {} } = {}) {
+  const url = makeApiUrl(endpoint, query, auth);
   try {
     const res = etch(url, {
       method,
@@ -90,6 +90,7 @@ async function postOrPutOrDelete(method, endpoint, { requestBody = {} } = {}) {
       endpoint,
       query,
       url,
+      auth,
       method: 'GET'
     })(e);
   }

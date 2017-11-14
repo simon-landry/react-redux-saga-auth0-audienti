@@ -1,10 +1,12 @@
 .pagination-datatables, .pagination {
   li {
-    @extend %.page-item;
+    // sass-lint:disable-all
+    @extend .page-item;
 
     a {
-      @extend %.page-link;
+      @extend .page-link;
     }
+    // sass-lint:enable-all
   }
 }
 
@@ -23,8 +25,9 @@
 }
 
 // navbar dropdown fix
+// sass-lint:disable-all
 .navbar .dropdown-toggle {
-  @extend %.nav-link;
+  @extend .nav-link;
 
   .img-avatar {
     height: $navbar-height - 20px;
@@ -33,5 +36,6 @@
 }
 
 .card-block {
-  @extend %.card-body;
+  @extend .card-body;
 }
+// sass-lint:enable-all

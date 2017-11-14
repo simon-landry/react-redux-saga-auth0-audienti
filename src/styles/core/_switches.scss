@@ -106,7 +106,9 @@
 
 
   @if $type == ddd {
-    @extend %.switch-pill;
+    // sass-lint:disable-all
+    @extend .switch-pill;
+    // sass-lint:enable-all
   }
 
   //size variations

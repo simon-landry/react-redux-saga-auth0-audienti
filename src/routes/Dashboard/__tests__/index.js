@@ -1,13 +1,12 @@
 import React from 'react';
 import test from 'ava';
-import { noop } from 'lodash';
 
 import { Dashboard } from '../index';
 
 const { expect, shallow } = testHelper;
 
 const testProps = {
-  formatMessage: noop,
+  formatMessage: () => 'something',
 };
 
 const shallowRenderer = (props = testProps) =>

@@ -31,7 +31,7 @@ export class Sidebar extends Component {
 
   activeRoute = (routeName) => {
     const { location: { pathname } } = this.props;
-    return pathname.indexOf(routeName) > -1 ? 'nav-item nav-dropdown open' : 'nav-item nav-dropdown';
+    return pathname.indexOf(routeName) > -1;
   }
 
   // nav link
@@ -42,6 +42,7 @@ export class Sidebar extends Component {
       return (
         <NavDropdown
           handleClick={this.handleClick}
+          open={this.activeRoute(item.url)}
           {...item}
           key={idx}
         >

@@ -2,9 +2,13 @@ import React from 'react';
 import test from 'ava';
 import { noop } from 'lodash';
 
+import Breadcrumb from 'components/Breadcrumb';
+import Sidebar from 'components/Sidebar';
+import SidebarItems from 'components/SidebarItems';
+
 import { App } from '../index';
 
-const { expect, shallow, createSpy } = testHelper;
+const { expect, shallow } = testHelper;
 
 const testProps = {
   children: <div>test children</div>,
@@ -21,15 +25,20 @@ test('Renders a div', () => {
 
 test('Renders a Sidebar', () => {
   const component = shallowRenderer();
-  expect(component).toContain('Sidebar');
+  expect(component).toContain(Sidebar);
 });
 
 test('Renders a Breadcrumb', () => {
   const component = shallowRenderer();
-  expect(component).toContain('Connect(Breadcrumb)');
+  expect(component).toContain(SidebarItems);
 });
 
-test('clearAuthToken is called when button is clicked', () => {
+test('Renders a Breadcrumb', () => {
+  const component = shallowRenderer();
+  expect(component).toContain(Breadcrumb);
+});
+
+/* test('clearAuthToken is called when button is clicked', () => {
   const clearAuthToken = createSpy();
   const component = shallowRenderer({
     ...testProps,
@@ -39,3 +48,4 @@ test('clearAuthToken is called when button is clicked', () => {
   button.simulate('click');
   expect(clearAuthToken).toHaveBeenCalled();
 });
+*/

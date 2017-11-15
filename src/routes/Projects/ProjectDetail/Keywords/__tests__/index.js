@@ -3,7 +3,7 @@ import test from 'ava';
 
 import BreadcrumbItem from 'components/BreadcrumbItem';
 
-import { Segments } from '../index';
+import { Keywords } from '../index';
 
 const { expect, shallow } = testHelper;
 
@@ -14,7 +14,7 @@ const testProps = {
 };
 
 const shallowRenderer = (props = testProps) =>
-  shallow(<Segments {...props} />);
+  shallow(<Keywords {...props} />);
 
 test('Renders a div', () => {
   const component = shallowRenderer();
@@ -24,5 +24,5 @@ test('Renders a div', () => {
 test('Renders a BreadcrumbItem', () => {
   const component = shallowRenderer();
   const breadcrumb = component.find(BreadcrumbItem);
-  expect(breadcrumb).toHaveProps({ to: `/projects/${testProjectId}/segments` });
+  expect(breadcrumb).toHaveProps({ to: `/projects/${testProjectId}/keywords` });
 });

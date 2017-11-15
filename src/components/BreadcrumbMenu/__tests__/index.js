@@ -36,5 +36,5 @@ test('Calls clearBreadcrumbMenu when unmounted', () => {
     clearBreadcrumbMenu,
   });
   component.unmount();
-  expect(clearBreadcrumbMenu).toHaveBeenCalledWith(testProps.children);
+  expect(clearBreadcrumbMenu).toHaveBeenCalled();
 });

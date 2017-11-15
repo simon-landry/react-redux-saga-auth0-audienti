@@ -45,11 +45,6 @@ export class App extends Component {
             </Container>
           </main>
         </div>
-        <button onClick={() => {
-            clearAuthToken();
-          }}>
-            Logout
-        </button>
       </div>
     );
   }

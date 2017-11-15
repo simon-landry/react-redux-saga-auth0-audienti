@@ -1,9 +1,9 @@
 import React from 'react';
 import test from 'ava';
 
-import BreadcrumbItem from 'components/BreadcrumbItem';
+import BreadcrumbMenu from 'components/BreadcrumbMenu';
 
-import { Segments } from '../index';
+import { Main } from '../index';
 
 const { expect, shallow } = testHelper;
 
@@ -14,15 +14,14 @@ const testProps = {
 };
 
 const shallowRenderer = (props = testProps) =>
-  shallow(<Segments {...props} />);
+  shallow(<Main {...props} />);
 
 test('Renders a div', () => {
   const component = shallowRenderer();
   expect(component).toBeA('div');
 });
 
-test('Renders a BreadcrumbItem', () => {
+test('Renders a BreadcrumbMenu', () => {
   const component = shallowRenderer();
-  const breadcrumb = component.find(BreadcrumbItem);
-  expect(breadcrumb).toHaveProps({ to: `/projects/${testProjectId}/segments` });
+  expect(component.find(BreadcrumbMenu).length).toBe(1);
 });

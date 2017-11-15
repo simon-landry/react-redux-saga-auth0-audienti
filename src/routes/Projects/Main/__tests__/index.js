@@ -37,7 +37,7 @@ test('Renders ProjectCard equal number to prop `projects` length.', () => {
   const projectCount = 10;
   const component = shallowRenderer({
     ...testProps,
-    projects: fromJS(new Array(projectCount).fill(0).map((_, index) => ({ id: index }))),
+    projects: fromJS(new Array(projectCount).fill(0).map((_, index) => ({ id: `${index}` }))),
   });
   expect(component.find(ProjectCard).length).toBe(projectCount);
 });

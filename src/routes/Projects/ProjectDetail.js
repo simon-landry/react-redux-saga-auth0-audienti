@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { BreadcrumbsItem } from 'react-breadcrumbs-dynamic';
-
+import BreadcrumbItem from 'components/BreadcrumbItem';
+import BreadcrumbMenu from 'components/BreadcrumbMenu';
 import { injectIntl } from 'components/Intl';
 
 export const ProjectDetail = ({ formatMessage, match: { params: { projectId } } }) => (
   <div>
-    <BreadcrumbsItem to={`/projects/${projectId}`}>{projectId}</BreadcrumbsItem>
+    <BreadcrumbItem to={`/projects/${projectId}`}>{projectId}</BreadcrumbItem>
+    <BreadcrumbMenu>Project</BreadcrumbMenu>
     {formatMessage('Projects')} {projectId}
   </div>
 );

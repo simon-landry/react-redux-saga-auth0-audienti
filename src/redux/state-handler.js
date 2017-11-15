@@ -1,7 +1,6 @@
 import { fromJS } from 'immutable';
-import { handleActions, combineActions } from 'redux-actions';
+import { handleActions } from 'redux-actions';
 import { apiTypes } from './redux-actions';
-import { RESET } from './constants';
 
 const storeMemory = (storage, name, data) => {
   if (storage[name]) {
@@ -32,7 +31,7 @@ const apiStateHandlers = (states, storage, listValues) => {
     actionHandlers = {
       ...actionHandlers,
       // request
-      [types[0]]: (state, action) =>
+      [types[0]]: (state) =>
         state
           .setIn([name, 'requesting'], true)
           .setIn([name, 'error'], fromJS({})),
@@ -52,7 +51,7 @@ const apiStateHandlers = (states, storage, listValues) => {
           .setIn([name, 'requesting'], false)
           .setIn([name, 'error'], fromJS(action.payload)),
       // clear
-      [types[3]]: (state, action) =>
+      [types[3]]: (state) =>
         state
           .setIn([name, 'requesting'], false)
           .setIn([name, 'data'], fromJS(defaultValue))
@@ -90,7 +89,7 @@ const instantStateHandlers = (states, storage, listValues) => {
       return state.set(name, value);
     };
     // clear
-    actionHandlers[types[3]] = (state, action) => {
+    actionHandlers[types[3]] = (state) => {
       storeMemory(storage, name, defaultValue);
       if (kind === 'object') {
         return state.set(name, fromJS(defaultValue));

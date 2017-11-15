@@ -1,6 +1,5 @@
 import React from 'react';
-import { noop } from 'lodash';
-import { BrowserRouter, IndexRoute, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import AuthorizationHandler from 'components/AuthorizationHandler';
 import App from 'components/App';
 import Callback from 'routes/Callback';

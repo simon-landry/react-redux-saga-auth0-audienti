@@ -1,16 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { BreadcrumbsItem } from 'react-breadcrumbs-dynamic';
-import { Link } from 'react-router-dom';
 
 import { injectIntl } from 'components/Intl';
+import BreadcrumbItem from 'components/BreadcrumbItem';
 
 import Routes from './_routes';
 
 export const Projects = ({ formatMessage, match: { url } }) => (
   <div>
-    <BreadcrumbsItem to="/projects">{formatMessage('Projects')}</BreadcrumbsItem>
-    <h1>{formatMessage('Projects')}</h1>
+    <BreadcrumbItem to="/projects">{formatMessage('Projects')}</BreadcrumbItem>
     <Routes url={url} />
   </div>
 );

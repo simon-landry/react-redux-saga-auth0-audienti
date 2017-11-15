@@ -1,7 +1,8 @@
 import React from 'react';
 import test from 'ava';
 import { noop } from 'lodash';
-import { BreadcrumbsItem } from 'react-breadcrumbs-dynamic';
+
+import BreadcrumbMenu from 'components/BreadcrumbMenu';
 
 import { ProjectDetail } from '../ProjectDetail';
 
@@ -21,8 +22,13 @@ test('Renders a div', () => {
   expect(component).toBeA('div');
 });
 
-test('Renders a BreadcrumbsItem with a proper prop `to`.', () => {
+test('Renders a BreadcrumbItem with a proper prop `to`.', () => {
   const component = shallowRenderer();
-  const breadcrumbsItem = component.find(BreadcrumbsItem);
-  expect(breadcrumbsItem).toHaveProps({ to: `/projects/${testProjectId}` });
+  const breadcrumbItem = component.find('BreadcrumbItem');
+  expect(breadcrumbItem).toHaveProps({ to: `/projects/${testProjectId}` });
+});
+
+test('Renders a BreadcrumbMenu.', () => {
+  const component = shallowRenderer();
+  expect(component).toContain(BreadcrumbMenu);
 });

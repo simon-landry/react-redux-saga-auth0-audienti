@@ -1,6 +1,5 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import { routerMiddleware } from 'react-router-redux';
 
 import requestStatusMiddleware from './requestStatusMiddleware';
 import rootReducer from './reducer';

@@ -3,11 +3,10 @@
  * It verifies that a user is authroized to view the application and spawns a token refresh process.
  */
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { Redirect } from 'react-router-dom';
 import Auth0 from 'auth0-js';
 
 import { getSelector } from 'redux/selectors';
@@ -25,7 +24,7 @@ export class AuthorizationHandler extends Component {
 
   };
 
-  authRequired = ({ access_token: accessToken, expires }) => !accessToken || expires < moment().unix();
+  authRequired = ({ id_token: idToken, expires }) => !idToken || expires < moment().unix();
 
   authorize = ({ pathname, search, hash }) => {
     const redirectUrl = encodeURIComponent(`${pathname}${search}${hash}`);

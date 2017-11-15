@@ -8,6 +8,9 @@
 // Import Bootstrap source files
 @import "node_modules/bootstrap/scss/bootstrap";
 
+// Import Spinkit
+@import "node_modules/spinkit/scss/spinkit";
+
 // Override core variables
 @import "core-variables";
 
@@ -21,3 +24,4 @@
 @import "custom";
 
 @import "./base/index"; // Base Styles
+@import "./components/index"; // Components Styles

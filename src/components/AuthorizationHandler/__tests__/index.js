@@ -22,7 +22,7 @@ test('calls authorize of Auth when tokenInfo is not valid.', () => {
   Auth0.WebAuth = class WebAuth {
     authorize = () => authorize()
   };
-  const component = shallowRenderer();
+  shallowRenderer();
   expect(authorize).toHaveBeenCalled();
 });
 
@@ -31,10 +31,10 @@ test('does not call authorize of Auth when tokenInfo is valid.', () => {
   Auth0.WebAuth = class WebAuth {
     authorize = () => authorize()
   };
-  const component = shallowRenderer({
+  shallowRenderer({
     ...testProps,
     tokenInfo: fromJS({
-      access_token: 'test token',
+      id_token: 'test token',
       expires: moment().unix() + 100,
     })
   });

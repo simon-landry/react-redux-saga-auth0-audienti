@@ -1,4 +1,3 @@
-import { fromJS } from 'immutable';
 import generateHandleActions from 'redux/state-handler';
 import { SET_AUTH_TOKEN } from 'redux/constants';
 

@@ -11,7 +11,7 @@ const { expect, shallow, createSpy } = testHelper;
 const testProps = {
   tokenInfo: fromJS({}),
   setAuthToken: noop,
-  location: { hash: '' }
+  location: { hash: '' },
 };
 
 const shallowRenderer = (props = testProps) =>
@@ -27,7 +27,7 @@ test('setAuthToken is called when there is id_token.', () => {
   shallowRenderer({
     ...testProps,
     location: { hash: `#id_token=test.${base64.encode('{}')}.whatever` },
-    setAuthToken
+    setAuthToken,
   });
   expect(setAuthToken).toHaveBeenCalled();
 });

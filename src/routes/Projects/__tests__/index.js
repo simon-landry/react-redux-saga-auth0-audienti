@@ -9,8 +9,8 @@ const { expect, shallow } = testHelper;
 const testProps = {
   formatMessage: noop,
   match: {
-    url: 'testUrl'
-  }
+    url: 'testUrl',
+  },
 };
 
 const shallowRenderer = (props = testProps) =>

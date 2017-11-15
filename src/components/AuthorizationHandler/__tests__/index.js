@@ -36,7 +36,7 @@ test('does not call authorize of Auth when tokenInfo is valid.', () => {
     tokenInfo: fromJS({
       id_token: 'test token',
       expires: moment().unix() + 100,
-    })
+    }),
   });
   expect(authorize).toNotHaveBeenCalled();
 });

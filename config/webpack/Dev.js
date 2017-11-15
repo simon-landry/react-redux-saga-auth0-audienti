@@ -14,13 +14,13 @@ class WebpackDevConfig extends WebpackBaseConfig {
         'webpack/hot/only-dev-server',
         'react-hot-loader/patch',
         'babel-polyfill',
-        './client.js'
-      ]
+        './client.js',
+      ],
     };
 
     this.config.plugins = this.config.plugins.concat([
       new webpack.HotModuleReplacementPlugin(),
-      new webpack.NoEmitOnErrorsPlugin()
+      new webpack.NoEmitOnErrorsPlugin(),
     ]);
 
     this.config.module.rules = this.config.module.rules.concat([
@@ -31,16 +31,16 @@ class WebpackDevConfig extends WebpackBaseConfig {
           {
             loader: 'css-loader',
             options: {
-              sourceMap: true
-            }
+              sourceMap: true,
+            },
           },
           {
             loader: 'sass-loader',
             options: {
-              sourceMap: true
-            }
-          }
-        ]
+              sourceMap: true,
+            },
+          },
+        ],
       },
       {
         test: /^.((?!cssmodule).)*\.less$/,
@@ -49,17 +49,17 @@ class WebpackDevConfig extends WebpackBaseConfig {
           {
             loader: 'css-loader',
             options: {
-              sourceMap: true
-            }
+              sourceMap: true,
+            },
           },
           {
             loader: 'less-loader',
             options: {
-              sourceMap: true
-            }
-          }
-        ]
-      }
+              sourceMap: true,
+            },
+          },
+        ],
+      },
     ]);
   }
 }

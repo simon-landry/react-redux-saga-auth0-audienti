@@ -25,14 +25,14 @@ export function createApiAction(
   type,
   apiCall,
   payloadCreator = identity,
-  metaCreator
+  metaCreator,
 ) {
   const types = apiTypes(type).slice(0, 3);
   invariant(isFunction(apiCall), 'Expected apiCall to be a function');
 
   invariant(
     isFunction(payloadCreator) || isNull(payloadCreator),
-    'Expected payloadCreator to be a function, undefined or null'
+    'Expected payloadCreator to be a function, undefined or null',
   );
 
   const pCreator = (head, ...args) => {

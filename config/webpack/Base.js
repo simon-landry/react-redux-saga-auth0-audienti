@@ -62,7 +62,7 @@ class WebpackBaseConfig {
     const cssModulesQuery = {
       modules: true,
       importLoaders: 1,
-      localIdentName: '[name]-[local]-[hash:base64:5]'
+      localIdentName: '[name]-[local]-[hash:base64:5]',
     };
 
     return {
@@ -75,11 +75,11 @@ class WebpackBaseConfig {
         disableHostCheck: true,
         hot: true,
         inline: true,
-        port: 8080
+        port: 8080,
       },
       entry: './index.js',
       node: {
-        fs: 'empty'
+        fs: 'empty',
       },
       module: {
         rules: [
@@ -87,24 +87,24 @@ class WebpackBaseConfig {
             enforce: 'pre',
             test: /\.js?$/,
             include: WebpackBaseConfig.srcPathAbsolute,
-            loader: 'babel-loader'
+            loader: 'babel-loader',
           },
           {
             test: /\.(png|jpg|gif|mp4|ogg|svg|woff|woff2|ttf|eot|ico)$/,
-            loader: 'file-loader'
+            loader: 'file-loader',
           },
           {
             test: /\.json$/,
-            loader: 'json-loader'
+            loader: 'json-loader',
           },
           {
             test: /\.(js|jsx)$/,
             include: [].concat(WebpackBaseConfig.includedPackages, [
-              WebpackBaseConfig.srcPathAbsolute
+              WebpackBaseConfig.srcPathAbsolute,
             ]),
             loaders: [
-              { loader: 'babel-loader' }
-            ]
+              { loader: 'babel-loader' },
+            ],
           },
           {
             test: /^.((?!cssmodule).)*\.css$/,
@@ -112,9 +112,9 @@ class WebpackBaseConfig {
               { loader: 'style-loader' },
               {
                 loader: 'css-loader',
-                query: cssModulesQuery
-              }
-            ]
+                query: cssModulesQuery,
+              },
+            ],
           },
           {
             test: /^.((?!cssmodule).)*\.styl$/,
@@ -122,25 +122,25 @@ class WebpackBaseConfig {
               { loader: 'style-loader' },
               {
                 loader: 'css-loader',
-                query: cssModulesQuery
+                query: cssModulesQuery,
               },
-              { loader: 'stylus-loader' }
-            ]
+              { loader: 'stylus-loader' },
+            ],
           },
-        ]
+        ],
       },
       output: {
         path: path.resolve('./dist/assets'),
         filename: 'app.js',
-        publicPath: '/assets/'
+        publicPath: '/assets/',
       },
       plugins: [
-        new Dotenv()
+        new Dotenv(),
       ],
       resolve: {
         extensions: ['.js', '.jsx'],
-        modules: ['node_modules', WebpackBaseConfig.srcPathAbsolute]
-      }
+        modules: ['node_modules', WebpackBaseConfig.srcPathAbsolute],
+      },
     };
   }
 }

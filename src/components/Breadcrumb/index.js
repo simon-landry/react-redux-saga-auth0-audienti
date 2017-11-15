@@ -28,7 +28,7 @@ Breadcrumb.defaultProps = {
 
 /* istanbul ignore next */
 const mapStateToProps = state => ({
-  breadcrumbMenu: getSelector('ui', 'breadcrumbMenu')(state)
+  breadcrumbMenu: getSelector('ui', 'breadcrumbMenu')(state),
 });
 
 export default connect(mapStateToProps)(Breadcrumb);

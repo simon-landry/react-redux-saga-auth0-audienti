@@ -1,5 +1,7 @@
 import { fromJS } from 'immutable';
 import { handleActions } from 'redux-actions';
+import { get as lodashGet } from 'lodash';
+
 import { apiTypes } from './redux-actions';
 
 const storeMemory = (storage, name, data) => {
@@ -18,20 +20,20 @@ const loadMemory = (storage, name, defaultValue) => {
 const defaultObject = {
   requesting: false,
   error: {},
-  data: {}
+  data: {},
 };
 
 const apiStateHandlers = (states, storage, listValues) => {
   let actionHandlers = {};
   let initialState = {};
-  states.forEach(state => {
+  states.forEach((state) => {
     const { type, name, apiField, onSuccess } = state;
     const types = apiTypes(type);
     const defaultValue = listValues.indexOf(name) === -1 ? {} : [];
     actionHandlers = {
       ...actionHandlers,
       // request
-      [types[0]]: (state) =>
+      [types[0]]: state =>
         state
           .setIn([name, 'requesting'], true)
           .setIn([name, 'error'], fromJS({})),
@@ -42,7 +44,7 @@ const apiStateHandlers = (states, storage, listValues) => {
           .setIn([name, 'requesting'], false)
           .setIn(
             [name, 'data'],
-            fromJS(apiField ? _.get(action.payload, apiField) : action.payload)
+            fromJS(apiField ? lodashGet(action.payload, apiField) : action.payload),
           );
       },
       // failure
@@ -51,7 +53,7 @@ const apiStateHandlers = (states, storage, listValues) => {
           .setIn([name, 'requesting'], false)
           .setIn([name, 'error'], fromJS(action.payload)),
       // clear
-      [types[3]]: (state) =>
+      [types[3]]: state =>
         state
           .setIn([name, 'requesting'], false)
           .setIn([name, 'data'], fromJS(defaultValue))
@@ -61,8 +63,8 @@ const apiStateHandlers = (states, storage, listValues) => {
       ...initialState,
       [name]: {
         ...defaultObject,
-        data: loadMemory(storage, name, defaultValue)
-      }
+        data: loadMemory(storage, name, defaultValue),
+      },
     };
   });
   return { actionHandlers, initialState };
@@ -71,7 +73,7 @@ const apiStateHandlers = (states, storage, listValues) => {
 const instantStateHandlers = (states, storage, listValues) => {
   const actionHandlers = {};
   const initialState = {};
-  states.forEach(state => {
+  states.forEach((state) => {
     const { type, name, kind } = state;
     const defaultData = listValues.indexOf(name) === -1 ? {} : [];
     const types = apiTypes(type);
@@ -106,23 +108,23 @@ const generateHandleActions = ({
   apiStates,
   instantStates = [],
   storage = {},
-  listValues = []
+  listValues = [],
 }) => {
   const apiHandlers = apiStateHandlers(apiStates, storage, listValues);
   const instantHandlers = instantStateHandlers(
     instantStates,
     storage,
-    listValues
+    listValues,
   );
   return handleActions(
     {
       ...apiHandlers.actionHandlers,
-      ...instantHandlers.actionHandlers
+      ...instantHandlers.actionHandlers,
     },
     fromJS({
       ...apiHandlers.initialState,
-      ...instantHandlers.initialState
-    })
+      ...instantHandlers.initialState,
+    }),
   );
 };
 

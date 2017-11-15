@@ -15,6 +15,9 @@ const testProps = {
   listProjects: noop,
   projects: fromJS([]),
   projectsRequesting: false,
+  history: {
+    push: noop,
+  },
 };
 
 const shallowRenderer = (props = testProps) =>

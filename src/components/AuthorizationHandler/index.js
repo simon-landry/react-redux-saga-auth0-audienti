@@ -18,6 +18,7 @@ export class AuthorizationHandler extends Component {
       token: PropTypes.string,
       expired: PropTypes.number,
     }).isRequired,
+    location: PropTypes.shape().isRequired,
   };
 
   static defaultProps = {
@@ -34,7 +35,7 @@ export class AuthorizationHandler extends Component {
       redirectUri: `${process.env.AUTH0_CALLBACK_URL}?redirect_url=${redirectUrl}`,
       audience: `https://${process.env.AUTH0_DOMAIN}/userinfo`,
       responseType: 'token id_token',
-      scope: 'openid profile email'
+      scope: 'openid profile email',
     });
     auth0.authorize();
   }
@@ -52,7 +53,7 @@ export class AuthorizationHandler extends Component {
 
 /* istanbul ignore next */
 const mapStateToProps = state => ({
-  tokenInfo: getSelector('auth', 'tokenInfo')(state)
+  tokenInfo: getSelector('auth', 'tokenInfo')(state),
 });
 
 export default connect(mapStateToProps)(AuthorizationHandler);

@@ -3,7 +3,7 @@ const webpackConfigs = require('./config/webpack');
 
 const defaultConfig = 'dev';
 
-module.exports = configName => {
+module.exports = (configName) => {
   // If there was no configuration given, assume default
   const requestedConfig = configName || defaultConfig;
 

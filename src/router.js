@@ -9,7 +9,7 @@ import Page404 from 'routes/Page404';
 
 const AuthorizedRoutes = props => (
   <AuthorizationHandler {...props}>
-    <App>
+    <App {...props} >
       <Switch>
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/projects" component={Projects} />

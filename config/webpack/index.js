@@ -3,5 +3,5 @@ const dist = require('./Dist');
 
 module.exports = {
   dev,
-  dist
+  dist,
 };

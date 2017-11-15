@@ -9,7 +9,6 @@ const { expect, shallow, createSpy } = testHelper;
 const testProps = {
   children: <div>test children</div>,
   clearAuthToken: noop,
-  clearBreadcrumbMenu: noop,
 };
 
 const shallowRenderer = (props = testProps) =>
@@ -30,18 +29,11 @@ test('Renders a Breadcrumb', () => {
   expect(component).toContain('Connect(Breadcrumb)');
 });
 
-test('clearBreadcrumbMenu is called when app prop is changed', () => {
-  const clearBreadcrumbMenu = createSpy();
-  const component = shallowRenderer();
-  component.setProps({ clearBreadcrumbMenu });
-  expect(clearBreadcrumbMenu).toHaveBeenCalled();
-});
-
 test('clearAuthToken is called when button is clicked', () => {
   const clearAuthToken = createSpy();
   const component = shallowRenderer({
     ...testProps,
-    clearAuthToken
+    clearAuthToken,
   });
   const button = component.find('button');
   button.simulate('click');

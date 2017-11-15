@@ -5,7 +5,7 @@ import invariant from 'invariant';
  * when requesting as well as dispatching actions for success and failure cases.
  */
 export default function requestStatusMiddleware({ dispatch }) {
-  return next => async action => {
+  return next => async (action) => {
     const { types, apiCall, payload = {} } = action;
 
     // requestStatusMiddleware requires 3 action types, *_REQUEST, *_SUCCESS, *_FAILURE.
@@ -19,13 +19,13 @@ export default function requestStatusMiddleware({ dispatch }) {
       Array.isArray(types) &&
         types.length === 3 &&
         types.every(type => typeof type === 'string'),
-      'requestStatusMiddleware expected `types` to be an array of 3 strings'
+      'requestStatusMiddleware expected `types` to be an array of 3 strings',
     );
 
     // The `apiCall` key must be a function.
     invariant(
       typeof apiCall === 'function',
-      'requestStatusMiddleware expected `apiCall` to be a function'
+      'requestStatusMiddleware expected `apiCall` to be a function',
     );
 
     const [requestType, successType, failureType] = types;
@@ -39,14 +39,14 @@ export default function requestStatusMiddleware({ dispatch }) {
         type: failureType,
         error: true,
         payload: error,
-        request: payload
+        request: payload,
       });
     } else if (response.body.error) {
       dispatch({
         type: failureType,
         error: true,
         payload: response.body.error,
-        request: payload
+        request: payload,
       });
     } else {
       dispatch({ type: successType, payload: response.body, request: payload });

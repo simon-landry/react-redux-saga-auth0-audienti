@@ -16,6 +16,7 @@ const NavItem = ({ className, handleClick, variant, url, icon, name, badge }) =>
         to={url}
         className={linkClassName}
         activeClassName="active"
+        isActive={params => (params && params.isExact)}
         onClick={(e) => {
           if (handleClick !== noop) {
             e.preventDefault();

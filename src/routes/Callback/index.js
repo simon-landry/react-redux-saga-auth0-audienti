@@ -7,6 +7,7 @@ import { Redirect } from 'react-router-dom';
 
 import { setAuthToken } from 'redux/auth/actions';
 import { getSelector } from 'redux/selectors';
+import base64 from 'base-64'
 
 export class Callback extends Component {
 
@@ -24,9 +25,12 @@ export class Callback extends Component {
     const { location: { hash }, setAuthToken } = this.props;
     // set token info from hash params (info is then stored in memoryDB)
     const tokenInfo = queryString.parse(hash);
+    tokenInfo.undecodedToken = tokenInfo.id_token;
+    tokenInfo.tokenPayload = tokenInfo.id_token.split(".")[1];
+    tokenInfo.currentUser = JSON.parse(base64.decode(tokenInfo.tokenPayload));
+    tokenInfo.expires = tokenInfo.currentUser.exp;
     setAuthToken({
-      ...tokenInfo,
-      expires: moment().add(tokenInfo.expires_in, 'seconds').unix()
+      ...tokenInfo
     });
   }
 

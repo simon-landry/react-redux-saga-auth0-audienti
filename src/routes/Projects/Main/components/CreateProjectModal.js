@@ -15,7 +15,7 @@ import serialize from 'form-serialize';
 
 import { injectIntl } from 'components/Intl';
 
-const CreateProjectModal = ({ isOpen, toggle, onSave, className, formatMessage }) => (
+export const CreateProjectModal = ({ isOpen, toggle, onSave, className, formatMessage }) => (
   <Modal
     isOpen={isOpen}
     toggle={toggle}

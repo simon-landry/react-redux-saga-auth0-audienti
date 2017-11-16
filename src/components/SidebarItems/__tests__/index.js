@@ -43,3 +43,17 @@ test('setSidebarItems is called with original array when unmount', () => {
   expect(setSidebarItems).toHaveBeenCalled();
   expect(param).toEqual(testProps.sidebarItems.toJS().slice(testProps.items.length));
 });
+
+test('setSidebarItems is called when items passed are changed.', () => {
+  const setSidebarItems = createSpy();
+  const component = shallowRenderer();
+  component.setProps({ items: [], setSidebarItems });
+  expect(setSidebarItems).toHaveBeenCalled();
+});
+
+test('setSidebarItems is not called when props are changed but not items.', () => {
+  const setSidebarItems = createSpy();
+  const component = shallowRenderer();
+  component.setProps({ setSidebarItems });
+  expect(setSidebarItems).toNotHaveBeenCalled();
+});

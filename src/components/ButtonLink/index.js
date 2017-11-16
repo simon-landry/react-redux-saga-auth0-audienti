@@ -29,7 +29,7 @@ ButtonLink.propTypes = {
 ButtonLink.defaultProps = {
   to: '/',
   handleClick: null,
-  icon: '',
+  icon: null,
   className: '',
 };
 

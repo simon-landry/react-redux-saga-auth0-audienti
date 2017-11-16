@@ -27,7 +27,7 @@ const apiStateHandlers = (states, storage, listValues) => {
   let actionHandlers = {};
   let initialState = {};
   states.forEach((state) => {
-    const { type, name, apiField, onSuccess } = state;
+    const { type, name, apiField, append, onSuccess } = state;
     const types = apiTypes(type);
     const defaultValue = listValues.indexOf(name) === -1 ? {} : [];
     actionHandlers = {
@@ -39,13 +39,22 @@ const apiStateHandlers = (states, storage, listValues) => {
           .setIn([name, 'error'], fromJS({})),
       // success
       [types[1]]: (state, action) => {
-        storeMemory(storage, name, action.payload);
-        return (onSuccess ? onSuccess(state, action) : state)
+        const payload = fromJS(apiField ? lodashGet(action.payload, apiField) : action.payload);
+        storeMemory(storage, name, apiField ? lodashGet(action.payload, apiField) : action.payload);
+        const newState = (onSuccess ? onSuccess(state, action) : state)
           .setIn([name, 'requesting'], false)
           .setIn(
             [name, 'data'],
-            fromJS(apiField ? lodashGet(action.payload, apiField) : action.payload),
+            payload,
           );
+        // used when creation is done
+        if (append) {
+          return newState.updateIn(
+            [append, 'data'],
+            list => list.unshift(payload),
+          );
+        }
+        return newState;
       },
       // failure
       [types[2]]: (state, action) =>

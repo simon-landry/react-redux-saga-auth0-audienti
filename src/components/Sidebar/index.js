@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Nav } from 'reactstrap';
+import { fromJS } from 'immutable';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import { getSelector } from 'redux/selectors';
+import { currentUserSelector } from 'redux/auth/selectors';
 
 import Title from './components/Title';
 import Divider from './components/Divider';
 import NavDropdown from './components/NavDropdown';
 import NavItem from './components/NavItem';
+import SidebarHeader from './components/SidebarHeader';
+import SidebarMinimizer from './components/SidebarMinimizer';
 
 export class Sidebar extends Component {
 
@@ -22,6 +26,19 @@ export class Sidebar extends Component {
         name: PropTypes.string,
       }),
     ).isRequired,
+    currentUser: ImmutablePropTypes.mapContains({
+      picture: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      nickname: PropTypes.string.isRequired,
+    }),
+  }
+
+  static defaultProps = {
+    currentUser: fromJS({
+      picture: '',
+      name: '',
+      nickname: '',
+    }),
   }
 
   handleClick = (e) => {
@@ -57,15 +74,17 @@ export class Sidebar extends Component {
   navList = items => items.map((item, index) => this.navLink(item, index))
 
   render() {
-    const { sidebarItems } = this.props;
+    const { sidebarItems, currentUser } = this.props;
     // sidebar-nav root
     return (
       <div className="sidebar">
+        <SidebarHeader {...currentUser.toJS()} />
         <nav className="sidebar-nav">
           <Nav>
             {this.navList(sidebarItems.toJS())}
           </Nav>
         </nav>
+        <SidebarMinimizer />
       </div>
     );
   }
@@ -74,6 +93,7 @@ export class Sidebar extends Component {
 /* istanbul ignore next */
 const mapStateToProps = state => ({
   sidebarItems: getSelector('ui', 'sidebarItems')(state),
+  currentUser: currentUserSelector(state),
 });
 
 export default connect(mapStateToProps)(Sidebar);

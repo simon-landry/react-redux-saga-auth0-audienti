@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Nav,
   NavbarBrand,
@@ -10,6 +11,9 @@ import { NavLink } from 'react-router-dom';
 import { injectIntl } from 'components/Intl';
 
 export class Header extends Component {
+  static propTypes = {
+    formatMessage: PropTypes.func.isRequired,
+  }
   sidebarToggle = (e) => {
     e.preventDefault();
     document.body.classList.toggle('sidebar-hidden');

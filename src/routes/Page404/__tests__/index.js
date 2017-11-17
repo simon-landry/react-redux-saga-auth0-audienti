@@ -7,7 +7,7 @@ import { Page404 } from '../index';
 const { expect, shallow } = testHelper;
 
 const testProps = {
-  formatMessage: noop
+  formatMessage: noop,
 };
 
 const shallowRenderer = (props = testProps) =>

@@ -25,7 +25,7 @@ const languageWithoutRegionCode = language.toLowerCase().split(/[_-]+/)[0];
 // Build the object containing all of the translations
 const translations = {
   en: enTranslations,
-  de: deTranslations
+  de: deTranslations,
 };
 
 // Try full locale, try locale without region code, fallback to 'en'
@@ -44,12 +44,12 @@ const I18n = ({ locale, messages, children }) => (
 I18n.propTypes = {
   locale: PropTypes.string,
   messages: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-  children: PropTypes.element.isRequired
+  children: PropTypes.element.isRequired,
 };
 
 I18n.defaultProps = {
   locale: language,
-  messages: null
+  messages: null,
 };
 
 export default I18n;

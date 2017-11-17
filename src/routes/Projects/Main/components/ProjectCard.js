@@ -21,6 +21,10 @@ ProjectCard.propTypes = {
   project: ImmutablePropTypes.mapContains({
     id: PropTypes.string,
   }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+  formatMessage: PropTypes.func.isRequired,
 };
 
 export default injectIntl(ProjectCard);

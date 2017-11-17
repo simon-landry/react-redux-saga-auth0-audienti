@@ -19,10 +19,11 @@ export class Main extends Component {
     projects: ImmutablePropTypes.listOf(
       ImmutablePropTypes.mapContains({
         id: PropTypes.string,
-      })
+      }),
     ).isRequired,
     listProjects: PropTypes.func.isRequired,
     projectsRequesting: PropTypes.bool.isRequired,
+    history: PropTypes.shape().isRequired,
   };
 
   componentWillMount() {
@@ -37,7 +38,7 @@ export class Main extends Component {
         <Helmet
           title={formatMessage('Projects')}
           meta={[
-            { name: 'description', content: formatMessage('This is a page to list all projects.') }
+            { name: 'description', content: formatMessage('This is a page to list all projects.') },
           ]}
         />
         <BreadcrumbMenu>

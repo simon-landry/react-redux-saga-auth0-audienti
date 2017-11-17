@@ -1,16 +1,15 @@
 import React from 'react';
 import test from 'ava';
-import { noop } from 'lodash';
 
 import { Projects } from '../index';
 
 const { expect, shallow } = testHelper;
 
 const testProps = {
-  formatMessage: noop,
+  formatMessage: () => 'something',
   match: {
-    url: 'testUrl'
-  }
+    url: 'testUrl',
+  },
 };
 
 const shallowRenderer = (props = testProps) =>

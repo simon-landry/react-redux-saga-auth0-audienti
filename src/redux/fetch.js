@@ -1,10 +1,10 @@
 /* istanbul ignore file */
 import { stringify } from 'qs';
-import { curry } from 'lodash';
+import { curry, get as lodashGet } from 'lodash';
 
 function headersWithAuth(auth = true) {
   if (!auth) return {};
-  const accessToken = _.get(JSON.parse(memoryDB.tokenInfo || '{}'), 'data.id_token');
+  const accessToken = lodashGet(JSON.parse(memoryDB.tokenInfo || '{}'), 'data.id_token');
   if (accessToken) {
     return { Authorization: accessToken };
   }
@@ -38,7 +38,7 @@ function processError({ endpoint/* , query, auth, url, method */ }) {
   const severity = 'error'; */
 
   return error => ({
-    error: error.message || `${error.response.status} error calling ${endpoint}`
+    error: error.message || `${error.response.status} error calling ${endpoint}`,
   });
 }
 
@@ -48,8 +48,8 @@ async function processResponse(response) {
     response: {
       headers: response.headers,
       body,
-      status: response.status
-    }
+      status: response.status,
+    },
   };
 }
 
@@ -61,7 +61,7 @@ export async function get(endpoint, query, auth = true) {
         'Content-Type': 'application/vnd.api+json',
         Accept: 'application/vnd.api+json',
         ...headersWithAuth(auth),
-      }
+      },
     });
     const status = checkStatus(res);
     const processedResponse = await processResponse(status);
@@ -71,7 +71,7 @@ export async function get(endpoint, query, auth = true) {
       endpoint,
       query,
       url,
-      method: 'GET'
+      method: 'GET',
     })(e);
   }
 }
@@ -84,9 +84,9 @@ async function postOrPutOrDelete(method, endpoint, { query, auth = true, request
       headers: {
         'Content-Type': 'application/vnd.api+json',
         Accept: 'application/vnd.api+json',
-        ...headersWithAuth(auth)
+        ...headersWithAuth(auth),
       },
-      body: JSON.stringify(requestBody)
+      body: JSON.stringify(requestBody),
     });
     const status = checkStatus(res);
     const processedResponse = await processResponse(status);
@@ -97,7 +97,7 @@ async function postOrPutOrDelete(method, endpoint, { query, auth = true, request
       query,
       url,
       auth,
-      method: 'GET'
+      method: 'GET',
     })(e);
   }
 }

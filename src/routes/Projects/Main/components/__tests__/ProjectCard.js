@@ -11,7 +11,7 @@ const testProjectId = '1';
 const testProps = {
   formatMessage: noop,
   history: { push: noop },
-  project: fromJS({ id: testProjectId })
+  project: fromJS({ id: testProjectId }),
 };
 
 const shallowRenderer = (props = testProps) =>

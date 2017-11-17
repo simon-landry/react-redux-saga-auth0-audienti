@@ -27,13 +27,13 @@ class WebpackDistConfig extends WebpackBaseConfig {
         path: root('dist'),
         publicPath: '/',
         filename: 'assets/app.js',
-        chunkFilename: 'assets/[id].[hash].chunk.js'
-      }
+        chunkFilename: 'assets/[id].[hash].chunk.js',
+      },
     };
 
     this.config.plugins = this.config.plugins.concat([
       new webpack.DefinePlugin({
-        'process.env.NODE_ENV': '"production"'
+        'process.env.NODE_ENV': '"production"',
       }),
       new webpack.optimize.AggressiveMergingPlugin(),
       new webpack.NoEmitOnErrorsPlugin(),
@@ -42,7 +42,7 @@ class WebpackDistConfig extends WebpackBaseConfig {
         { from: root('public/index.html'), to: root('dist/') },
         { from: root('public/favicon.ico'), to: root('dist/') },
         { from: root('src/assets'), to: root('dist/assets') },
-      ])
+      ]),
     ]);
 
     // Deactivate hot-reloading if we run dist build on the dev server
@@ -55,8 +55,8 @@ class WebpackDistConfig extends WebpackBaseConfig {
           { loader: 'style-loader' },
           { loader: 'css-loader' },
           { loader: 'postcss-loader' },
-          { loader: 'sass-loader' }
-        ]
+          { loader: 'sass-loader' },
+        ],
       },
       {
         test: /^.((?!cssmodule).)*\.less$/,
@@ -64,9 +64,9 @@ class WebpackDistConfig extends WebpackBaseConfig {
           { loader: 'style-loader' },
           { loader: 'css-loader' },
           { loader: 'postcss-loader' },
-          { loader: 'less-loader' }
-        ]
-      }
+          { loader: 'less-loader' },
+        ],
+      },
     ]);
   }
 

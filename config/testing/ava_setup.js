@@ -22,7 +22,7 @@ global.testHelper = {
   spyOn,
   createSpy,
   shallow,
-  mount
+  mount,
 };
 
 /**

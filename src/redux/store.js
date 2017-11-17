@@ -15,7 +15,7 @@ export default function configureStore(initialState = {}) {
   // * TODO: routerMiddleware: Syncs the location/URL path to the state
   const middlewares = [
     sagaMiddleware,
-    requestStatusMiddleware
+    requestStatusMiddleware,
     // routerMiddleware(history),
   ];
   const enhancers = [applyMiddleware(...middlewares)];
@@ -33,7 +33,7 @@ export default function configureStore(initialState = {}) {
   const store = createStore(
     rootReducer, // reducer
     initialState, // preloadedState
-    composeEnhancers(...enhancers) // enhancers
+    composeEnhancers(...enhancers), // enhancers
   );
 
   sagaMiddleware.run(rootSaga);

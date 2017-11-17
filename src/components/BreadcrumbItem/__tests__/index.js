@@ -8,7 +8,7 @@ const { expect, shallow } = testHelper;
 
 const testProps = {
   to: 'somewhere',
-  children: null,
+  children: <div />,
 };
 
 const shallowRenderer = (props = testProps) =>

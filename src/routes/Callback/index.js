@@ -59,12 +59,12 @@ export class Callback extends Component {
 
 /* istanbul ignore next */
 const mapStateToProps = state => ({
-  tokenInfo: getSelector('auth', 'tokenInfo')(state)
+  tokenInfo: getSelector('auth', 'tokenInfo')(state),
 });
 
 /* istanbul ignore next */
 const mapDispatchToProps = dispatch => ({
-  setAuthToken: tokenInfo => dispatch(setAuthToken(tokenInfo))
+  setAuthToken: tokenInfo => dispatch(setAuthToken(tokenInfo)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Callback);

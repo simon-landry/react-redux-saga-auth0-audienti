@@ -3,10 +3,10 @@ import { SET_AUTH_TOKEN } from 'redux/constants';
 
 const apiStates = [];
 const instantStates = [
-  { type: SET_AUTH_TOKEN, name: 'tokenInfo', kind: 'object' }
+  { type: SET_AUTH_TOKEN, name: 'tokenInfo', kind: 'object' },
 ];
 const storage = {
-  tokenInfo: 'tokenInfo'
+  tokenInfo: 'tokenInfo',
 };
 const listValues = [];
 

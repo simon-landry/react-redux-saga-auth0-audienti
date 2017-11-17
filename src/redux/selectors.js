@@ -4,26 +4,26 @@ import { createSelector } from 'reselect';
 export const selectors = (reducer, name) => {
   const reducerSelector = state => state.get(reducer);
   const propertySelector = createSelector(reducerSelector, state =>
-    state.get(name)
+    state.get(name),
   );
 
   const dataSelector = createSelector(propertySelector, state =>
-    state.get('data')
+    state.get('data'),
   );
 
   const requestingSelector = createSelector(propertySelector, state =>
-    state.get('requesting')
+    state.get('requesting'),
   );
 
   const errorSelector = createSelector(propertySelector, state =>
-    state.get('error')
+    state.get('error'),
   );
 
   return {
     propertySelector,
     dataSelector,
     requestingSelector,
-    errorSelector
+    errorSelector,
   };
 };
 
@@ -50,5 +50,5 @@ export const getErrorSelector = (reducer, name) => {
 export const selectState = (reducer, name) => (state, objectName) => ({
   [objectName]: getDataSelector(reducer, name)(state),
   [`${objectName}Requesting`]: getRequestingSelector(reducer, name)(state),
-  [`${objectName}Error`]: getErrorSelector(reducer, name)(state)
+  [`${objectName}Error`]: getErrorSelector(reducer, name)(state),
 });

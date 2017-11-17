@@ -1,11 +1,14 @@
 {
   "Dashboard": "Dashboard",
+  "Keywords": "Keywords",
   "Not Found": "Not Found",
   "Projects": "Projects",
+  "Segments": "Segments",
+  "Settings": "Settings",
   "This is a page to list all projects.": "This is a page to list all projects.",
   "This page is not built. Please check your url again.": "This page is not built. Please check your url again.",
-  "Visit": "Visit",
-  "{count} {count, plural, one {project} other {projects}}": "{count} {count, plural, one {project} other {projects}}",
   "Users": "Users",
-  "Settings": "Settings"
+  "Visit": "Visit",
+  "Workflows": "Workflows",
+  "{count} {count, plural, one {project} other {projects}}": "{count} {count, plural, one {project} other {projects}}"
 }

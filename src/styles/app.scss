@@ -5,11 +5,11 @@
 
 @import "./global/index"; // Global Variables
 
-// Import Bootstrap source files
-@import "node_modules/bootstrap/scss/bootstrap";
-
-// Import Spinkit
-@import "node_modules/spinkit/scss/spinkit";
+// Import node modules
+@import "node_modules/bootstrap/scss/bootstrap"; // Bootstrap
+@import "node_modules/spinkit/scss/spinkit"; // Spinkit
+@import "node_modules/font-awesome/scss/font-awesome"; // Font Awesome
+@import "node_modules/simple-line-icons/scss/simple-line-icons"; //Simple Line Icons
 
 // Override core variables
 @import "core-variables";

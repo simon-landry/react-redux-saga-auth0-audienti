@@ -24,5 +24,5 @@ render(
       </BreadcrumbsProvider>
     </Provider>
   </AppContainer>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );

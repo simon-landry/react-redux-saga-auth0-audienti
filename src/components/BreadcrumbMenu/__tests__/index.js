@@ -8,6 +8,7 @@ const { expect, shallow, createSpy } = testHelper;
 
 const testProps = {
   setBreadcrumbMenu: noop,
+  clearBreadcrumbMenu: noop,
   children: 'whatever',
 };
 
@@ -26,4 +27,14 @@ test('Calls setBreadcrumbMenu with children', () => {
     setBreadcrumbMenu,
   });
   expect(setBreadcrumbMenu).toHaveBeenCalledWith(testProps.children);
+});
+
+test('Calls clearBreadcrumbMenu when unmounted', () => {
+  const clearBreadcrumbMenu = createSpy();
+  const component = shallowRenderer({
+    ...testProps,
+    clearBreadcrumbMenu,
+  });
+  component.unmount();
+  expect(clearBreadcrumbMenu).toHaveBeenCalled();
 });

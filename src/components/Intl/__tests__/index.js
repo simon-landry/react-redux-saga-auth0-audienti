@@ -7,7 +7,7 @@ import { injectIntl } from '../index';
 const { expect, shallow, createSpy } = testHelper;
 
 const testProps = {
-  intl: { formatMessage: noop }
+  intl: { formatMessage: noop },
 };
 
 const TestComponent = () => <div id="test-component" />;
@@ -27,7 +27,7 @@ test('has right prop formatMessage.', () => {
   const testId = 'test message id';
   const component = shallowRenderer({
     ...testProps,
-    intl: { formatMessage: formatSpy }
+    intl: { formatMessage: formatSpy },
   });
   component.props().formatMessage(testId);
   expect(formatSpy).toHaveBeenCalled();

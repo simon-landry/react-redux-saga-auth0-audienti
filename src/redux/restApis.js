@@ -21,5 +21,5 @@ export default model => ({
   remove: remove(model),
   list: list(model),
   read: read(model),
-  readData: readData(model)
+  readData: readData(model),
 });

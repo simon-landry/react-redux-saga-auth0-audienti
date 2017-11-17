@@ -19,6 +19,7 @@
     background-repeat: no-repeat;
     background-position: center center;
     background-size: $navbar-brand-logo-size;
+    transition: margin-left 0.25s, margin-right 0.25s, width 0.25s, flex 0.25s;
   }
 
   .navbar-toggler {

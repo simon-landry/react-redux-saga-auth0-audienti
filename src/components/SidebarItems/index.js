@@ -24,6 +24,11 @@ export class SidebarItems extends Component {
     const { items, sidebarItems, setSidebarItems } = this.props;
     setSidebarItems(items.concat(sidebarItems.toJS()));
   }
+  componentWillReceiveProps({ items, sidebarItems, setSidebarItems }) {
+    if (items !== this.props.items) {
+      setSidebarItems(items.concat(sidebarItems.toJS().slice(items.length)));
+    }
+  }
   componentWillUnmount() {
     const { items, sidebarItems, setSidebarItems } = this.props;
     setSidebarItems(sidebarItems.toJS().slice(items.length));

@@ -186,7 +186,7 @@ app-root {
 
   &.aside-menu-hidden {
     .main, .app-footer {
-      margin-right: 0;
+      margin-right: 0 !important;
     }
   }
 }

@@ -41,11 +41,11 @@ export default function requestStatusMiddleware({ dispatch }) {
         payload: error,
         request: payload,
       });
-    } else if (response.body.error) {
+    } else if (response.body.errors || response.body.error) {
       dispatch({
         type: failureType,
         error: true,
-        payload: response.body.error,
+        payload: response.body.errors || response.body.error,
         request: payload,
       });
     } else {

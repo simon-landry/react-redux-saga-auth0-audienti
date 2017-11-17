@@ -75,18 +75,17 @@ export async function get(endpoint, query, auth = true) {
     })(e);
   }
 }
-
-async function postOrPutOrDelete(method, endpoint, { query, auth = true, requestBody = {} } = {}) {
+async function postOrPutOrDelete(method, endpoint, { query, auth = true, requestBody = '' } = {}) {
   const url = makeApiUrl(endpoint, query);
   try {
     const res = await fetch(url, {
       method,
       headers: {
-        'Content-Type': 'application/vnd.api+json',
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
         Accept: 'application/vnd.api+json',
         ...headersWithAuth(auth),
       },
-      body: JSON.stringify(requestBody),
+      body: requestBody,
     });
     const status = checkStatus(res);
     const processedResponse = await processResponse(status);

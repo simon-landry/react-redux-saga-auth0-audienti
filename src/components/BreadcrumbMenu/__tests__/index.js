@@ -29,6 +29,21 @@ test('Calls setBreadcrumbMenu with children', () => {
   expect(setBreadcrumbMenu).toHaveBeenCalledWith(testProps.children);
 });
 
+test('Calls setBreadcrumbMenu when children is changed', () => {
+  const setBreadcrumbMenu = createSpy();
+  const newChildren = 'new children';
+  const component = shallowRenderer();
+  component.setProps({ children: newChildren, setBreadcrumbMenu });
+  expect(setBreadcrumbMenu).toHaveBeenCalledWith(newChildren);
+});
+
+test('Does not call setBreadcrumbMenu when prop is changed but children is not changed.', () => {
+  const setBreadcrumbMenu = createSpy();
+  const component = shallowRenderer();
+  component.setProps({ setBreadcrumbMenu });
+  expect(setBreadcrumbMenu).toNotHaveBeenCalled();
+});
+
 test('Calls clearBreadcrumbMenu when unmounted', () => {
   const clearBreadcrumbMenu = createSpy();
   const component = shallowRenderer({

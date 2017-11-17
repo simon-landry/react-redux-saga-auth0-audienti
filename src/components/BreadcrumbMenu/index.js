@@ -13,6 +13,11 @@ export class BreadcrumbMenu extends Component {
     const { children, setBreadcrumbMenu } = this.props;
     setBreadcrumbMenu(children);
   }
+  componentWillReceiveProps({ children, setBreadcrumbMenu }) {
+    if (children !== this.props.children) {
+      setBreadcrumbMenu(children);
+    }
+  }
   componentWillUnmount() {
     const { clearBreadcrumbMenu } = this.props;
     clearBreadcrumbMenu();

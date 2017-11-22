@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 import invariant from 'invariant';
 import { createAction as reduxCreateAction } from 'redux-actions';
-import { identity, isFunction, isNull } from 'lodash';
+import { isFunction } from 'lodash';
 
 export const createAction = reduxCreateAction;
 
@@ -24,31 +24,17 @@ export const createClearAction = type => reduxCreateAction(`${type}_CLEAR`);
 export function createApiAction(
   type,
   apiCall,
-  payloadCreator = identity,
+  notification = null,
   metaCreator,
 ) {
   const types = apiTypes(type).slice(0, 3);
   invariant(isFunction(apiCall), 'Expected apiCall to be a function');
 
-  invariant(
-    isFunction(payloadCreator) || isNull(payloadCreator),
-    'Expected payloadCreator to be a function, undefined or null',
-  );
-
-  const pCreator = (head, ...args) => {
-    if (head instanceof Error) return head;
-    return payloadCreator(head, ...args);
-  };
-
-  const finalPayloadCreator =
-    isNull(payloadCreator) || payloadCreator === identity ? identity : pCreator;
-
   const hasMeta = isFunction(metaCreator);
 
   const actionCreator = (...args) => {
-    const payload = finalPayloadCreator(...args);
-    const action = { types, apiCall };
-
+    const payload = args[args.length - 1];
+    const action = { types, apiCall, notification, args };
     if (payload instanceof Error) {
       action.error = true;
     }

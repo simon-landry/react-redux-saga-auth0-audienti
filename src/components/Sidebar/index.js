@@ -71,7 +71,7 @@ export class Sidebar extends Component {
   }
 
   // nav list
-  navList = items => items.map((item, index) => this.navLink(item, index))
+  navList = items => items.map((item, index) => this.navLink({ ...item, name: item.name || '--' }, index))
 
   render() {
     const { sidebarItems, currentUser } = this.props;

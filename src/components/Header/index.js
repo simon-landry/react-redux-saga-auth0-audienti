@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import {
   Nav,
   NavbarBrand,
   NavbarToggler,
-  NavItem,
 } from 'reactstrap';
-import { NavLink } from 'react-router-dom';
 
-import { injectIntl } from 'components/Intl';
+import { getSelector } from 'redux/selectors';
 
 export class Header extends Component {
   static propTypes = {
-    formatMessage: PropTypes.func.isRequired,
+    headerTitle: PropTypes.node,
+  }
+  static defaultProps = {
+    headerTitle: '',
   }
   sidebarToggle = (e) => {
     e.preventDefault();
@@ -25,12 +27,7 @@ export class Header extends Component {
   }
 
   render() {
-    const { formatMessage } = this.props;
-    const navItems = [
-      { label: formatMessage('Dashboard'), to: '/dashboard' },
-      { label: formatMessage('Users'), to: '/users' },
-      { label: formatMessage('Settings'), to: '/settings' },
-    ];
+    const { headerTitle } = this.props;
     return (
       <header className="app-header navbar">
         <NavbarToggler className="d-lg-none" onClick={this.mobileSidebarToggle}>
@@ -41,13 +38,7 @@ export class Header extends Component {
           <span className="navbar-toggler-icon" />
         </NavbarToggler>
         <Nav className="d-md-down-none" navbar>
-          {
-            navItems.map((navItem, index) => (
-              <NavItem className="px-3" key={index}>
-                <NavLink className="nav-link" to={navItem.to}>{navItem.label}</NavLink>
-              </NavItem>
-            ))
-          }
+          <strong>{headerTitle}</strong>
         </Nav>
         <Nav className="ml-auto" navbar />
       </header>
@@ -55,4 +46,9 @@ export class Header extends Component {
   }
 }
 
-export default injectIntl(Header);
+/* istanbul ignore next */
+const mapStateToProps = state => ({
+  headerTitle: getSelector('ui', 'headerTitle')(state),
+});
+
+export default connect(mapStateToProps)(Header);

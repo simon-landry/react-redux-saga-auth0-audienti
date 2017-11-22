@@ -8,6 +8,7 @@ import Header from 'components/Header';
 import Sidebar from 'components/Sidebar';
 import Breadcrumb from 'components/Breadcrumb';
 import SidebarItems from 'components/SidebarItems';
+import Notification from 'components/Notification';
 
 export class App extends Component {
   static propTypes = {
@@ -36,6 +37,7 @@ export class App extends Component {
             },
           ]}
         />
+        <Notification />
         <div className="app-body">
           <Sidebar {...props} />
           <main className="main">

@@ -5,6 +5,9 @@ import {
   CLEAR_BREADCRUMB_MENU,
   SET_SIDEBAR_ITEMS,
   CLEAR_SIDEBAR_ITEMS,
+  GLOBAL_NOTIFICATION,
+  SET_HEADER_TITLE,
+  CLEAR_HEADER_TITLE,
 } from 'redux/constants';
 
 const apiStates = [];
@@ -13,6 +16,9 @@ const instantStates = [
   { type: CLEAR_BREADCRUMB_MENU, name: 'breadcrumbMenu' },
   { type: SET_SIDEBAR_ITEMS, name: 'sidebarItems', kind: 'object' },
   { type: CLEAR_SIDEBAR_ITEMS, name: 'sidebarItems', kind: 'object' },
+  { type: GLOBAL_NOTIFICATION, name: 'notification', kind: 'object' },
+  { type: SET_HEADER_TITLE, name: 'headerTitle' },
+  { type: CLEAR_HEADER_TITLE, name: 'headerTitle' },
 ];
 const listValues = ['sidebarItems'];
 

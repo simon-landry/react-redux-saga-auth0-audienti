@@ -7,7 +7,7 @@ import { Header } from '../index';
 const { expect, shallow, createSpy } = testHelper;
 
 const testProps = {
-  formatMessage: noop,
+  headerTitle: 'headerTitle',
 };
 
 const shallowRenderer = (props = testProps) =>

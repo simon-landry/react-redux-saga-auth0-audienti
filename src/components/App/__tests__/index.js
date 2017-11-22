@@ -5,6 +5,7 @@ import { noop } from 'lodash';
 import Breadcrumb from 'components/Breadcrumb';
 import Sidebar from 'components/Sidebar';
 import SidebarItems from 'components/SidebarItems';
+import Notification from 'components/Notification';
 
 import { App } from '../index';
 
@@ -36,6 +37,11 @@ test('Renders a Breadcrumb', () => {
 test('Renders a Breadcrumb', () => {
   const component = shallowRenderer();
   expect(component).toContain(Breadcrumb);
+});
+
+test('Renders a Notification', () => {
+  const component = shallowRenderer();
+  expect(component).toContain(Notification);
 });
 
 /* test('clearAuthToken is called when button is clicked', () => {

@@ -6,18 +6,15 @@ import BreadcrumbItem from 'components/BreadcrumbItem';
 
 import Routes from './_routes';
 
-export const Projects = ({ formatMessage, match: { url } }) => (
+export const Projects = ({ formatMessage }) => (
   <div>
     <BreadcrumbItem to="/projects">{formatMessage('Projects')}</BreadcrumbItem>
-    <Routes url={url} />
+    <Routes url="/projects" />
   </div>
 );
 
 Projects.propTypes = {
   formatMessage: PropTypes.func.isRequired,
-  match: PropTypes.shape({
-    url: PropTypes.string,
-  }).isRequired,
 };
 
 export default injectIntl(Projects);

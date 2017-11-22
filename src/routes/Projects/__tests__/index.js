@@ -7,9 +7,6 @@ const { expect, shallow } = testHelper;
 
 const testProps = {
   formatMessage: () => 'something',
-  match: {
-    url: 'testUrl',
-  },
 };
 
 const shallowRenderer = (props = testProps) =>
@@ -26,8 +23,7 @@ test('Renders a BreadcrumbItem with a proper prop `to`.', () => {
   expect(breadcrumbItem).toHaveProps({ to: '/projects' });
 });
 
-test('Renders a Routes with a proper prop `url`.', () => {
+test('Renders a Routes.', () => {
   const component = shallowRenderer();
-  const routes = component.find('Routes');
-  expect(routes).toHaveProps({ url: testProps.match.url });
+  expect(component).toContain('Routes');
 });

@@ -3,23 +3,44 @@ import { get, post, put, del } from 'redux/fetch';
 
 export const apiBaseRoute = process.env.API_BASE_URL;
 
-const create = model => payload =>
-  post(`${apiBaseRoute}/${model}`, { requestBody: payload });
-const update = model => (id, payload) =>
-  put(`${apiBaseRoute}/${model}/${id}`, { requestBody: payload });
-const remove = model => (id, payload) =>
-  del(`${apiBaseRoute}/${model}/${id}`, { requestBody: payload });
+const generateBody = (payload, type) => ((payload instanceof Array && {
+  data: payload.map(dataItem => ({
+    type,
+    attributes: dataItem,
+  })),
+}) || {
+    data: {
+      type,
+      attributes: payload,
+    },
+  }
+);
 
-const list = model => query => get(`${apiBaseRoute}/${model}`, query);
-const read = model => id => get(`${apiBaseRoute}/${model}/${id}`);
-const readData = model => subpath => ({ id, ...query }) =>
-  get(`${apiBaseRoute}/${model}/${id}/${subpath}`, query);
+const performAction = method => (...models) => {
+  if (models.length > 1) {
+    return (...args) => performAction(method)(`${models[0]}/${args[0]}/${models[1]}`, ...models.slice(2))(...args.slice(1));
+  }
+  const model = models[0];
+  const type = model.split('/').slice(-1)[0]; // Get the last part (a/b/c/d => d)
+  switch (method) {
+    case 'create':
+      return payload => post(`${apiBaseRoute}/${model}`, { requestBody: generateBody(payload, type) });
+    case 'update':
+      return (id, payload) => put(`${apiBaseRoute}/${model}/${id}`, { requestBody: generateBody(payload, type) });
+    case 'del':
+      return (id, payload) => del(`${apiBaseRoute}/${model}/${id}`, { requestBody: generateBody(payload, type) });
+    case 'read':
+      return id => get(`${apiBaseRoute}/${model}/${id}`);
+    case 'list':
+    default:
+      return query => get(`${apiBaseRoute}/${model}`, query);
+  }
+};
 
-export default model => ({
-  create: create(model),
-  update: update(model),
-  remove: remove(model),
-  list: list(model),
-  read: read(model),
-  readData: readData(model),
+export default (...models) => ({
+  create: performAction('create')(...models),
+  update: performAction('update')(...models),
+  remove: performAction('remove')(...models),
+  list: performAction('list')(...models),
+  read: performAction('read')(...models),
 });

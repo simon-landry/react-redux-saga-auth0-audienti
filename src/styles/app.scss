@@ -9,7 +9,9 @@
 @import "node_modules/bootstrap/scss/bootstrap"; // Bootstrap
 @import "node_modules/spinkit/scss/spinkit"; // Spinkit
 @import "node_modules/font-awesome/scss/font-awesome"; // Font Awesome
-@import "node_modules/simple-line-icons/scss/simple-line-icons"; //Simple Line Icons
+@import "node_modules/simple-line-icons/scss/simple-line-icons"; // Simple Line Icons
+@import "node_modules/react-toastify/src/scss/main"; // Toastify
+@import "node_modules/react-select/scss/default"; // Toastify
 
 // Override core variables
 @import "core-variables";

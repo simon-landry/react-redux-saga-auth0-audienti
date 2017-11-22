@@ -7,8 +7,12 @@ const BreadcrumbItem = ({ children, to }) => (
 );
 
 BreadcrumbItem.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   to: PropTypes.string.isRequired,
+};
+
+BreadcrumbItem.defaultProps = {
+  children: '--',
 };
 
 export default BreadcrumbItem;

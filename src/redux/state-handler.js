@@ -19,6 +19,7 @@ const loadMemory = (storage, name, defaultValue) => {
 
 const defaultObject = {
   requesting: false,
+  meta: {},
   error: {},
   data: {},
 };
@@ -27,25 +28,36 @@ const apiStateHandlers = (states, storage, listValues) => {
   let actionHandlers = {};
   let initialState = {};
   states.forEach((state) => {
-    const { type, name, apiField, append, onSuccess } = state;
+    const { type, name, apiField, append, onSuccess, clear } = state;
     const types = apiTypes(type);
     const defaultValue = listValues.indexOf(name) === -1 ? {} : [];
     actionHandlers = {
       ...actionHandlers,
       // request
-      [types[0]]: state =>
-        state
+      [types[0]]: (state) => {
+        const newState = state
           .setIn([name, 'requesting'], true)
-          .setIn([name, 'error'], fromJS({})),
+          .setIn([name, 'meta'], fromJS({}))
+          .setIn([name, 'error'], fromJS({}));
+        if (clear) {
+          return newState.setIn([name, 'data'], fromJS(defaultValue));
+        }
+        return newState;
+      },
       // success
       [types[1]]: (state, action) => {
         const payload = fromJS(apiField ? lodashGet(action.payload, apiField) : action.payload);
+        const meta = fromJS(action.payload.meta);
         storeMemory(storage, name, apiField ? lodashGet(action.payload, apiField) : action.payload);
         const newState = (onSuccess ? onSuccess(state, action) : state)
           .setIn([name, 'requesting'], false)
           .setIn(
             [name, 'data'],
             payload,
+          )
+          .setIn(
+            [name, 'meta'],
+            meta,
           );
         // used when creation is done
         if (append) {
@@ -60,11 +72,13 @@ const apiStateHandlers = (states, storage, listValues) => {
       [types[2]]: (state, action) =>
         state
           .setIn([name, 'requesting'], false)
+          .setIn([name, 'meta'], fromJS({}))
           .setIn([name, 'error'], fromJS(action.payload)),
       // clear
       [types[3]]: state =>
         state
           .setIn([name, 'requesting'], false)
+          .setIn([name, 'meta'], fromJS({}))
           .setIn([name, 'data'], fromJS(defaultValue))
           .setIn([name, 'error'], fromJS({})),
     };

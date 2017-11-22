@@ -10,7 +10,7 @@ export class SidebarItems extends Component {
   static propTypes = {
     items: PropTypes.arrayOf(
       PropTypes.shape({
-        name: PropTypes.string.isRequired,
+        name: PropTypes.string,
       }),
     ).isRequired,
     sidebarItems: ImmutablePropTypes.listOf(
@@ -19,7 +19,8 @@ export class SidebarItems extends Component {
       }),
     ).isRequired,
     setSidebarItems: PropTypes.func.isRequired,
-  }
+  };
+
   componentWillMount() {
     const { items, sidebarItems, setSidebarItems } = this.props;
     setSidebarItems(items.concat(sidebarItems.toJS()));

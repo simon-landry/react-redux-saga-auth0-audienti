@@ -8,7 +8,6 @@ const { expect, shallow } = testHelper;
 
 const testProps = {
   to: 'somewhere',
-  children: <div />,
 };
 
 const shallowRenderer = (props = testProps) =>
@@ -22,4 +21,12 @@ test('Renders a BreadcrumbsItem', () => {
 test('Renders a BreadcrumbsItem with proper props', () => {
   const component = shallowRenderer();
   expect(component).toHaveProps({ to: testProps.to });
+});
+
+test('Renders children', () => {
+  const component = shallowRenderer({
+    ...testProps,
+    children: <div className="test-children" />,
+  });
+  expect(component).toContain('div.test-children');
 });

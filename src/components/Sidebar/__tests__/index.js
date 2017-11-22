@@ -18,7 +18,7 @@ const testProps = {
       children: [
         { name: 'ca', icon: 'ca-icon' },
         { name: 'cb', icon: 'cb-icon' },
-        { name: 'cc', icon: 'cc-icon' },
+        { icon: 'cc-icon' },
       ],
     },
     { name: 'd', icon: 'd-icon' },

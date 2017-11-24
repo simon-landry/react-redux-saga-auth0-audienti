@@ -51,14 +51,8 @@ const apiStateHandlers = (states, storage, listValues) => {
         storeMemory(storage, name, apiField ? lodashGet(action.payload, apiField) : action.payload);
         const newState = (onSuccess ? onSuccess(state, action) : state)
           .setIn([name, 'requesting'], false)
-          .setIn(
-            [name, 'data'],
-            payload,
-          )
-          .setIn(
-            [name, 'meta'],
-            meta,
-          );
+          .setIn([name, 'data'], payload)
+          .setIn([name, 'meta'], meta);
         // used when creation is done
         if (append) {
           return newState.updateIn(

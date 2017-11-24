@@ -25,3 +25,13 @@ export const READ_KEYWORD = 'keywords/READ_KEYWORD';
 // Negative Keyword
 export const LIST_NEGATIVE_KEYWORDS = 'negative_keywords/LIST_NEGATIVE_KEYWORDS';
 export const CREATE_NEGATIVE_KEYWORDS = 'negative_keywords/CREATE_NEGATIVE_KEYWORDS';
+
+// Segment
+export const LIST_SEGMENTS = 'segments/LIST_SEGMENTS';
+export const CREATE_SEGMENT = 'segments/CREATE_SEGMENT';
+export const READ_SEGMENT = 'segments/READ_SEGMENT';
+export const UPDATE_SEGMENT = 'segments/UPDATE_SEGMENT';
+
+// Filter Types
+export const LIST_FILTER_TYPES = 'filter_types/LIST_FILTER_TYPES';
+export const READ_FILTER_TYPE = 'filter_types/READ_FILTER_TYPE';

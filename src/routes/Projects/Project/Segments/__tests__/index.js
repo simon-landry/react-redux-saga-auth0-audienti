@@ -3,7 +3,7 @@ import test from 'ava';
 
 import BreadcrumbItem from 'components/BreadcrumbItem';
 
-import { Segments } from '../Segments';
+import { Segments } from '../index';
 
 const { expect, shallow } = testHelper;
 
@@ -25,4 +25,9 @@ test('Renders a BreadcrumbItem', () => {
   const component = shallowRenderer();
   const breadcrumb = component.find(BreadcrumbItem);
   expect(breadcrumb).toHaveProps({ to: `/projects/${testProjectId}/segments` });
+});
+
+test('Renders a Routes', () => {
+  const component = shallowRenderer();
+  expect(component).toContain('Routes');
 });

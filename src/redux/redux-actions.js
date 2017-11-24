@@ -20,7 +20,6 @@ export const createClearAction = type => reduxCreateAction(`${type}_CLEAR`);
  * @param  {Function} metaCreator    A function that defines how any meta data is created.
  * @return {Function} A function that creates actions.
  */
-// eslint-disable-next-line import/prefer-default-export
 export function createApiAction(
   type,
   apiCall,

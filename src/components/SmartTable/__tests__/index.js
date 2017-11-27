@@ -66,11 +66,11 @@ test('onClick is called with current state `checks` when action link is clicked 
       { label: 'Action1', icon: 'icon1', onClick },
     ],
   });
-  const checks = 'whatever';
-  component.setState({ checks });
+  const checkRows = 'whatever';
+  component.setState({ checkRows });
   const link = component.find('CardHeader').find('Link');
   link.simulate('click', { preventDefault: noop });
-  expect(onClick).toHaveBeenCalledWith(checks);
+  expect(onClick).toHaveBeenCalledWith(checkRows);
 });
 
 test('renders exact number of header cells.', () => {

@@ -8,6 +8,8 @@ import {
   GLOBAL_NOTIFICATION,
   SET_HEADER_TITLE,
   CLEAR_HEADER_TITLE,
+  SET_CONFIRM_MESSAGE,
+  CLEAR_CONFIRM_MESSAGE,
 } from 'redux/constants';
 
 const apiStates = [];
@@ -19,6 +21,8 @@ const instantStates = [
   { type: GLOBAL_NOTIFICATION, name: 'notification', kind: 'object' },
   { type: SET_HEADER_TITLE, name: 'headerTitle' },
   { type: CLEAR_HEADER_TITLE, name: 'headerTitle' },
+  { type: SET_CONFIRM_MESSAGE, name: 'confirmMessage', kind: 'object' },
+  { type: CLEAR_CONFIRM_MESSAGE, name: 'confirmMessage', kind: 'object' },
 ];
 const listValues = ['sidebarItems'];
 

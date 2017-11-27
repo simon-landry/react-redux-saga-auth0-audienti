@@ -27,7 +27,7 @@ const performAction = method => (...models) => {
       return payload => post(`${apiBaseRoute}/${model}`, { requestBody: generateBody(payload, type) });
     case 'update':
       return (id, payload) => put(`${apiBaseRoute}/${model}/${id}`, { requestBody: generateBody(payload, type) });
-    case 'del':
+    case 'remove':
       return (id, payload) => del(`${apiBaseRoute}/${model}/${id}`, { requestBody: generateBody(payload, type) });
     case 'read':
       return id => get(`${apiBaseRoute}/${model}/${id}`);

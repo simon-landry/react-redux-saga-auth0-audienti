@@ -106,6 +106,12 @@ export class Segment extends Component {
 
   getFilters = () => (this.props.filterType.getIn(['attributes', 'filters']) || fromJS([])).toJS();
 
+  removeSelectFilter = (index) => {
+    const selectedValues = this.state.selectedValues.slice();
+    selectedValues.splice(index, 1);
+    this.setState({ selectedValues });
+  }
+
   render() {
     const {
       match: { params: { projectId, segmentId } },
@@ -194,6 +200,12 @@ export class Segment extends Component {
                           )
                         }
                       </Col>
+                      <div style={{ width: 20, paddingTop: 5 }}>
+                        <i
+                          className="fa fa-trash action"
+                          onClick={() => this.removeSelectFilter(index)}
+                        />
+                      </div>
                     </Row>
                   ))
                 }
@@ -201,7 +213,7 @@ export class Segment extends Component {
                   {formatMessage('Add New Filter')}
                 </Button>
               </FormGroup>
-              <Button type="submit" color="primary" disabled={segmentRequesting}>{formatMessage('Save Project')}</Button>
+              <Button type="submit" color="primary" disabled={segmentRequesting}>{formatMessage('Save Segment')}</Button>
             </Form>
           </CardBody>
         </Card>

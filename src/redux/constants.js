@@ -16,15 +16,19 @@ export const SET_SIDEBAR_ITEMS = 'ui/SET_SIDEBAR_ITEMS';
 export const CLEAR_SIDEBAR_ITEMS = 'ui/CLEAR_SIDEBAR_ITEMS';
 export const SET_HEADER_TITLE = 'ui/SET_HEADER_TITLE';
 export const CLEAR_HEADER_TITLE = 'ui/CLEAR_HEADER_TITLE';
+export const SET_CONFIRM_MESSAGE = 'ui/SET_CONFIRM_MESSAGE';
+export const CLEAR_CONFIRM_MESSAGE = 'ui/CLEAR_CONFIRM_MESSAGE';
 
 // Keyword
 export const LIST_KEYWORDS = 'keywords/LIST_KEYWORDS';
 export const CREATE_KEYWORDS = 'keywords/CREATE_KEYWORDS';
 export const READ_KEYWORD = 'keywords/READ_KEYWORD';
+export const REMOVE_KEYWORD = 'keywords/REMOVE_KEYWORD';
 
 // Negative Keyword
 export const LIST_NEGATIVE_KEYWORDS = 'negative_keywords/LIST_NEGATIVE_KEYWORDS';
 export const CREATE_NEGATIVE_KEYWORDS = 'negative_keywords/CREATE_NEGATIVE_KEYWORDS';
+export const REMOVE_NEGATIVE_KEYWORD = 'keywords/REMOVE_NEGATIVE_KEYWORD';
 
 // Segment
 export const LIST_SEGMENTS = 'segments/LIST_SEGMENTS';

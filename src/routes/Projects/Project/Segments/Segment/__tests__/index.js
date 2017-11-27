@@ -265,3 +265,24 @@ test('state values are changed when prop filterType is changed.', () => {
   });
   expect(component.instance().state.selectedValues).toEqual([]);
 });
+
+test('check if state `selectedValues` is changed properly when trash icon is clicked.', () => {
+  const selectedValues = [{ filter: 'a' }, { filter: 'b' }];
+  const filters = {
+    b: { rules: ['rule-b1', 'rule-b2'], type: 'number' },
+    a: { rules: ['rule-a1', 'rule-a2'], type: 'array', values: ['value-a1', 'value-a2', 'value-a3'] },
+  };
+  const component = shallowRenderer({
+    ...testProps,
+    filterType: fromJS({
+      attributes: { filters },
+    }),
+  });
+  component.setState({ selectedValues });
+  const row = component.find('Row').at(0);
+  const trashIcon = row.find('i.fa-trash');
+  trashIcon.simulate('click');
+  expect(component.instance().state.selectedValues).toEqual([
+    { filter: 'b' },
+  ]);
+});

@@ -18,7 +18,7 @@ import Tabs from 'components/Tabs';
 import Tags from 'components/Tags';
 
 export const AddKeywordsModal = ({
-  isOpen, toggle, onAddKeywords, onAddNegativeKeywords, className, formatMessage,
+  isOpen, toggle, onAddKeywords, onAddNegativeKeywords, className, formatMessage, keywords,
 }) => (
   <Modal
     isOpen={isOpen}
@@ -49,7 +49,14 @@ export const AddKeywordsModal = ({
               </blockquote>,
               <FormGroup key="keywords">
                 <Label htmlFor="keywords">{formatMessage('Keywords')}</Label>
-                <Input type="textarea" name="keywords" rows="8" placeholder={formatMessage('Enter keywords, one per line')} style={{ resize: 'none' }} />
+                <Input
+                  type="textarea"
+                  name="keywords"
+                  defaultValue={keywords}
+                  rows="8"
+                  placeholder={formatMessage('Enter keywords, one per line')}
+                  style={{ resize: 'none' }}
+                />
               </FormGroup>,
               <FormGroup key="tags">
                 <Label htmlFor="tags">{formatMessage('Tags')}</Label>
@@ -96,10 +103,12 @@ AddKeywordsModal.propTypes = {
   formatMessage: PropTypes.func.isRequired,
   onAddKeywords: PropTypes.func.isRequired,
   onAddNegativeKeywords: PropTypes.func.isRequired,
+  keywords: PropTypes.string,
 };
 
 AddKeywordsModal.defaultProps = {
   className: '',
+  keywords: '',
 };
 
 export default injectIntl(AddKeywordsModal);

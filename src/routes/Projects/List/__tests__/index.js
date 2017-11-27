@@ -42,6 +42,11 @@ test('Renders a HeaderTitle.', () => {
   expect(component).toContain(HeaderTitle);
 });
 
+test('Renders NotificationCard when there is no project', () => {
+  const component = shallowRenderer();
+  expect(component).toContain('NotificationCard');
+});
+
 test('Renders ProjectCard equal number to prop `projects` length.', () => {
   const projectCount = 10;
   const component = shallowRenderer({

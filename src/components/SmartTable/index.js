@@ -46,41 +46,43 @@ class SmartTable extends Component {
     checkable: false,
   }
 
-  state = { checks: [] };
+  state = { checks: [], checkRows: [] };
 
-  checkRow = (rowId) => {
-    const { checks } = this.state;
-    const checkIndex = checks.indexOf(rowId);
+  checkRow = (row) => {
+    const { checks, checkRows } = this.state;
+    const checkIndex = checks.indexOf(row.id);
     if (checkIndex === -1) {
-      this.setState({ checks: checks.concat([rowId]) });
+      this.setState({ checks: checks.concat([row.id]), checkRows: checkRows.concat([row]) });
       return;
     }
     const newChecks = checks.slice();
     newChecks.splice(checkIndex, 1);
-    this.setState({ checks: newChecks });
+    const newChecksRows = checkRows.slice();
+    newChecksRows.splice(checkIndex, 1);
+    this.setState({ checks: newChecks, checkRows: newChecksRows });
   }
 
   checkAll = () => {
     const { checks } = this.state;
     if (checks.indexOf('all') === -1) {
-      this.setState({ checks: ['all'] });
+      this.setState({ checks: ['all'], checkRows: [{}] });
       return;
     }
-    this.setState({ checks: [] });
+    this.setState({ checks: [], checkRows: [] });
   }
 
   render() {
     const { fields, data, checkable, total, actions, onPageChange } = this.props;
-    const { checks } = this.state;
+    const { checks, checkRows } = this.state;
     const halfChecked = (checks[0] === 'all' && checks.length > 1) || (checks[0] !== 'all' && checks.length);
     return (
       <Card className="smarttable">
-        {actions && actions.length && (
+        {actions && !!actions.length && (
           <CardHeader>
             {
               actions.map((action, index) => (
-                <Link key={index} to="#" onClick={(e) => { e.preventDefault(); action.onClick(checks); }}>
-                  {action.icon && <i className={`fa fa-${action.icon}`} />}
+                <Link key={index} to="#" onClick={(e) => { e.preventDefault(); action.onClick(checkRows); }}>
+                  {action.icon && <i className={`fa fa-${action.icon}`} style={{ marginRight: 5 }} />}
                   {action.label}
                 </Link>
               ))
@@ -92,7 +94,7 @@ class SmartTable extends Component {
             <tr>
               {checkable && (
                 <th>
-                  <Label className={`switch switch-sm switch-default switch-${halfChecked ? 'info' : 'primary'}`}>
+                  <Label className={`switch switch-sm switch-default switch-${halfChecked ? 'info' : 'primary'}`} style={{ opacity: halfChecked ? 0.5 : 1 }}>
                     <Input
                       type="checkbox"
                       className="switch-input"
@@ -120,7 +122,7 @@ class SmartTable extends Component {
                           type="checkbox"
                           className="switch-input"
                           checked={(checks.indexOf(row.id) + 0.5) * (checks.indexOf('all') + 0.5) < 0}
-                          onChange={() => this.checkRow(row.id)}
+                          onChange={() => this.checkRow(row)}
                         />
                         <span className="switch-label" />
                         <span className="switch-handle" />

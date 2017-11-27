@@ -12,6 +12,7 @@ import BreadcrumbMenu from 'components/BreadcrumbMenu';
 import LoadingIndicator from 'components/LoadingIndicator';
 import ButtonLink from 'components/ButtonLink';
 import HeaderTitle from 'components/HeaderTitle';
+import NotificationCard from 'components/NotificationCard';
 
 import ProjectCard from './components/ProjectCard';
 import ProjectCardGhost from './components/ProjectCardGhost';
@@ -79,17 +80,26 @@ export class ProjectsList extends Component {
             </Col>
           )}
           {
-            // show all the projects
-            projects.map((project, index) => (
-              <Col xs="12" sm="6" md="4" key={index}>
-                {!projectsRequesting ?
-                  <ProjectCard
-                    project={project.get('attributes')}
-                    history={history}
-                  /> : <ProjectCardGhost />
-                }
-              </Col>
-            ))
+            // show all the projects when there are one or more projects.
+            projects.size ? (
+              projects.map((project, index) => (
+                <Col xs="12" sm="6" md="4" key={index}>
+                  {!projectsRequesting ?
+                    <ProjectCard
+                      project={project.get('attributes')}
+                      history={history}
+                    /> : <ProjectCardGhost />
+                  }
+                </Col>
+              ))
+            // show empty notification card when thre is no project.
+            ) : (
+              <NotificationCard
+                icon="folder"
+                title={formatMessage('No Owned Projects')}
+                description={formatMessage('Projects are containers of work. You should create a owner project now.')}
+              />
+            )
           }
         </Row>
       </div>

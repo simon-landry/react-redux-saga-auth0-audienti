@@ -17,10 +17,19 @@ export const SegmentCard = ({
   projectId,
   formatMessage,
   ghost,
+  remove,
 }) => (
   <Card>
     <CardHeader>
-      <h3>{ghost ? '--' : <Link to={`/projects/${projectId}/segments/${attributes.id}`}>{attributes.name}</Link>}</h3>
+      <h3 className="float-left">
+        {ghost ? '--' : <Link to={`/projects/${projectId}/segments/${attributes.id}`}>{attributes.name}</Link>}
+      </h3>
+      {!!remove && (
+        <i
+          className="fa fa-trash action float-right"
+          onClick={() => remove(attributes.id)}
+        />
+      )}
     </CardHeader>
     {
       ghost ? (
@@ -43,7 +52,13 @@ export const SegmentCard = ({
 
 SegmentCard.propTypes = {
   data: PropTypes.shape({
-    name: PropTypes.string,
+    attributes: PropTypes.shape({
+      name: PropTypes.string,
+      id: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+      ]),
+    }),
   }).isRequired,
   projectId: PropTypes.oneOfType([
     PropTypes.string,
@@ -51,6 +66,7 @@ SegmentCard.propTypes = {
   ]).isRequired,
   formatMessage: PropTypes.func.isRequired,
   ghost: PropTypes.bool.isRequired,
+  remove: PropTypes.func.isRequired,
 };
 
 export default injectIntl(SegmentCard);

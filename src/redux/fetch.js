@@ -12,7 +12,7 @@ function headersWithAuth(auth = true) {
 }
 
 export function makeApiUrl(endpoint, query) {
-  const queryString = stringify(query);
+  const queryString = stringify(query, { encode: false, arrayFormat: 'brackets' });
   return `${endpoint}${queryString ? '?' : ''}${queryString}`;
 }
 

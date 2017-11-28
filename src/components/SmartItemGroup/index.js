@@ -19,15 +19,17 @@ class SmartItemGroup extends Component {
     total: PropTypes.number,
     onPageChange: PropTypes.func.isRequired,
     ghost: PropTypes.bool.isRequired,
+    remove: PropTypes.func,
   };
 
   static defaultProps = {
     data: [],
     total: 0,
+    remove: null,
   }
 
   render() {
-    const { total, onPageChange, ItemComponent, ghost } = this.props;
+    const { total, onPageChange, ItemComponent, ghost, remove } = this.props;
     const data = ghost ? new Array(perPage).fill({}) : this.props.data;
     return (
       <div>
@@ -35,7 +37,7 @@ class SmartItemGroup extends Component {
           {
             data.map((item, index) => (
               <Col xs="12" sm="6" md="4" key={index}>
-                <ItemComponent data={item} />
+                <ItemComponent data={item} remove={remove} />
               </Col>
             ))
           }

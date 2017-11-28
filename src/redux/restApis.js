@@ -31,6 +31,8 @@ const performAction = method => (...models) => {
       return (id, payload) => del(`${apiBaseRoute}/${model}/${id}`, { requestBody: generateBody(payload, type) });
     case 'read':
       return id => get(`${apiBaseRoute}/${model}/${id}`);
+    case 'multiRemove':
+      return query => del(`${apiBaseRoute}/${model}`, { query });
     case 'list':
     default:
       return query => get(`${apiBaseRoute}/${model}`, query);
@@ -41,6 +43,7 @@ export default (...models) => ({
   create: performAction('create')(...models),
   update: performAction('update')(...models),
   remove: performAction('remove')(...models),
+  multiRemove: performAction('multiRemove')(...models),
   list: performAction('list')(...models),
   read: performAction('read')(...models),
 });

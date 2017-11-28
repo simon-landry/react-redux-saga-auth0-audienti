@@ -24,7 +24,7 @@ test('Renders a Card', () => {
   expect(component).toBeA('Card');
 });
 
-test('Doesn not render a CardHeader when there is no actions', () => {
+test('Doesn not render a CardHeader when there is no actions and no headerRight', () => {
   const component = shallowRenderer();
   // actions is [] by default so there is no CardHeader rendered.
   expect(component).toNotContain('CardHeader');
@@ -43,6 +43,15 @@ test('Renders a CardHeader and number of Links when there are actions.', () => {
   expect(component).toContain('CardHeader');
   const links = component.find('CardHeader').find('Link');
   expect(links.length).toBe(2);
+});
+
+test('Renders a CardHeader and number of there is a headerRight.', () => {
+  const component = shallowRenderer({
+    ...testProps,
+    headerRight: <div className="test-header-right" />,
+  });
+  expect(component).toContain('CardHeader');
+  expect(component).toContain('div.float-right div.test-header-right');
 });
 
 test('Renders number of icons when there are actions with icons', () => {

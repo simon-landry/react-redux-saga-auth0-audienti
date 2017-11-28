@@ -4,13 +4,15 @@ import { noop } from 'lodash';
 
 import { SegmentCard } from '../SegmentCard';
 
-const { expect, shallow } = testHelper;
+const { expect, shallow, createSpy } = testHelper;
 
 const testProjectId = 'testProject';
+const testSegmentId = 'testProject';
 const testProps = {
-  data: { attributes: { id: testProjectId, name: 'testName' } },
+  data: { attributes: { id: testSegmentId, name: 'testName' } },
   projectId: testProjectId,
   formatMessage: noop,
+  remove: noop,
   ghost: false,
 };
 
@@ -34,4 +36,15 @@ test('Renders a LoadingIndicator when ghost is true.', () => {
     ghost: true,
   });
   expect(component).toContain('LoadingIndicator');
+});
+
+test('remove is called when trash icon is clicked.', () => {
+  const remove = createSpy();
+  const component = shallowRenderer({
+    ...testProps,
+    remove,
+  });
+  const iconTrash = component.find('i.fa-trash');
+  iconTrash.simulate('click');
+  expect(remove).toHaveBeenCalledWith(testSegmentId);
 });

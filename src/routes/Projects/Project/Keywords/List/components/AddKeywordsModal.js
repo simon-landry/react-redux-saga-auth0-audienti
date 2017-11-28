@@ -18,7 +18,14 @@ import Tabs from 'components/Tabs';
 import Tags from 'components/Tags';
 
 export const AddKeywordsModal = ({
-  isOpen, toggle, onAddKeywords, onAddNegativeKeywords, className, formatMessage, keywords,
+  isOpen,
+  toggle,
+  onAddKeywords,
+  onAddNegativeKeywords,
+  className,
+  formatMessage,
+  keywords,
+  negative,
 }) => (
   <Modal
     isOpen={isOpen}
@@ -27,7 +34,7 @@ export const AddKeywordsModal = ({
   >
     <Form onSubmit={(e) => {
       e.preventDefault();
-      const { activeTab, keywords, negativeKeywords, tags }
+      const { activeTab, keywords, negativeKeywords, tags, negativeTags }
         = Serializer.serialize(e.target, { hash: true });
       toggle();
       if (activeTab === '0' && keywords) {
@@ -35,12 +42,14 @@ export const AddKeywordsModal = ({
         return;
       }
       if (negativeKeywords) {
-        onAddNegativeKeywords({ name: negativeKeywords });
+        onAddNegativeKeywords({ name: negativeKeywords, tags: negativeTags });
       }
     }}>
       <ModalHeader toggle={toggle}>{formatMessage('Add Keyword(s) & Negative Keyword(s)')}</ModalHeader>
       <ModalBody>
-        <Tabs tabs={[
+        <Tabs
+          activeTab={negative ? 1 : 0}
+          tabs={[
           {
             title: formatMessage('Keywords'),
             content: [
@@ -52,7 +61,7 @@ export const AddKeywordsModal = ({
                 <Input
                   type="textarea"
                   name="keywords"
-                  defaultValue={keywords}
+                  defaultValue={negative ? '' : keywords}
                   rows="8"
                   placeholder={formatMessage('Enter keywords, one per line')}
                   style={{ resize: 'none' }}
@@ -82,7 +91,26 @@ export const AddKeywordsModal = ({
                 {formatMessage('Add any negative keywords by entering them here, separating with a new line.')}
               </blockquote>,
               <FormGroup key="negativeKeywords">
-                <Input type="textarea" name="negativeKeywords" rows="8" placeholder={formatMessage('Enter negative keywords, one per line')} style={{ resize: 'none' }} />
+                <Label htmlFor="negativeKeywords">{formatMessage('Negative Keywords')}</Label>
+                <Input
+                  type="textarea"
+                  name="negativeKeywords"
+                  defaultValue={negative ? keywords : ''}
+                  rows="8"
+                  placeholder={formatMessage('Enter negative keywords, one per line')}
+                  style={{ resize: 'none' }}
+                />
+              </FormGroup>,
+              <FormGroup key="negativeTags">
+                <Label htmlFor="negativeTags">{formatMessage('Tags')}</Label>
+                <Tags
+                  name="negativeTags"
+                  options={[
+                    { value: 'Tag1', label: 'Tag1' },
+                    { value: 'Tag2', label: 'Tag2' },
+                  ]}
+                  creatable
+                />
               </FormGroup>,
               <ModalFooter key="actions">
                 <Button color="secondary" onClick={toggle}>{formatMessage('Cancel')}</Button>{' '}
@@ -104,11 +132,13 @@ AddKeywordsModal.propTypes = {
   onAddKeywords: PropTypes.func.isRequired,
   onAddNegativeKeywords: PropTypes.func.isRequired,
   keywords: PropTypes.string,
+  negative: PropTypes.bool,
 };
 
 AddKeywordsModal.defaultProps = {
   className: '',
   keywords: '',
+  negative: false,
 };
 
 export default injectIntl(AddKeywordsModal);

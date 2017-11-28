@@ -14,7 +14,7 @@ const { expect, shallow, createSpy } = testHelper;
 const testProjectId = 'testProject';
 const testProps = {
   formatMessage: () => 'something',
-  segments: fromJS([]),
+  segments: fromJS([{}]),
   match: { params: { projectId: testProjectId } },
   segmentsRequesting: false,
   segmentsMeta: fromJS({ total: 12 }),
@@ -26,6 +26,9 @@ const testProps = {
     },
   }),
   listSegments: noop,
+  removeSegment: noop,
+  removeSegmentRequesting: false,
+  setConfirmMessage: noop,
 };
 
 const shallowRenderer = (props = testProps) =>
@@ -49,9 +52,22 @@ test('Renders a HeaderTitle', () => {
   expect(component).toContain(HeaderTitle);
 });
 
+test('Renders a SearchBox', () => {
+  const component = shallowRenderer();
+  expect(component).toContain('SearchBox');
+});
+
 test('Renders a SmartItemGroup', () => {
   const component = shallowRenderer();
   expect(component).toContain('SmartItemGroup');
+});
+
+test('Renders a NotificationCard when there is no segments', () => {
+  const component = shallowRenderer({
+    ...testProps,
+    segments: fromJS([]),
+  });
+  expect(component).toContain('NotificationCard');
 });
 
 test('listSegments is called.', () => {
@@ -60,19 +76,21 @@ test('listSegments is called.', () => {
     ...testProps,
     listSegments,
   });
-  expect(listSegments).toHaveBeenCalledWith(testProjectId, { 'page[number]': 1 });
+  expect(listSegments).toHaveBeenCalledWith(testProjectId, { 'page[number]': 1, search: '' });
 });
 
 test('listSegments is called when onPageChange of SmartItemGroup is called.', () => {
   const listSegments = createSpy();
   const pageIndex = 5;
+  const search = 'testSearch';
   const component = shallowRenderer({
     ...testProps,
     listSegments,
   });
+  component.setState({ search });
   const smartItemGroup = component.find('SmartItemGroup');
   smartItemGroup.props().onPageChange(pageIndex);
-  expect(listSegments).toHaveBeenCalledWith(testProjectId, { 'page[number]': pageIndex });
+  expect(listSegments).toHaveBeenCalledWith(testProjectId, { 'page[number]': pageIndex, search });
 });
 
 test('ItemComponent should be a SegmentCard.', () => {
@@ -89,4 +107,58 @@ test('ItemComponent should be a SegmentCard.', () => {
   const { ItemComponent } = smartItemGroup.props();
   const itemComponent = shallow(<ItemComponent />);
   expect(itemComponent).toBeA(SegmentCard);
+});
+
+test('calls setConfirmMessage when trash icon is clicked and when action is called removeKeyword is triggered.', () => {
+  const testId = 'testId';
+  const setConfirmMessage = createSpy();
+  const removeSegment = createSpy();
+  const component = shallowRenderer({
+    ...testProps,
+    segmentsRequesting: false,
+    segments: fromJS([{ id: testId }]),
+    setConfirmMessage,
+    removeSegment,
+  });
+  const smartItemGroup = component.find('SmartItemGroup');
+  const { remove } = smartItemGroup.props();
+  remove(testId);
+  expect(setConfirmMessage).toHaveBeenCalled();
+  const { action } = setConfirmMessage.calls[0].arguments[0];
+  action();
+  expect(removeSegment).toHaveBeenCalledWith(testProjectId, testId);
+});
+
+test('listSegments is called when removeSegment request is successful.', () => {
+  const listSegments = createSpy();
+  const component = shallowRenderer({
+    ...testProps,
+    listSegments,
+    removeSegmentRequesting: true,
+  });
+  component.setProps({ removeSegmentRequesting: false });
+  expect(listSegments).toHaveBeenCalled();
+});
+
+test('listSegments is not called when removeSegmentRequesting was not true.', () => {
+  const component = shallowRenderer({
+    ...testProps,
+    removeSegmentRequesting: false,
+  });
+  const listSegments = createSpy();
+  component.setProps({ listSegments });
+  expect(listSegments).toNotHaveBeenCalled();
+});
+
+test('listSegments is called when onSearch is triggered.', () => {
+  const listSegments = createSpy();
+  const search = 'testValue';
+  const component = shallowRenderer({
+    ...testProps,
+    listSegments,
+  });
+  const searchBox = component.find('SearchBox');
+  searchBox.props().onSearch(search);
+  expect(component).toHaveState({ search });
+  expect(listSegments).toHaveBeenCalledWith(testProjectId, { 'page[number]': 1, search });
 });

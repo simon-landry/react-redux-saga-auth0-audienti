@@ -24,17 +24,20 @@ export const LIST_KEYWORDS = 'keywords/LIST_KEYWORDS';
 export const CREATE_KEYWORDS = 'keywords/CREATE_KEYWORDS';
 export const READ_KEYWORD = 'keywords/READ_KEYWORD';
 export const REMOVE_KEYWORD = 'keywords/REMOVE_KEYWORD';
+export const REMOVE_MULTIPLE_KEYWORDS = 'keywords/REMOVE_MULTIPLE_KEYWORDS';
 
 // Negative Keyword
 export const LIST_NEGATIVE_KEYWORDS = 'negative_keywords/LIST_NEGATIVE_KEYWORDS';
 export const CREATE_NEGATIVE_KEYWORDS = 'negative_keywords/CREATE_NEGATIVE_KEYWORDS';
-export const REMOVE_NEGATIVE_KEYWORD = 'keywords/REMOVE_NEGATIVE_KEYWORD';
+export const REMOVE_NEGATIVE_KEYWORD = 'negative_keywords/REMOVE_NEGATIVE_KEYWORD';
+export const REMOVE_MULTIPLE_NEGATIVE_KEYWORDS = 'negative_keywords/REMOVE_MULTIPLE_NEGATIVE_KEYWORDS';
 
 // Segment
 export const LIST_SEGMENTS = 'segments/LIST_SEGMENTS';
 export const CREATE_SEGMENT = 'segments/CREATE_SEGMENT';
 export const READ_SEGMENT = 'segments/READ_SEGMENT';
 export const UPDATE_SEGMENT = 'segments/UPDATE_SEGMENT';
+export const REMOVE_SEGMENT = 'segments/REMOVE_SEGMENT';
 
 // Filter Types
 export const LIST_FILTER_TYPES = 'filter_types/LIST_FILTER_TYPES';

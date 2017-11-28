@@ -33,6 +33,8 @@ const testProps = {
   removeNegativeKeywordRequesting: false,
   removeKeyword: noop,
   removeNegativeKeyword: noop,
+  removeMultipleKeywords: noop,
+  removeMultipleNegativeKeywords: noop,
 };
 
 const shallowRenderer = (props = testProps) =>
@@ -215,6 +217,30 @@ test('onAddTags is called when onClick is called on first action.', () => {
   expect(component).toHaveState({ createModal: true, addKeywords: '***\nfirst\nsecond' });
 });
 
+test('setConfirmMessage is called when onClick is called on second action.', () => {
+  const setConfirmMessage = createSpy();
+  const removeMultipleKeywords = createSpy();
+  const component = shallowRenderer({
+    ...testProps,
+    keywords: fromJS([{}]),
+    setConfirmMessage,
+    removeMultipleKeywords,
+  });
+  const smartTable = component.find('SmartTable');
+  const { actions } = smartTable.props();
+  const removeMultipleAction = actions[1];
+  const checks = [
+    {},
+    { attributes: { id: 'first' } },
+    { attributes: { id: 'second' } },
+  ];
+  removeMultipleAction.onClick(checks);
+  expect(setConfirmMessage).toHaveBeenCalled();
+  const { action } = setConfirmMessage.calls[0].arguments[0];
+  action();
+  expect(removeMultipleKeywords).toHaveBeenCalledWith(testProjectId, { selected_ids: ['all', 'first', 'second'] });
+});
+
 test('sets state tags and calls listKeywords when one of tags is clicked.', () => {
   const listKeywords = createSpy();
   const component = shallowRenderer({
@@ -227,8 +253,26 @@ test('sets state tags and calls listKeywords when one of tags is clicked.', () =
   const { fields } = smartTable.props();
   const tagsField = fields[1];
   const renderedComponent = shallow(tagsField.render(testValues[1], { id: 'rowId' })[0]);
-  renderedComponent.simulate('click');
+  const tagsButton = renderedComponent.find('Button').first();
+  tagsButton.simulate('click');
   expect(component.instance().state.tags).toEqual([testValues[1][0]]);
+  expect(listKeywords).toHaveBeenCalled();
+});
+
+test('listKeywords is called and tag filter is removed when tag button is clicked on the right header .', () => {
+  const listKeywords = createSpy();
+  const component = shallowRenderer({
+    ...testProps,
+    listKeywords,
+    keywordsRequesting: false,
+    keywords: fromJS([{}]),
+  });
+  component.setState({ tags: ['tag1', 'tag2'] });
+  const smartTable = component.find('SmartTable');
+  const { headerRight } = smartTable.props();
+  const firstTag = shallow(headerRight[0]);
+  firstTag.simulate('click');
+  expect(component).toHaveState({ tags: ['tag2'] });
   expect(listKeywords).toHaveBeenCalled();
 });
 
@@ -270,7 +314,7 @@ test('Renders a LoadingIndicator when negativeKeywordsRequesting is true.', () =
     ...testProps,
     negativeKeywordsRequesting: true,
   });
-  component.setState({ negative: true });
+  component.instance().toggleNegative();
   const smartTable = component.find('SmartTable');
   const { fields } = smartTable.props();
   fields.forEach((field, index) => {
@@ -291,7 +335,7 @@ test('Does not reander a LoadingIndicator when negativeKeywordsRequesting is not
     negativeKeywordsRequesting: false,
     negativeKeywords: fromJS([{}]),
   });
-  component.setState({ negative: true });
+  component.instance().toggleNegative();
   const smartTable = component.find('SmartTable');
   const { fields } = smartTable.props();
   fields.forEach((field, index) => {
@@ -338,7 +382,7 @@ test('calls setConfirmMessage when trash icon is clicked and when action is call
     setConfirmMessage,
     removeNegativeKeyword,
   });
-  component.setState({ negative: true });
+  component.instance().toggleNegative();
   const smartTable = component.find('SmartTable');
   const { fields } = smartTable.props();
   const actionField = fields[fields.length - 1];
@@ -348,4 +392,17 @@ test('calls setConfirmMessage when trash icon is clicked and when action is call
   const { action } = setConfirmMessage.calls[0].arguments[0];
   action();
   expect(removeNegativeKeyword).toHaveBeenCalledWith(testProjectId, testId);
+});
+
+test('listKeywords is called when onSearch is triggered.', () => {
+  const listKeywords = createSpy();
+  const search = 'testValue';
+  const component = shallowRenderer({
+    ...testProps,
+    listKeywords,
+  });
+  const searchBox = component.find('SearchBox');
+  searchBox.props().onSearch(search);
+  expect(component).toHaveState({ search });
+  expect(listKeywords).toHaveBeenCalled();
 });

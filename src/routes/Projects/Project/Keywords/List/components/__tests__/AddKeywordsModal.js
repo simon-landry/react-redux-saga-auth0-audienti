@@ -84,3 +84,12 @@ test('toggle is called when form is submitted.', () => {
   form.simulate('submit', { preventDefault: noop });
   expect(toggle).toHaveBeenCalled();
 });
+
+test('activeTab is set to 1 when negative is true.', () => {
+  const component = shallowRenderer({
+    ...testProps,
+    negative: true,
+  });
+  const tabs = component.find(Tabs);
+  expect(tabs.props().activeTab).toBe(1);
+});

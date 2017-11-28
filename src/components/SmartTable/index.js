@@ -37,6 +37,7 @@ class SmartTable extends Component {
     total: PropTypes.number,
     checkable: PropTypes.bool,
     onPageChange: PropTypes.func.isRequired,
+    headerRight: PropTypes.node,
   };
 
   static defaultProps = {
@@ -44,6 +45,7 @@ class SmartTable extends Component {
     actions: [],
     total: 0,
     checkable: false,
+    headerRight: null,
   }
 
   state = { checks: [], checkRows: [] };
@@ -72,21 +74,24 @@ class SmartTable extends Component {
   }
 
   render() {
-    const { fields, data, checkable, total, actions, onPageChange } = this.props;
+    const { fields, data, checkable, total, actions, onPageChange, headerRight } = this.props;
     const { checks, checkRows } = this.state;
     const halfChecked = (checks[0] === 'all' && checks.length > 1) || (checks[0] !== 'all' && checks.length);
     return (
       <Card className="smarttable">
-        {actions && !!actions.length && (
+        {((actions && !!actions.length) || headerRight) && (
           <CardHeader>
             {
               actions.map((action, index) => (
-                <Link key={index} to="#" onClick={(e) => { e.preventDefault(); action.onClick(checkRows); }}>
+                <Link key={index} to="#" onClick={(e) => { e.preventDefault(); action.onClick(checkRows); }} style={{ marginRight: 15 }}>
                   {action.icon && <i className={`fa fa-${action.icon}`} style={{ marginRight: 5 }} />}
                   {action.label}
                 </Link>
               ))
             }
+            <div className="float-right">
+              {headerRight}
+            </div>
           </CardHeader>
         )}
         <Table responsive>

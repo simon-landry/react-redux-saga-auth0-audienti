@@ -3,16 +3,17 @@ import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-import { Row, Col } from 'reactstrap';
 
 import { injectIntl } from 'components/Intl';
-import { selectState } from 'redux/selectors';
-import { listProjects, createProject } from 'redux/project/actions';
+import { selectState, getRequestingSelector } from 'redux/selectors';
+import { listProjects, createProject, removeProject } from 'redux/project/actions';
+import { setConfirmMessage } from 'redux/ui/actions';
 import BreadcrumbMenu from 'components/BreadcrumbMenu';
-import LoadingIndicator from 'components/LoadingIndicator';
 import ButtonLink from 'components/ButtonLink';
 import HeaderTitle from 'components/HeaderTitle';
 import NotificationCard from 'components/NotificationCard';
+import SearchBox from 'components/SearchBox';
+import SmartItemGroup from 'components/SmartItemGroup';
 
 import ProjectCard from './components/ProjectCard';
 import ProjectCardGhost from './components/ProjectCardGhost';
@@ -28,26 +29,61 @@ export class ProjectsList extends Component {
     ).isRequired,
     listProjects: PropTypes.func.isRequired,
     projectsRequesting: PropTypes.bool.isRequired,
-    history: PropTypes.shape().isRequired,
+    projectsMeta: ImmutablePropTypes.mapContains({
+      total: PropTypes.number,
+    }).isRequired,
     createProject: PropTypes.func.isRequired,
     createProjectRequesting: PropTypes.bool.isRequired,
+    removeProject: PropTypes.func.isRequired,
+    removeProjectRequesting: PropTypes.bool.isRequired,
+    setConfirmMessage: PropTypes.func.isRequired,
   };
 
-  state = { createModal: false };
+  state = { createModal: false, search: '', pageIndex: 1 };
 
   componentWillMount() {
-    this.props.listProjects();
+    this.load();
+  }
+
+  componentWillReceiveProps({ createProjectRequesting, removeProjectRequesting }) {
+    if (!createProjectRequesting && this.props.createProjectRequesting) {
+      this.load();
+    }
+    if (!removeProjectRequesting && this.props.removeProjectRequesting) {
+      this.load();
+    }
+  }
+
+  onSearch = (value) => {
+    const { listProjects } = this.props;
+    this.setState({ search: value, pageIndex: 1 });
+    listProjects({ 'page[number]': 1, search: value });
+  }
+
+  load = () => {
+    const { listProjects } = this.props;
+    const { pageIndex, search } = this.state;
+    listProjects({ 'page[number]': pageIndex, search });
+  }
+
+  loadPage = (index) => {
+    const { listProjects } = this.props;
+    const { search } = this.state;
+    this.setState({ pageIndex: index });
+    listProjects({ 'page[number]': index, search });
   }
 
   toggleCreateModal = () => this.setState({ createModal: !this.state.createModal })
 
   render() {
     const {
-      formatMessage, projects, projectsRequesting, history, listProjects, createProject,
-      createProjectRequesting,
+      formatMessage, projects, projectsRequesting, projectsMeta, createProject,
+      createProjectRequesting, removeProject, removeProjectRequesting, setConfirmMessage,
     } = this.props;
     const { createModal } = this.state;
-    const projectsCount = formatMessage('{count} {count, plural, one {project} other {projects}}', { count: projects.size });
+    const projectsCount = formatMessage('{count} {count, plural, one {project} other {projects}}', { count: projectsMeta.get('total') });
+    const ghost = projectsRequesting || createProjectRequesting || removeProjectRequesting;
+    const ItemComponent = ghost ? ProjectCardGhost : ProjectCard;
     return (
       <div className="animated fadeIn">
         <Helmet
@@ -58,7 +94,7 @@ export class ProjectsList extends Component {
         />
         <BreadcrumbMenu>
           {!projectsRequesting && (
-            <ButtonLink className="no-border" handleClick={listProjects}>
+            <ButtonLink className="no-border" handleClick={this.load}>
               {projectsCount}
             </ButtonLink>)}
           <ButtonLink className="no-border" handleClick={this.toggleCreateModal} icon="fa fa-plus">
@@ -66,42 +102,36 @@ export class ProjectsList extends Component {
           </ButtonLink>
         </BreadcrumbMenu>
         <HeaderTitle>{formatMessage('Active Projects')}</HeaderTitle>
-        {projectsRequesting && !projects.size && <LoadingIndicator />}
         <CreateProjectModal
           isOpen={createModal}
           toggle={this.toggleCreateModal}
           className="primary"
           onSave={createProject}
         />
-        <Row>
-          {createProjectRequesting && (
-            <Col xs="12" sm="6" md="4" key={projects.length + 1}>
-              <ProjectCardGhost />
-            </Col>
-          )}
-          {
-            // show all the projects when there are one or more projects.
-            projects.size ? (
-              projects.map((project, index) => (
-                <Col xs="12" sm="6" md="4" key={index}>
-                  {!projectsRequesting ?
-                    <ProjectCard
-                      project={project.get('attributes')}
-                      history={history}
-                    /> : <ProjectCardGhost />
-                  }
-                </Col>
-              ))
-            // show empty notification card when thre is no project.
-            ) : (
-              <NotificationCard
-                icon="folder"
-                title={formatMessage('No Owned Projects')}
-                description={formatMessage('Projects are containers of work. You should create a owner project now.')}
-              />
-            )
-          }
-        </Row>
+        <SearchBox onSearch={this.onSearch} />
+        {
+          !ghost && !projects.size ? (
+            <NotificationCard
+              icon="folder"
+              title={formatMessage('No Owned Projects')}
+              description={formatMessage('Projects are containers of work. You should create a owner project now.')}
+            />
+          ) : (
+            <SmartItemGroup
+              data={projects.toJS()}
+              ItemComponent={ItemComponent}
+              total={projectsMeta.get('total')}
+              onPageChange={this.loadPage}
+              ghost={ghost}
+              checkable
+              remove={projectId => setConfirmMessage({
+                title: formatMessage('Remove Project'),
+                message: formatMessage('Are you sure you want to remove the project?'),
+                action: () => removeProject(projectId),
+              })}
+            />
+          )
+        }
       </div>
     );
   }
@@ -111,12 +141,15 @@ export class ProjectsList extends Component {
 const mapStateToProps = state => ({
   ...selectState('project', 'projects')(state, 'projects'),
   ...selectState('project', 'createProject')(state, 'createProject'),
+  removeProjectRequesting: getRequestingSelector('project', 'removeProject')(state),
 });
 
 /* istanbul ignore next */
 const mapDispatchToProps = dispatch => ({
-  listProjects: () => dispatch(listProjects()),
+  listProjects: payload => dispatch(listProjects(payload)),
   createProject: payload => dispatch(createProject(payload)),
+  removeProject: projectId => dispatch(removeProject(projectId)),
+  setConfirmMessage: payload => dispatch(setConfirmMessage(payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(ProjectsList));

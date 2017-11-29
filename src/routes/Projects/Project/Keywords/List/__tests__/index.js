@@ -217,7 +217,7 @@ test('onAddTags is called when onClick is called on first action.', () => {
   expect(component).toHaveState({ createModal: true, addKeywords: '***\nfirst\nsecond' });
 });
 
-test('setConfirmMessage is called when onClick is called on second action.', () => {
+test('setConfirmMessage for keywords is called when onClick is called on second action.', () => {
   const setConfirmMessage = createSpy();
   const removeMultipleKeywords = createSpy();
   const component = shallowRenderer({
@@ -239,6 +239,31 @@ test('setConfirmMessage is called when onClick is called on second action.', () 
   const { action } = setConfirmMessage.calls[0].arguments[0];
   action();
   expect(removeMultipleKeywords).toHaveBeenCalledWith(testProjectId, { selected_ids: ['all', 'first', 'second'] });
+});
+
+test('setConfirmMessage for negative keywords is called when onClick is called on second action.', () => {
+  const setConfirmMessage = createSpy();
+  const removeMultipleNegativeKeywords = createSpy();
+  const component = shallowRenderer({
+    ...testProps,
+    negativeKeywords: fromJS([{}]),
+    setConfirmMessage,
+    removeMultipleNegativeKeywords,
+  });
+  component.instance().toggleNegative();
+  const smartTable = component.find('SmartTable');
+  const { actions } = smartTable.props();
+  const removeMultipleAction = actions[1];
+  const checks = [
+    {},
+    { attributes: { id: 'first' } },
+    { attributes: { id: 'second' } },
+  ];
+  removeMultipleAction.onClick(checks);
+  expect(setConfirmMessage).toHaveBeenCalled();
+  const { action } = setConfirmMessage.calls[0].arguments[0];
+  action();
+  expect(removeMultipleNegativeKeywords).toHaveBeenCalledWith(testProjectId, { selected_ids: ['all', 'first', 'second'] });
 });
 
 test('sets state tags and calls listKeywords when one of tags is clicked.', () => {

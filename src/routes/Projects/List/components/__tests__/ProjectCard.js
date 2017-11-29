@@ -1,7 +1,6 @@
 import React from 'react';
 import test from 'ava';
 import { noop } from 'lodash';
-import { fromJS } from 'immutable';
 
 import { ProjectCard } from '../ProjectCard';
 
@@ -9,9 +8,9 @@ const { expect, shallow, createSpy } = testHelper;
 
 const testProjectId = '1';
 const testProps = {
+  data: { attributes: { id: testProjectId, name: 'testName' } },
   formatMessage: noop,
-  history: { push: noop },
-  project: fromJS({ id: testProjectId }),
+  remove: noop,
 };
 
 const shallowRenderer = (props = testProps) =>
@@ -32,12 +31,13 @@ test('Renders a CardBody', () => {
   expect(component).toContain('CardHeader');
 });
 
-test('Button click calls history.push', () => {
-  const push = createSpy();
+test('remove is called when trash icon is clicked.', () => {
+  const remove = createSpy();
   const component = shallowRenderer({
     ...testProps,
-    history: { push },
+    remove,
   });
-  component.find('Button').simulate('click');
-  expect(push).toHaveBeenCalledWith(`/projects/${testProjectId}`);
+  const iconTrash = component.find('i.fa-trash');
+  iconTrash.simulate('click');
+  expect(remove).toHaveBeenCalledWith(testProjectId);
 });

@@ -7,21 +7,22 @@ import BreadcrumbMenu from 'components/BreadcrumbMenu';
 import HeaderTitle from 'components/HeaderTitle';
 
 import { ProjectsList } from '../index';
-import ProjectCard from '../components/ProjectCard';
 import CreateProjectModal from '../components/CreateProjectModal';
+import ProjectCard from '../components/ProjectCard';
 
 const { expect, shallow, createSpy } = testHelper;
 
 const testProps = {
   formatMessage: () => 'somewthing',
   listProjects: noop,
-  projects: fromJS([]),
+  projects: fromJS([{}]),
   projectsRequesting: false,
-  history: {
-    push: noop,
-  },
+  projectsMeta: fromJS({ total: 12 }),
   createProject: noop,
   createProjectRequesting: false,
+  removeProject: noop,
+  removeProjectRequesting: false,
+  setConfirmMessage: noop,
 };
 
 const shallowRenderer = (props = testProps) =>
@@ -42,54 +43,118 @@ test('Renders a HeaderTitle.', () => {
   expect(component).toContain(HeaderTitle);
 });
 
-test('Renders NotificationCard when there is no project', () => {
+test('Renders a SearchBox', () => {
   const component = shallowRenderer();
+  expect(component).toContain('SearchBox');
+});
+
+test('Renders a SmartItemGroup', () => {
+  const component = shallowRenderer();
+  expect(component).toContain('SmartItemGroup');
+});
+
+test('Renders NotificationCard when there is no projects', () => {
+  const component = shallowRenderer({
+    ...testProps,
+    projects: fromJS([]),
+  });
   expect(component).toContain('NotificationCard');
 });
 
-test('Renders ProjectCard equal number to prop `projects` length.', () => {
-  const projectCount = 10;
-  const component = shallowRenderer({
+test('listProjects is called.', () => {
+  const listProjects = createSpy();
+  shallowRenderer({
     ...testProps,
-    projects: fromJS(new Array(projectCount).fill(0).map((_, index) => ({ id: `${index}` }))),
+    listProjects,
   });
-  expect(component.find(ProjectCard).length).toBe(projectCount);
+  expect(listProjects).toHaveBeenCalledWith({ 'page[number]': 1, search: '' });
 });
 
-test('Renders ProjectCardGhost equal number to prop `projects` length when projectsRequesting is true.', () => {
-  const projectCount = 10;
+test('listProjects is called when onPageChange of SmartItemGroup is called.', () => {
+  const listProjects = createSpy();
+  const pageIndex = 5;
+  const search = 'testSearch';
   const component = shallowRenderer({
     ...testProps,
-    projects: fromJS(new Array(projectCount).fill(0).map((_, index) => ({ id: `${index}` }))),
-    projectsRequesting: true,
+    listProjects,
   });
-  expect(component.find('ProjectCardGhost').length).toBe(projectCount);
+  component.setState({ search });
+  const smartItemGroup = component.find('SmartItemGroup');
+  smartItemGroup.props().onPageChange(pageIndex);
+  expect(listProjects).toHaveBeenCalledWith({ 'page[number]': pageIndex, search });
 });
 
-test('Renders a ProjectCardGhost when createProjectRequesting is true.', () => {
+test('ItemComponent should be a ProjectCard.', () => {
+  const component = shallowRenderer();
+  const smartItemGroup = component.find('SmartItemGroup');
+  const { ItemComponent } = smartItemGroup.props();
+  expect(ItemComponent).toBe(ProjectCard);
+});
+
+test('calls setConfirmMessage when trash icon is clicked and when action is called removeProject is triggered.', () => {
+  const testId = 'testId';
+  const setConfirmMessage = createSpy();
+  const removeProject = createSpy();
   const component = shallowRenderer({
     ...testProps,
+    projectsRequesting: false,
+    projects: fromJS([{ id: testId }]),
+    setConfirmMessage,
+    removeProject,
+  });
+  const smartItemGroup = component.find('SmartItemGroup');
+  const { remove } = smartItemGroup.props();
+  remove(testId);
+  expect(setConfirmMessage).toHaveBeenCalled();
+  const { action } = setConfirmMessage.calls[0].arguments[0];
+  action();
+  expect(removeProject).toHaveBeenCalledWith(testId);
+});
+
+test('listProjects is called when removeProject request is successful.', () => {
+  const listProjects = createSpy();
+  const component = shallowRenderer({
+    ...testProps,
+    listProjects,
+    removeProjectRequesting: true,
+  });
+  component.setProps({ removeProjectRequesting: false });
+  expect(listProjects).toHaveBeenCalled();
+});
+
+test('listProjects is called when createProject request is successful.', () => {
+  const listProjects = createSpy();
+  const component = shallowRenderer({
+    ...testProps,
+    listProjects,
     createProjectRequesting: true,
   });
-  expect(component).toContain('ProjectCardGhost');
+  component.setProps({ createProjectRequesting: false });
+  expect(listProjects).toHaveBeenCalled();
 });
 
-test('Does not reander a LoadingIndicator when projectsRequesting is true and there are loaded projects.', () => {
-  const projectCount = 2;
+test('listProjects is not called when createProjectRequesting/removeProjectRequesting was not true.', () => {
   const component = shallowRenderer({
     ...testProps,
-    projects: fromJS(new Array(projectCount).fill(0).map((_, index) => ({ id: `${index}` }))),
-    projectsRequesting: true,
+    createProjectRequesting: false,
+    removeProjectRequesting: false,
   });
-  expect(component).toNotContain('LoadingIndicator');
+  const listProjects = createSpy();
+  component.setProps({ listProjects });
+  expect(listProjects).toNotHaveBeenCalled();
 });
 
-test('Renders a LoadingIndicator when projectsRequesting is true and there are not loaded projects.', () => {
+test('listProjects is called when onSearch is triggered.', () => {
+  const listProjects = createSpy();
+  const search = 'testValue';
   const component = shallowRenderer({
     ...testProps,
-    projectsRequesting: true,
+    listProjects,
   });
-  expect(component).toContain('LoadingIndicator');
+  const searchBox = component.find('SearchBox');
+  searchBox.props().onSearch(search);
+  expect(component).toHaveState({ search });
+  expect(listProjects).toHaveBeenCalledWith({ 'page[number]': 1, search });
 });
 
 test('Renders a CreateProjectModal when toggleCreateModal is called.', () => {

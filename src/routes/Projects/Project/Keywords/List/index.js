@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { Button } from 'reactstrap';
-import { get, uniq, without } from 'lodash';
+import { get, uniq, without, noop } from 'lodash';
 
 import { injectIntl } from 'components/Intl';
 import { selectState, getRequestingSelector } from 'redux/selectors';
@@ -290,7 +290,7 @@ export class KeywordsList extends Component {
                       <Button
                         color="primary"
                         size="sm"
-                        onClick={() => this.loadByTag([tag])}
+                        onClick={noop}
                       >
                         <i className="fa fa-close action" />
                       </Button>

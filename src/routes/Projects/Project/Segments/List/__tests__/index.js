@@ -109,7 +109,7 @@ test('ItemComponent should be a SegmentCard.', () => {
   expect(itemComponent).toBeA(SegmentCard);
 });
 
-test('calls setConfirmMessage when trash icon is clicked and when action is called removeKeyword is triggered.', () => {
+test('calls setConfirmMessage when trash icon is clicked and when action is called removeSegment is triggered.', () => {
   const testId = 'testId';
   const setConfirmMessage = createSpy();
   const removeSegment = createSpy();

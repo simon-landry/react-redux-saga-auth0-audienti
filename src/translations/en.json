@@ -134,5 +134,7 @@
   "{count} {count, plural, one {negative keyword} other {negative keywords}}": "{count} {count, plural, one {negative keyword} other {negative keywords}}",
   "{count} {count, plural, one {project} other {projects}}": "{count} {count, plural, one {project} other {projects}}",
   "{count} {count, plural, one {segment} other {segments}}": "{count} {count, plural, one {segment} other {segments}}",
-  "{target} must match ALL of the following": "{target} must match ALL of the following"
+  "{target} must match ALL of the following": "{target} must match ALL of the following",
+  "Remove Project": "Remove Project",
+  "Are you sure you want to remove the project?": "Are you sure you want to remove the project?"
 }

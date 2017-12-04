@@ -58,7 +58,7 @@ export class SegmentCreate extends Component {
         <h2>{formatMessage('Create from Template')}</h2>
         <Tabs
           tabs={
-            [{ attributes: { name: 'all' } }]
+            [{ attributes: { name: 'All' } }]
             .concat(filterTypes.toJS())
             .map(({ attributes: { name } }) => ({
               title: formatMessage(name),

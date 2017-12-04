@@ -43,3 +43,10 @@ export const REMOVE_SEGMENT = 'segments/REMOVE_SEGMENT';
 // Filter Types
 export const LIST_FILTER_TYPES = 'filter_types/LIST_FILTER_TYPES';
 export const READ_FILTER_TYPE = 'filter_types/READ_FILTER_TYPE';
+
+// Workflow
+export const LIST_WORKFLOWS = 'segments/LIST_WORKFLOWS';
+export const CREATE_WORKFLOW = 'segments/CREATE_WORKFLOW';
+export const READ_WORKFLOW = 'segments/READ_WORKFLOW';
+export const UPDATE_WORKFLOW = 'segments/UPDATE_WORKFLOW';
+export const REMOVE_WORKFLOW = 'segments/REMOVE_WORKFLOW';

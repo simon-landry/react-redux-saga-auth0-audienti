@@ -3,7 +3,7 @@ import test from 'ava';
 
 import BreadcrumbItem from 'components/BreadcrumbItem';
 
-import { Workflows } from '../Workflows';
+import { Workflows } from '../index';
 
 const { expect, shallow } = testHelper;
 

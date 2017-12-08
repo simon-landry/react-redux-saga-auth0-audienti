@@ -14,6 +14,7 @@ const testProps = {
   ],
   data: [],
   onPageChange: noop,
+  ghost: false,
 };
 
 const shallowRenderer = (props = testProps) =>
@@ -221,4 +222,13 @@ test('onPageChange is called when onChange of Pagination component is called.', 
   const pagination = component.find('Pagination');
   pagination.props().onChange(page);
   expect(onPageChange).toHaveBeenCalledWith(page);
+});
+
+test('renders number(perPage) of LoadingIndicator, when ghost is true.', () => {
+  const component = shallowRenderer({
+    ...testProps,
+    ghost: true,
+  });
+  const loadingIndicators = component.find('LoadingIndicator');
+  expect(loadingIndicators.length).toBe(perPage);
 });

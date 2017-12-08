@@ -16,6 +16,7 @@ import { Link } from 'react-router-dom';
 
 import { perPage } from 'constants/page';
 import Pagination from 'components/Pagination';
+import LoadingIndicator from 'components/LoadingIndicator';
 
 const defaultRender = data => data;
 
@@ -38,6 +39,7 @@ class SmartTable extends Component {
     checkable: PropTypes.bool,
     onPageChange: PropTypes.func.isRequired,
     headerRight: PropTypes.node,
+    ghost: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -46,6 +48,7 @@ class SmartTable extends Component {
     total: 0,
     checkable: false,
     headerRight: null,
+    ghost: false,
   }
 
   state = { checks: [], checkRows: [] };
@@ -74,7 +77,9 @@ class SmartTable extends Component {
   }
 
   render() {
-    const { fields, data, checkable, total, actions, onPageChange, headerRight } = this.props;
+    const {
+      fields, data, ghost, checkable, total, actions, onPageChange, headerRight,
+    } = this.props;
     const { checks, checkRows } = this.state;
     const halfChecked = (checks[0] === 'all' && checks.length > 1) || (checks[0] !== 'all' && checks.length);
     return (
@@ -117,7 +122,15 @@ class SmartTable extends Component {
             </tr>
           </thead>
           <tbody>
-            {
+            {ghost ? (
+              new Array(perPage).fill({}).map((row, rowIndex) => (
+                <tr key={rowIndex}>
+                  <td colSpan={fields.length + 1} style={{ textAlign: 'center' }}>
+                    <LoadingIndicator size="small" />
+                  </td>
+                </tr>
+              ))
+            ) : (
               data.map((row, rowIndex) => (
                 <tr key={rowIndex}>
                   {checkable && (
@@ -141,7 +154,7 @@ class SmartTable extends Component {
                   }
                 </tr>
               ))
-            }
+            )}
           </tbody>
         </Table>
         <Pagination

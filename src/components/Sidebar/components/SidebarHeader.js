@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const SidebarHeader = ({ picture, name, nickname }) => (
@@ -13,9 +14,11 @@ const SidebarHeader = ({ picture, name, nickname }) => (
       <button type="button" className="btn btn-link">
         <i className="icon-speech" />
       </button>
-      <button type="button" className="btn btn-link">
-        <i className="icon-user" />
-      </button>
+      <Link to="/users">
+        <button type="button" className="btn btn-link">
+          <i className="icon-user" />
+        </button>
+      </Link>
     </div>
   </div>
 );

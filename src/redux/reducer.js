@@ -9,17 +9,21 @@ import negativeKeyword from 'redux/negative_keyword/reducer';
 import filterType from 'redux/filter_type/reducer';
 import segment from 'redux/segment/reducer';
 import workflow from 'redux/workflow/reducer';
+import user from 'redux/user/reducer';
+import service from 'redux/service/reducer';
 
 const rootReducer = combineReducers({
   routing: routerReducer,
   ui,
   auth,
+  user,
   project,
   keyword,
   negativeKeyword,
   segment,
   workflow,
   filterType,
+  service,
 });
 
 export default rootReducer;

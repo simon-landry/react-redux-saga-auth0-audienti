@@ -52,7 +52,7 @@ const apiStateHandlers = (states, storage, listValues) => {
         const newState = (onSuccess ? onSuccess(state, action) : state)
           .setIn([name, 'requesting'], false)
           .setIn([name, 'data'], payload)
-          .setIn([name, 'meta'], meta);
+          .setIn([name, 'meta'], meta || fromJS({ total: payload && payload.size }));
         // used when creation is done
         if (append) {
           return newState.updateIn(

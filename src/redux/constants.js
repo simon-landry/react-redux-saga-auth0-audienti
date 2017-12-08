@@ -50,3 +50,10 @@ export const CREATE_WORKFLOW = 'segments/CREATE_WORKFLOW';
 export const READ_WORKFLOW = 'segments/READ_WORKFLOW';
 export const UPDATE_WORKFLOW = 'segments/UPDATE_WORKFLOW';
 export const REMOVE_WORKFLOW = 'segments/REMOVE_WORKFLOW';
+
+// Service
+export const LIST_SERVICES = 'services/LIST_SERVICES';
+export const CREATE_SERVICE = 'services/CREATE_SERVICE';
+export const READ_SERVICE = 'services/READ_SERVICE';
+export const UPDATE_SERVICE = 'services/UPDATE_SERVICE';
+export const REMOVE_SERVICE = 'services/REMOVE_SERVICE';

@@ -5,7 +5,6 @@ import { fromJS } from 'immutable';
 
 import BreadcrumbMenu from 'components/BreadcrumbMenu';
 import HeaderTitle from 'components/HeaderTitle';
-import * as ReactRouterDom from 'react-router-dom';
 
 import { KeywordsList } from '../index';
 import AddKeywordsModal from '../components/AddKeywordsModal';
@@ -84,44 +83,6 @@ const testValues = [
   'whatever',
   ['whatever'],
 ];
-
-test('Does not reander a LoadingIndicator when keywordsRequesting is not true.', () => {
-  ReactRouterDom.Link = () => <div />;
-  const component = shallowRenderer({
-    ...testProps,
-    keywordsRequesting: false,
-    keywords: fromJS([{}]),
-  });
-  const smartTable = component.find('SmartTable');
-  const { fields } = smartTable.props();
-  fields.forEach((field, index) => {
-    if (!field.render) return;
-    const renderedComponent = shallow(
-      <div>
-        {field.render(testValues[index], { id: 'rowId' })}
-      </div>,
-    );
-    expect(renderedComponent).toNotContain('LoadingIndicator');
-  });
-});
-
-test('Renders a LoadingIndicator when keywordsRequesting is true.', () => {
-  const component = shallowRenderer({
-    ...testProps,
-    keywordsRequesting: true,
-  });
-  const smartTable = component.find('SmartTable');
-  const { fields } = smartTable.props();
-  fields.forEach((field, index) => {
-    if (!field.render) return;
-    const renderedComponent = shallow(
-      <div>
-        {field.render(testValues[index], { id: 'rowId' })}
-      </div>,
-    );
-    expect(renderedComponent).toContain('LoadingIndicator');
-  });
-});
 
 test('onAddKeywords of AddKeywordsModal triggers createKeywords with proper params.', () => {
   const createKeywords = createSpy();
@@ -334,46 +295,6 @@ test('state negative is set to true/false when third buttonLink is clicked.', ()
   expect(component).toHaveState({ negative: false });
 });
 
-test('Renders a LoadingIndicator when negativeKeywordsRequesting is true.', () => {
-  const component = shallowRenderer({
-    ...testProps,
-    negativeKeywordsRequesting: true,
-  });
-  component.instance().toggleNegative();
-  const smartTable = component.find('SmartTable');
-  const { fields } = smartTable.props();
-  fields.forEach((field, index) => {
-    if (!field.render) return;
-    const renderedComponent = shallow(
-      <div>
-        {field.render(testValues[index], { id: 'rowId' })}
-      </div>,
-    );
-    expect(renderedComponent).toContain('LoadingIndicator');
-  });
-});
-
-test('Does not reander a LoadingIndicator when negativeKeywordsRequesting is not true.', () => {
-  ReactRouterDom.Link = () => <div />;
-  const component = shallowRenderer({
-    ...testProps,
-    negativeKeywordsRequesting: false,
-    negativeKeywords: fromJS([{}]),
-  });
-  component.instance().toggleNegative();
-  const smartTable = component.find('SmartTable');
-  const { fields } = smartTable.props();
-  fields.forEach((field, index) => {
-    if (!field.render) return;
-    const renderedComponent = shallow(
-      <div>
-        {field.render(testValues[index], { id: 'rowId' })}
-      </div>,
-    );
-    expect(renderedComponent).toNotContain('LoadingIndicator');
-  });
-});
-
 test('calls setConfirmMessage when trash icon is clicked and when action is called removeKeyword is triggered.', () => {
   const testId = 'testId';
   const setConfirmMessage = createSpy();
@@ -430,4 +351,22 @@ test('listKeywords is called when onSearch is triggered.', () => {
   searchBox.props().onSearch(search);
   expect(component).toHaveState({ search });
   expect(listKeywords).toHaveBeenCalled();
+});
+
+test('Renders fields without problem', () => {
+  const component = shallowRenderer({
+    ...testProps,
+    keywordsRequesting: true,
+  });
+  const smartTable = component.find('SmartTable');
+  const { fields } = smartTable.props();
+  fields.forEach((field, index) => {
+    if (!field.render) return;
+    const renderedComponent = shallow(
+      <div>
+        {field.render(testValues[index], { id: 'rowId' })}
+      </div>,
+    );
+    expect(renderedComponent).toBeA('div');
+  });
 });

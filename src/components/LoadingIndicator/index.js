@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 
 export const styles = {
   small: {
-    margin: 0,
+    margin: '0 auto',
   },
-  default: {},
+  default: {
+    margin: 'auto',
+  },
 };
 
 const LoadingIndicator = ({ size }) => (

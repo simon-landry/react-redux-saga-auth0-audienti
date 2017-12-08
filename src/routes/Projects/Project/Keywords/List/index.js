@@ -12,13 +12,11 @@ import { selectState, getRequestingSelector } from 'redux/selectors';
 import { listKeywords, createKeywords, removeKeyword, removeMultipleKeywords } from 'redux/keyword/actions';
 import { listNegativeKeywords, createNegativeKeywords, removeNegativeKeyword, removeMultipleNegativeKeywords } from 'redux/negative_keyword/actions';
 import BreadcrumbMenu from 'components/BreadcrumbMenu';
-import LoadingIndicator from 'components/LoadingIndicator';
 import ButtonLink from 'components/ButtonLink';
 import HeaderTitle from 'components/HeaderTitle';
 import SmartTable from 'components/SmartTable';
 import NotificationCard from 'components/NotificationCard';
 import SearchBox from 'components/SearchBox';
-import { perPage } from 'constants/page';
 
 import AddKeywordsModal from './components/AddKeywordsModal';
 import { setConfirmMessage } from '../../../../../redux/ui/actions';
@@ -200,7 +198,6 @@ export class KeywordsList extends Component {
     } = this.state;
     const keywordsCount = formatMessage('{count} {count, plural, one {keyword} other {keywords}}', { count: keywordsMeta.get('total') });
     const negativeKeywordsCount = formatMessage('{count} {count, plural, one {negative keyword} other {negative keywords}}', { count: negativeKeywordsMeta.get('total') });
-    const renderLoading = this.props[requesting] ? () => <LoadingIndicator size="small" /> : null;
     return (
       <div className="animated fadeIn">
         <Helmet
@@ -266,19 +263,20 @@ export class KeywordsList extends Component {
             )
           ) : (
             <SmartTable
-              data={this.props[requesting] ? new Array(perPage).fill({}) : this.props[data].toJS()}
+              data={this.props[data].toJS()}
+              ghost={this.props[requesting]}
               fields={[
                 {
                   label: negative ? formatMessage('Negative Keyword') : formatMessage('Keyword'),
                   name: 'attributes.name',
-                  render: renderLoading || ((value, row) => (
+                  render: ((value, row) => (
                     <Link to={`/projects/${projectId}/keywords/${row.id}`}>{value}</Link>
                   )),
                 },
                 {
                   label: formatMessage('Tags'),
                   name: 'attributes.tags',
-                  render: renderLoading || (value => value.map((tag, index) => (
+                  render: (value => value.map((tag, index) => (
                     <span style={{ marginRight: 5, marginBottom: 5 }} key={index}>
                       <Button
                         color="primary"
@@ -300,7 +298,7 @@ export class KeywordsList extends Component {
                 {
                   label: '',
                   name: 'id',
-                  render: renderLoading || ((value, row) => (
+                  render: ((value, row) => (
                     <i
                       className="fa fa-trash action"
                       onClick={() => setConfirmMessage({

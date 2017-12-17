@@ -1,17 +1,16 @@
-
 import React from 'react';
 import PropTypes from 'prop-types';
 
 import { injectIntl } from 'components/Intl';
 import BreadcrumbItem from 'components/BreadcrumbItem';
-import HeaderTitle from 'components/HeaderTitle';
+import Routes from './_routes';
 
 export const Companies = ({ formatMessage, match: { params: { userId } } }) => (
   <div>
     <BreadcrumbItem to={`/users/${userId}/companies`}>
       {formatMessage('Companies')}
     </BreadcrumbItem>
-    <HeaderTitle>{formatMessage('All Companies')}</HeaderTitle>
+    <Routes url="/users/:userId/companies" />
   </div>
 );
 

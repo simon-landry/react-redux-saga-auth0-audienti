@@ -11,6 +11,7 @@
     "react/no-unescaped-entities": 0,
     "no-useless-escape": 0,
     "no-cond-assign": 0,
+    "no-console": 0,
     "no-continue": 0,
     "import/no-unresolved": 0,
     "import/no-extraneous-dependencies": 0,

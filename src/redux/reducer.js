@@ -11,6 +11,7 @@ import segment from 'redux/segment/reducer';
 import workflow from 'redux/workflow/reducer';
 import user from 'redux/user/reducer';
 import service from 'redux/service/reducer';
+import company from 'redux/company/reducer';
 
 const rootReducer = combineReducers({
   routing: routerReducer,
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   workflow,
   filterType,
   service,
+  company,
 });
 
 export default rootReducer;

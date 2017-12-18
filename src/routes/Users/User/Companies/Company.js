@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 import BreadcrumbItem from 'components/BreadcrumbItem';
 import { selectState } from 'redux/selectors';
-import { readService } from 'redux/service/actions';
+import { readCompany } from 'redux/company/actions';
 
 export class Company extends Component {
   static propTypes = {
@@ -41,12 +41,12 @@ export class Company extends Component {
 
 /* istanbul ignore next */
 const mapStateToProps = state => ({
-  ...selectState('service', 'service')(state, 'service'),
+  ...selectState('company', 'company')(state, 'company'),
 });
 
 /* istanbul ignore next */
 const mapDispatchToProps = dispatch => ({
-  readKeyword: (userId, companyId) => dispatch(readService(userId, companyId)),
+  readKeyword: (userId, companyId) => dispatch(readCompany(userId, companyId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Company);

@@ -81,7 +81,7 @@
   "New Project": "New Project",
   "Next": "Next",
   "No Connected Accounts": "No Connected Accounts",
-  "No Owned Projects": "No Owned Projects",
+  "You do not have any projects": "You do not have any projects",
   "Not Found": "Not Found",
   "Ok": "Ok",
   "People": "People",
@@ -167,5 +167,6 @@
   "{count} {count, plural, one {segment} other {segments}}": "{count} {count, plural, one {segment} other {segments}}",
   "{count} {count, plural, one {workflow} other {workflows}}": "{count} {count, plural, one {workflow} other {workflows}}",
   "{target} must match ALL of the following": "{target} must match ALL of the following",
-  "{userName} profile": "{userName} profile"
+  "{userName} profile": "{userName} profile",
+  "Save Changes": "Save Changes"
 }

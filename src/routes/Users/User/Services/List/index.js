@@ -78,11 +78,12 @@ export class ServicesList extends Component {
     return user.get('attributes');
   }
 
+  /*
   addService = ({ type, provider }) => {
     const { createService } = this.props;
     const user = this.getUser();
     createService(user.get('id'), { type, provider });
-  }
+  } */
 
   load = () => {
     const { listServices } = this.props;
@@ -140,14 +141,17 @@ export class ServicesList extends Component {
           >
             {
               serviceTypes.map(serviceType => (
-                <DropdownItem key={serviceType.type}>
-                  <ButtonLink
-                    className="no-border"
-                    handleClick={() => this.addService(serviceType)}
+                <DropdownItem
+                  key={serviceType.type}
+                  className="drop-down-item"
+                >
+                  <a
+                    className="drop-down-item-link"
+                    href={`${process.env.API_HOST}/auth/${serviceType.provider}?for=authorization&origin=${window.location.href}`}
                     icon={`fa fa-${serviceType.icon}`}
                   >
                     {serviceType.label}
-                  </ButtonLink>
+                  </a>
                 </DropdownItem>
               ))
             }

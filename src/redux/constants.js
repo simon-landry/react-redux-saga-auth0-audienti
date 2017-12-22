@@ -57,3 +57,6 @@ export const CREATE_SERVICE = 'services/CREATE_SERVICE';
 export const READ_SERVICE = 'services/READ_SERVICE';
 export const UPDATE_SERVICE = 'services/UPDATE_SERVICE';
 export const REMOVE_SERVICE = 'services/REMOVE_SERVICE';
+
+// Agent Type
+export const LIST_AGENT_TYPES = 'agentTypes/LIST_AGENT_TYPES';

@@ -23,5 +23,5 @@ test('Renders a div.', () => {
 test('Renders a BreadcrumbItem with a proper prop `to`.', () => {
   const component = shallowRenderer();
   const breadcrumbItem = component.find('BreadcrumbItem');
-  expect(breadcrumbItem).toHaveProps({ to: `/users/${testUserId}/companies` });
+  expect(breadcrumbItem).toHaveProps({ to: '/companies' });
 });

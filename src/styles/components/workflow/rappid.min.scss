@@ -2310,16 +2310,16 @@ joint-halo.joint-theme-material.surrounding.tiny .handle.w {
   display: block
 }
 @media screen and (-ms-high-contrast: active),
-(-ms-high-contrast: none) {
-  .joint-inspector .group>.field>form {
-    height: 60px
-  }
-  .joint-inspector input[type=range] {
-    height: 10px
-  }
-  .joint-inspector input[type=range]::-ms-tooltip {
-    display: none
-  }
+  (-ms-high-contrast: none) {
+    .joint-inspector .group>.field>form {
+      height: 60px
+    }
+    .joint-inspector input[type=range] {
+      height: 10px
+    }
+    .joint-inspector input[type=range]::-ms-tooltip {
+      display: none
+    }
 }
 .joint-inspector .group {
   overflow: hidden;

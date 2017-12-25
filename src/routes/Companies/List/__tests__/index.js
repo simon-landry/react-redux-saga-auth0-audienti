@@ -148,7 +148,7 @@ test('listCompanies is called when onSearch is triggered.', () => {
   const searchBox = component.find('SearchBox');
   searchBox.props().onSearch(search);
   expect(component).toHaveState({ search });
-  expect(listCompanies).toHaveBeenCalledWith();
+  expect(listCompanies).toHaveBeenCalledWith({ 'page[number]': 1, search });
 });
 
 test('Renders a CreateCompanyModal when toggleCreateModal is called.', () => {

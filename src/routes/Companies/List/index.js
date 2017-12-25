@@ -53,7 +53,7 @@ export class CompaniesList extends Component {
 
   onSearch = (value) => {
     const { listCompanies } = this.props;
-    listCompanies(value);
+    listCompanies({ 'page[number]': 1, value });
   }
 
   load = () => {

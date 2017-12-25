@@ -12,6 +12,7 @@ import workflow from 'redux/workflow/reducer';
 import user from 'redux/user/reducer';
 import service from 'redux/service/reducer';
 import company from 'redux/company/reducer';
+import agentType from 'redux/agent_type/reducer';
 
 const rootReducer = combineReducers({
   routing: routerReducer,
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   filterType,
   service,
   company,
+  agentType,
 });
 
 export default rootReducer;

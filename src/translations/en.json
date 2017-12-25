@@ -81,7 +81,7 @@
   "New Project": "New Project",
   "Next": "Next",
   "No Connected Accounts": "No Connected Accounts",
-  "No Owned Projects": "No Owned Projects",
+  "You do not have any projects": "You do not have any projects",
   "Not Found": "Not Found",
   "Ok": "Ok",
   "People": "People",
@@ -177,4 +177,5 @@
   "Save Company": "Save Company",
   "All Projects": "All Projects",
   "Company is created successfully": "Company is created successfully"
+  "Save Changes": "Save Changes"
 }

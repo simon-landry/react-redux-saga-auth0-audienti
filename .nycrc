@@ -6,5 +6,9 @@
   "reporter": [
     "lcov",
     "text"
+  ],
+  "exclude": [
+    "src/**/lib/*.js",
+    "src/**/__tests__/*.js"
   ]
 }

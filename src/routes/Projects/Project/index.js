@@ -56,7 +56,7 @@ export class Project extends Component {
             {
               name: formatMessage('Workflows'),
               url: `/projects/${projectId}/workflows`,
-              icon: 'fa fa-list',
+              icon: 'fa fa-paper-plane',
             },
           ]}
         />

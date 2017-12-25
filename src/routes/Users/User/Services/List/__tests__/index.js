@@ -178,17 +178,6 @@ test('listServices is called when onSearch is triggered.', () => {
   expect(listServices).toHaveBeenCalledWith(testUserId, { 'page[number]': 1, search });
 });
 
-test('clicking dropDownItem triggers createService with proper params.', () => {
-  const createService = createSpy();
-  const component = shallowRenderer({
-    ...testProps,
-    createService,
-  });
-  const buttonLink = component.find('DropdownItem ButtonLink').first();
-  buttonLink.props().handleClick();
-  expect(createService).toHaveBeenCalled();
-});
-
 test('listServices is called with proper userId, if userId is me.', () => {
   const listServices = createSpy();
   shallowRenderer({

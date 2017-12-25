@@ -64,3 +64,6 @@ export const CREATE_COMPANY = 'companies/CREATE_COMPANY';
 export const READ_COMPANY = 'companies/READ_COMPANY';
 export const UPDATE_COMPANY = 'companies/UPDATE_COMPANY';
 export const REMOVE_COMPANY = 'companies/REMOVE_COMPANY';
+
+// Agent Type
+export const LIST_AGENT_TYPES = 'agentTypes/LIST_AGENT_TYPES';

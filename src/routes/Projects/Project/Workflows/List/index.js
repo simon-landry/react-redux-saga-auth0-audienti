@@ -50,6 +50,7 @@ export class WorkflowsList extends Component {
   }
 
   componentWillReceiveProps({ removeWorkflowRequesting }) {
+    /* istanbul ignore else */
     if (!removeWorkflowRequesting && this.props.removeWorkflowRequesting) {
       this.load();
     }

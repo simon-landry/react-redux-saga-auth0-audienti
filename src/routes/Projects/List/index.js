@@ -113,7 +113,7 @@ export class ProjectsList extends Component {
           !ghost && !projects.size ? (
             <NotificationCard
               icon="folder"
-              title={formatMessage('No Owned Projects')}
+              title={formatMessage('You do not have any projects')}
               description={formatMessage('Projects are containers of work. You should create a owner project now.')}
             />
           ) : (

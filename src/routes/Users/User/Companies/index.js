@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 
 import { injectIntl } from 'components/Intl';
 import BreadcrumbItem from 'components/BreadcrumbItem';
-import Routes from './_routes';
+import HeaderTitle from 'components/HeaderTitle';
 
 export const Companies = ({ formatMessage, match: { params: { userId } } }) => (
   <div>
     <BreadcrumbItem to={`/users/${userId}/companies`}>
       {formatMessage('Companies')}
     </BreadcrumbItem>
-    <Routes url="/users/:userId/companies" />
+    <HeaderTitle>{formatMessage('All Companies')}</HeaderTitle>
   </div>
 );
 

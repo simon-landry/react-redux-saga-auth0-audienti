@@ -11,9 +11,11 @@ const SidebarHeader = ({ picture, name, nickname }) => (
       <button type="button" className="btn btn-link">
         <i className="icon-settings" />
       </button>
-      <button type="button" className="btn btn-link">
-        <i className="icon-speech" />
-      </button>
+      <Link to="/companies">
+        <button type="button" className="btn btn-link">
+          <i className="fa fa-building-o" />
+        </button>
+      </Link>
       <Link to="/users">
         <button type="button" className="btn btn-link">
           <i className="icon-user" />

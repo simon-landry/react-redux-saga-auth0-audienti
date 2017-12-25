@@ -61,7 +61,7 @@ test('listCompanies is called.', () => {
     ...testProps,
     listCompanies,
   });
-  expect(listCompanies).toHaveBeenCalledWith({ 'page[number]': 1, search: '' });
+  expect(listCompanies).toHaveBeenCalledWith();
 });
 
 test('listCompanies is called when onPageChange of SmartItemGroup is called.', () => {
@@ -75,7 +75,7 @@ test('listCompanies is called when onPageChange of SmartItemGroup is called.', (
   component.setState({ search });
   const smartItemGroup = component.find('SmartItemGroup');
   smartItemGroup.props().onPageChange(pageIndex);
-  expect(listCompanies).toHaveBeenCalledWith({ 'page[number]': pageIndex, search });
+  expect(listCompanies).toHaveBeenCalledWith();
 });
 
 test('ItemComponent should be a CompanyCard.', () => {
@@ -148,7 +148,7 @@ test('listCompanies is called when onSearch is triggered.', () => {
   const searchBox = component.find('SearchBox');
   searchBox.props().onSearch(search);
   expect(component).toHaveState({ search });
-  expect(listCompanies).toHaveBeenCalledWith({ 'page[number]': 1, search });
+  expect(listCompanies).toHaveBeenCalledWith();
 });
 
 test('Renders a CreateCompanyModal when toggleCreateModal is called.', () => {

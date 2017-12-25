@@ -37,7 +37,7 @@ export class CompaniesList extends Component {
     setConfirmMessage: PropTypes.func.isRequired,
   };
 
-  state = { createModal: false, pageIndex: 1, search: '' };
+  state = { createModal: false };
 
   componentWillMount() {
     this.load();
@@ -51,23 +51,19 @@ export class CompaniesList extends Component {
     }
   }
 
-  onSearch = (value) => {
+  onSearch = () => {
     const { listCompanies } = this.props;
-    this.setState({ search: value, pageIndex: 1 });
-    listCompanies({ 'page[number]': 1, search: value });
+    listCompanies();
   }
 
   load = () => {
     const { listCompanies } = this.props;
-    const { pageIndex, search } = this.state;
-    listCompanies({ 'page[number]': pageIndex, search });
+    listCompanies();
   }
 
-  loadPage = (index) => {
+  loadPage = () => {
     const { listCompanies } = this.props;
-    const { search } = this.state;
-    this.setState({ pageIndex: index });
-    listCompanies({ 'page[number]': index, search });
+    listCompanies();
   }
 
   toggleCreateModal = () => this.setState({ createModal: !this.state.createModal })

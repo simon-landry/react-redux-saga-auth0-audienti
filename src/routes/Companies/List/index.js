@@ -84,7 +84,6 @@ export class CompaniesList extends Component {
     const companiesCount = formatMessage('{count} {count, plural, one {company} other {companies}}', { count: companiesMeta.get('total') });
     const ghost = companiesRequesting || createCompanyRequesting || removeCompanyRequesting;
     const ItemComponent = ghost ? CompanyCardGhost : CompanyCard;
-    console.log('companies', companies.toJS());
     return (
       <div className="animated fadeIn">
         <BreadcrumbMenu>

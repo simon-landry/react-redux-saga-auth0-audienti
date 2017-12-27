@@ -26,10 +26,11 @@ test('sidebar-mobile-show is toggled by clicking NavbarToggler with class d-lg-n
   expect(document.body.classList.toggle).toHaveBeenCalledWith('sidebar-mobile-show');
 });
 
-test('sidebar-hidden is toggled by clicking NavbarToggler with class d-md-down-none', () => {
+test('brand-minimized and sidebar-minimized are toggled by clicking NavbarToggler with class d-md-down-none', () => {
   const component = shallowRenderer();
   document.body.classList.toggle = createSpy();
   const navbarToggler = component.find('NavbarToggler.d-md-down-none');
   navbarToggler.simulate('click', { preventDefault: noop });
-  expect(document.body.classList.toggle).toHaveBeenCalledWith('sidebar-hidden');
+  expect(document.body.classList.toggle).toHaveBeenCalledWith('sidebar-minimized');
+  expect(document.body.classList.toggle).toHaveBeenCalledWith('brand-minimized');
 });

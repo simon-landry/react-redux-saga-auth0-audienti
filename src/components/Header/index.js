@@ -18,7 +18,8 @@ export class Header extends Component {
   }
   sidebarToggle = (e) => {
     e.preventDefault();
-    document.body.classList.toggle('sidebar-hidden');
+    document.body.classList.toggle('sidebar-minimized');
+    document.body.classList.toggle('brand-minimized');
   }
 
   mobileSidebarToggle = (e) => {

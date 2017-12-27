@@ -8,6 +8,8 @@ import {
   CardText,
   CardFooter,
   Badge,
+  Label,
+  Input,
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
@@ -27,17 +29,24 @@ export const WorkflowCard = ({
   formatMessage,
   ghost,
   remove,
+  toggleStatus,
 }) => (
   <Card>
     <CardHeader>
       <h3 className="float-left">
         {ghost ? '--' : <Link to={`/projects/${projectId}/workflows/${attributes.id}`}>{attributes.name}</Link>}
       </h3>
-      {!!remove && (
-        <i
-          className="fa fa-trash action float-right"
-          onClick={() => remove(attributes.id)}
-        />
+      {!ghost && (
+        <Label className="switch switch-sm switch-default switch-text switch-pill switch-primary float-right">
+          <Input
+            type="checkbox"
+            className="switch-input"
+            checked={attributes.status === 'active'}
+            onChange={() => toggleStatus(attributes.id, attributes.status)}
+          />
+          <span className="switch-label" data-on="On" data-off="Off" />
+          <span className="switch-handle" />
+        </Label>
       )}
     </CardHeader>
     {
@@ -64,6 +73,12 @@ export const WorkflowCard = ({
       ) : (
         <CardFooter>
           <Badge color={colors[attributes.status]}>{startCase(attributes.status)}</Badge>
+          {!!remove && (
+            <i
+              className="fa fa-trash action float-right"
+              onClick={() => remove(attributes.id)}
+            />
+          )}
         </CardFooter>
       )
     }
@@ -87,6 +102,7 @@ WorkflowCard.propTypes = {
   formatMessage: PropTypes.func.isRequired,
   ghost: PropTypes.bool.isRequired,
   remove: PropTypes.func.isRequired,
+  toggleStatus: PropTypes.func.isRequired,
 };
 
 export default injectIntl(WorkflowCard);

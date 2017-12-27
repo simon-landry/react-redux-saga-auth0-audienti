@@ -14,7 +14,7 @@ window.App = window.App || {};
 window.RAPPID = {
   defaultPaperSize: [1000, 1000],
   shapeSize: [50, 50],
-  iconSize: [10, 10],
+  iconSize: [20, 20],
   shapeMargin: [20, 10],
   shapeTextMarginTop: 10,
   smallAgentTextWidth: 90,
@@ -121,6 +121,8 @@ export default (_, joint, { agentTypes, configClicked, saveWorkflow }) => {
         dragStartClone(cell) {
           const cellClone = cell.clone();
           cellClone.attributes.size = { width: 80, height: 80 };
+          cellClone.attributes.attrs.image.x = 30;
+          cellClone.attributes.attrs.image.y = 5;
           return cellClone.removeAttr('./data-tooltip');
         },
       });

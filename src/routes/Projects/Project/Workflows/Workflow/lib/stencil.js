@@ -58,7 +58,7 @@ window.App.config.generateStencil = (agentTypes) => {
           'xlink:href': config.image,
           x: (shapeSize[0] - iconSize[0]) / 2,
           y: (shapeSize[1] - iconSize[1]) / 2,
-          width: 30,
+          width: iconSize[0],
           height: iconSize[1],
         },
         text: {
@@ -87,7 +87,7 @@ window.App.config.generateStencil = (agentTypes) => {
           'xlink:href': config.image,
           x: (shapeSize[0] - iconSize[0]) / 2,
           y: (shapeSize[1] - iconSize[1]) / 2,
-          width: 30,
+          width: iconSize[0],
           height: iconSize[1],
         },
         text: {

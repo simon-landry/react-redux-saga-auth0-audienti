@@ -122,7 +122,8 @@ export default (_, joint, { agentTypes, configClicked, saveWorkflow }) => {
           const cellClone = cell.clone();
           cellClone.attributes.size = { width: 80, height: 80 };
           cellClone.attributes.attrs.image.x = 30;
-          cellClone.attributes.attrs.image.y = 5;
+          cellClone.attributes.attrs.image.y = 10;
+          cellClone.attributes.attrs.text['y-alignment'] = 'end';
           return cellClone.removeAttr('./data-tooltip');
         },
       });

@@ -1,16 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { startCase } from 'lodash';
 import {
   Card,
   CardHeader,
   CardBody,
   CardText,
+  CardFooter,
+  Badge,
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 import { injectIntl } from 'components/Intl';
 import LoadingIndicator from 'components/LoadingIndicator';
+
+const colors = {
+  draft: 'warning',
+  active: 'success',
+  error: 'danger',
+};
 
 export const WorkflowCard = ({
   data: { attributes },
@@ -45,6 +54,17 @@ export const WorkflowCard = ({
             {formatMessage('Updated')}: {moment(attributes.updated_at).fromNow()}
           </CardText>
         </CardBody>
+      )
+    }
+    {
+      ghost ? (
+        <CardFooter>
+          --
+        </CardFooter>
+      ) : (
+        <CardFooter>
+          <Badge color={colors[attributes.status]}>{startCase(attributes.status)}</Badge>
+        </CardFooter>
       )
     }
   </Card>

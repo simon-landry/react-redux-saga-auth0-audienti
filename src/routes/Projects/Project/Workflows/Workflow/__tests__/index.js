@@ -33,9 +33,12 @@ const testProps = {
   },
   readWorkflow: noop,
   listAgentTypes: noop,
-  agentTypes: fromJS([
-    { name: 'whatever', config: {} },
-  ]),
+  agentTypes: fromJS({
+    agents: [
+      { name: 'whatever', config: {} },
+    ],
+    schedules: ['schedule_1', 'schedule_2'],
+  }),
   isScriptLoadSucceed: false,
   updateWorkflow: noop,
 };

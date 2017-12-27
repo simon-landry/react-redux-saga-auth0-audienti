@@ -46,7 +46,7 @@ export class ServicesList extends Component {
     listServices: PropTypes.func.isRequired,
     removeService: PropTypes.func.isRequired,
     removeServiceRequesting: PropTypes.bool.isRequired,
-    createService: PropTypes.func.isRequired,
+    // createService: PropTypes.func.isRequired,
     createServiceRequesting: PropTypes.bool.isRequired,
     setConfirmMessage: PropTypes.func.isRequired,
   };

@@ -9,6 +9,7 @@ const { expect, shallow, createSpy } = testHelper;
 const testProps = {
   isOpen: true,
   formatMessage: noop,
+  schedules: ['schedule_1', 'schedule_2'],
 };
 
 const shallowRenderer = (props = testProps) =>

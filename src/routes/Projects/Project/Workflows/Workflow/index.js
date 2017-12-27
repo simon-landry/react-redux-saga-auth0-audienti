@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
 import scriptLoader from 'react-async-script-loader';
+import { get } from 'lodash';
 import { connect } from 'react-redux';
 import { injectIntl } from 'components/Intl';
 
@@ -36,9 +37,12 @@ export class Workflow extends Component {
       id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     }).isRequired, */
     listAgentTypes: PropTypes.func.isRequired,
-    agentTypes: ImmutablePropTypes.listOf(ImmutablePropTypes.mapContains({
-      name: PropTypes.string,
-    })).isRequired,
+    agentTypes: ImmutablePropTypes.mapContains({
+      agents: ImmutablePropTypes.listOf(ImmutablePropTypes.mapContains({
+        name: PropTypes.string,
+      })),
+      schedules: ImmutablePropTypes.listOf(PropTypes.string),
+    }).isRequired,
     // workflowRequesting: PropTypes.bool.isRequired,
     isScriptLoadSucceed: PropTypes.bool.isRequired,
     updateWorkflow: PropTypes.func.isRequired,
@@ -57,7 +61,7 @@ export class Workflow extends Component {
 
   componentWillReceiveProps(nextProps) {
     /* istanbul ignore else */
-    if (nextProps.isScriptLoadSucceed && nextProps.agentTypes.toJS().length) {
+    if (nextProps.isScriptLoadSucceed && get(nextProps.agentTypes.toJS(), 'agents.length')) {
       this.rappidInit(nextProps);
     }
   }
@@ -65,7 +69,7 @@ export class Workflow extends Component {
   rappidInit = ({ agentTypes }) => {
     if (this.loaded) return;
     const params = {
-      agentTypes: agentTypes.toJS(),
+      agentTypes: agentTypes.toJS().agents,
       configClicked: this.configClicked,
       saveWorkflow: this.saveWorkflow,
     };
@@ -92,7 +96,7 @@ export class Workflow extends Component {
 
   configClicked = (agentName, config, callback) => {
     const { agentTypes } = this.props;
-    const agentType = agentTypes.toJS().find(({ config: { type } }) => type === agentName);
+    const agentType = agentTypes.toJS().agents.find(({ config: { type } }) => type === agentName);
     this.setState({ configDialog: { open: true, callback, defaultConfig: config, agentType } });
   }
 
@@ -108,6 +112,7 @@ export class Workflow extends Component {
   render() {
     // const { workflow, workflowRequesting, isScriptLoadSucceed } = this.props;
     const { configDialog } = this.state;
+    const { agentTypes } = this.props;
     return (
       <div id="rappid-container">
         <div className="rappid-body">
@@ -118,6 +123,7 @@ export class Workflow extends Component {
         <ConfigDialog
           isOpen={!!configDialog.open}
           agentType={configDialog.agentType}
+          schedules={agentTypes.toJS().schedules}
           defaultConfig={configDialog.defaultConfig}
           onUpdate={configDialog.callback}
           toggle={this.configDialogClose}

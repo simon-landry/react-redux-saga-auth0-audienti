@@ -1,5 +1,7 @@
 .breadcrumb-menu {
   margin-left: auto;
+  align-items: center;
+  display: flex;
 
   &::before {
     display: none;

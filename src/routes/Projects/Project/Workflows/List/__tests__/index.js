@@ -115,7 +115,7 @@ test('calls setConfirmMessage when trash icon is clicked and when action is call
   const removeWorkflow = createSpy();
   const component = shallowRenderer({
     ...testProps,
-    workflowsRequesting: false,
+    workflowsRequesting: true,
     workflows: fromJS([{ id: testId }]),
     setConfirmMessage,
     removeWorkflow,

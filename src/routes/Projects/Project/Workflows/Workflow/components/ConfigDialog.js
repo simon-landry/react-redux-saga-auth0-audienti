@@ -24,7 +24,8 @@ export const ConfigDialog = ({
   className,
   formatMessage,
   defaultConfig,
-  agentType: { config },
+  agentType: { config, default_schedule: defaultSchedule },
+  schedules,
 }) => (
   <Modal
     isOpen={isOpen}
@@ -39,6 +40,15 @@ export const ConfigDialog = ({
     }}>
       <ModalHeader toggle={toggle}>
         {config.type}
+        <div className="schedule-header">
+          <Label htmlFor="schedule">Schedule</Label>
+          <Select
+            options={schedules.map(schedule => ({ value: schedule, label: startCase(schedule) }))}
+            name="schedule"
+            defaultValue={defaultSchedule}
+            required
+          />
+        </div>
       </ModalHeader>
       <ModalBody>
         <p>{config.description}</p>
@@ -111,6 +121,7 @@ ConfigDialog.propTypes = {
       type: PropTypes.string,
     }),
   }),
+  schedules: PropTypes.arrayOf(PropTypes.string),
 };
 
 ConfigDialog.defaultProps = {
@@ -119,6 +130,7 @@ ConfigDialog.defaultProps = {
   toggle: noop,
   defaultConfig: {},
   agentType: { config: { fields: [] } },
+  schedules: [],
 };
 
 const injectIntlConfigDialog = injectIntl(ConfigDialog);

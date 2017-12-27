@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FormGroup, Col, InputGroup, InputGroupButton, Button, Input } from 'reactstrap';
+import { InputGroup, InputGroupButton, Button, Input } from 'reactstrap';
 
 import { injectIntl } from 'components/Intl';
 
@@ -28,23 +28,19 @@ export class SearchBox extends Component {
     const { onSearch, placeholder, formatMessage } = this.props;
     const { value } = this.state;
     return (
-      <FormGroup row>
-        <Col md="12">
-          <InputGroup>
-            <Input
-              type="text"
-              placeholder={placeholder}
-              onChange={e => this.setState({ value: e.target.value })}
-              onKeyUp={this.onKeyUp}
-            />
-            <InputGroupButton>
-              <Button color="primary" onClick={() => onSearch(value)}>
-                <i className="fa fa-search" /> {formatMessage('Search')}
-              </Button>
-            </InputGroupButton>
-          </InputGroup>
-        </Col>
-      </FormGroup>
+      <InputGroup className="input-group-search">
+        <Input
+          type="text"
+          placeholder={placeholder}
+          onChange={e => this.setState({ value: e.target.value })}
+          onKeyUp={this.onKeyUp}
+        />
+        <InputGroupButton>
+          <Button color="primary" onClick={() => onSearch(value)}>
+            <i className="fa fa-search" /> {formatMessage('Search')}
+          </Button>
+        </InputGroupButton>
+      </InputGroup>
     );
   }
 }

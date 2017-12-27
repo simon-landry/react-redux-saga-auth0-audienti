@@ -86,7 +86,7 @@ export class SegmentsList extends Component {
       removeSegment,
       setConfirmMessage,
     } = this.props;
-    const segmentsCount = formatMessage('{count} {count, plural, one {segment} other {segments}}', { count: segmentsMeta.get('total') });
+    const segmentsCount = formatMessage('{count} {count, plural, one {segment} other {segments}}', { count: segmentsRequesting ? '--' : segmentsMeta.get('total') });
     const ghost = segmentsRequesting || removeSegmentRequesting;
     const ItemComponent = props =>
       <SegmentCard {...props} projectId={projectId} ghost={ghost} />;
@@ -99,10 +99,10 @@ export class SegmentsList extends Component {
           ]}
         />
         <BreadcrumbMenu>
-          {!segmentsRequesting && (
-            <ButtonLink className="no-border" handleClick={this.load}>
-              {segmentsCount}
-            </ButtonLink>)}
+          <SearchBox onSearch={this.onSearch} />
+          <ButtonLink className="no-border" handleClick={this.load}>
+            {segmentsCount}
+          </ButtonLink>
           <ButtonLink className="no-border" to={`/projects/${projectId}/segments/new`} icon="fa fa-plus">
             {formatMessage('Add Segments(s)')}
           </ButtonLink>
@@ -113,7 +113,6 @@ export class SegmentsList extends Component {
             { projectName: project.getIn(['attributes', 'name']) || '--' },
           )}
         </HeaderTitle>
-        <SearchBox onSearch={this.onSearch} />
         {
           !ghost && !segments.size ? (
             <NotificationCard

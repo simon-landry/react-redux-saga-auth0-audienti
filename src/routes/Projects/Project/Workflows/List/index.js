@@ -87,7 +87,7 @@ export class WorkflowsList extends Component {
       removeWorkflow,
       setConfirmMessage,
     } = this.props;
-    const workflowsCount = formatMessage('{count} {count, plural, one {workflow} other {workflows}}', { count: workflowsMeta.get('total') });
+    const workflowsCount = formatMessage('{count} {count, plural, one {workflow} other {workflows}}', { count: workflowsRequesting ? '--' : workflowsMeta.get('total') });
     const ghost = workflowsRequesting || removeWorkflowRequesting;
     const ItemComponent = props =>
       <WorkflowCard {...props} projectId={projectId} ghost={ghost} />;
@@ -100,10 +100,10 @@ export class WorkflowsList extends Component {
           ]}
         />
         <BreadcrumbMenu>
-          {!workflowsRequesting && (
-            <ButtonLink className="no-border" handleClick={this.load}>
-              {workflowsCount}
-            </ButtonLink>)}
+          <SearchBox onSearch={this.onSearch} />
+          <ButtonLink className="no-border" handleClick={this.load}>
+            {workflowsCount}
+          </ButtonLink>
           <ButtonLink className="no-border" to={`/projects/${projectId}/workflows/new`} icon="fa fa-plus">
             {formatMessage('Add workflows(s)')}
           </ButtonLink>
@@ -114,7 +114,6 @@ export class WorkflowsList extends Component {
             { projectName: project.getIn(['attributes', 'name']) || '--' },
           )}
         </HeaderTitle>
-        <SearchBox onSearch={this.onSearch} />
         {
           !ghost && !workflows.size ? (
             <NotificationCard

@@ -138,19 +138,6 @@ test('listCompanies is not called when createCompanyRequesting/removeCompanyRequ
   expect(listCompanies).toNotHaveBeenCalled();
 });
 
-test('listCompanies is called when onSearch is triggered.', () => {
-  const listCompanies = createSpy();
-  const search = 'testValue';
-  const component = shallowRenderer({
-    ...testProps,
-    listCompanies,
-  });
-  const searchBox = component.find('SearchBox');
-  searchBox.props().onSearch(search);
-  expect(component).toHaveState({ search });
-  expect(listCompanies).toHaveBeenCalledWith({ 'page[number]': 1, search });
-});
-
 test('Renders a CreateCompanyModal when toggleCreateModal is called.', () => {
   const component = shallowRenderer();
   component.instance().toggleCreateModal();

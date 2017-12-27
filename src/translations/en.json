@@ -167,6 +167,8 @@
   "{count} {count, plural, one {segment} other {segments}}": "{count} {count, plural, one {segment} other {segments}}",
   "{count} {count, plural, one {workflow} other {workflows}}": "{count} {count, plural, one {workflow} other {workflows}}",
   "{count} {count, plural, one {company} other {companies}}": "{count} {count, plural, one {account} other {companies}}",
+  "{count} {count, plural, one {team} other {teams}}": "{count} {count, plural, one {team} other {teams}}",
+  "Company {companyName}": "Company {companyName}",
   "{target} must match ALL of the following": "{target} must match ALL of the following",
   "{userName} profile": "{userName} profile",
   "There are no companies": "There are no companies",
@@ -179,5 +181,6 @@
   "All Companies": "All Companies",
   "All Teams": "All Teams",
   "Company is created successfully": "Company is created successfully",
+  "Details": "Details",
   "Save Changes": "Save Changes"
 }

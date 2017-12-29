@@ -18,6 +18,7 @@ export class Company extends Component {
         companyId: PropTypes.string.isRequired,
       }).isRequired,
     }).isRequired,
+    formatMessage: PropTypes.func.isRequired,
     readCompany: PropTypes.func.isRequired,
     company: ImmutablePropTypes.mapContains({
       id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -32,6 +33,7 @@ export class Company extends Component {
   render() {
     const {
       match: { params: { companyId } },
+      formatMessage,
       company,
     } = this.props;
     const companyName = company.getIn(['attributes', 'name']);
@@ -41,6 +43,11 @@ export class Company extends Component {
         <SidebarItems
           items={[
             { title: true, name: companyName },
+            {
+              name: formatMessage('Teams'),
+              url: `/companies/${companyId}/teams`,
+              icon: 'fa fa-users',
+            },
           ]}
         />
         <Routes url="/companies/:companyId" />

@@ -5,38 +5,40 @@ import { Card, CardHeader, CardBody, Button } from 'reactstrap';
 
 import { injectIntl } from 'components/Intl';
 
-export const CompanyCard = ({ data: { attributes }, formatMessage, remove }) => (
+export const TeamCard = ({ data: { attributes }, formatMessage, remove, companyId }) => (
   <Card>
     <CardHeader>
       <h3 className="float-left">
-        <Link to={`/companies/${attributes.id}`}>{attributes.name}</Link>
+        <Link to={`/companies/${companyId}/teams/${attributes.id}`}>{attributes.name}</Link>
       </h3>
       {!!remove && (
         <i
           className="fa fa-trash action float-right"
-          onClick={() => remove(attributes.id)}
+          onClick={() => remove(companyId, attributes.id)}
         />
       )}
     </CardHeader>
     <CardBody className="text-center">
-      <Link to={`/companies/${attributes.id}`}>
-        <Button outline color="secondary">
-          {formatMessage('Details')}
-        </Button>
-      </Link>
+      <Button outline color="secondary">
+        {formatMessage('Details')}
+      </Button>
     </CardBody>
   </Card>
 );
 
-CompanyCard.propTypes = {
+TeamCard.propTypes = {
   data: PropTypes.shape({
     attributes: PropTypes.shape({
       id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       name: PropTypes.string,
     }),
   }).isRequired,
+  companyId: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired,
   formatMessage: PropTypes.func.isRequired,
   remove: PropTypes.func.isRequired,
 };
 
-export default injectIntl(CompanyCard);
+export default injectIntl(TeamCard);

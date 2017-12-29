@@ -117,6 +117,7 @@ export class CompaniesList extends Component {
               onPageChange={this.loadPage}
               ghost={ghost}
               checkable
+              companyPagination
               remove={companyId => setConfirmMessage({
                 title: formatMessage('Remove Company'),
                 message: formatMessage('Are you sure you want to remove the company?'),

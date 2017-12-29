@@ -3,14 +3,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 
-import Detail from './Detail';
-import Teams from './Teams';
+import List from './List';
+import Team from './Team';
 
 const Routes = ({ url }) => (
   <div>
     <Switch>
-      <Route exact path={url} component={Detail} />
-      <Route exact path={`${url}/teams`} component={Teams} />
+      <Route exact path={url} component={List} />
+      <Route path={`${url}/:teamId`} component={Team} />
     </Switch>
   </div>
 );

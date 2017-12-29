@@ -184,5 +184,14 @@
   "Teams let you organize work and simplify access to projects.": "Teams let you organize work and simplify access to projects.",
   "Company is created successfully": "Company is created successfully",
   "Details": "Details",
-  "Save Changes": "Save Changes"
+  "Save Changes": "Save Changes",
+  "This is a page to list all teams.": "This is a page to list all teams.",
+  "Add Team": "Add Team",
+  "All Teams of Company {companyName}": "All Teams of Company {companyName}",
+  "You have not added any teams yet": "You have not added any teams yet",
+  "You can create a new team.": "You can create a new team.",
+  "New Team": "New Team",
+  "Team Name": "Team Name",
+  "Remove Team": "Remove Team",
+  "Are you sure you want to remove the team?": "Are you sure you want to remove the team?"
 }

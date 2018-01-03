@@ -138,7 +138,6 @@ function strSerialize(result, key, val) {
 //  - disabled: [true | false]. If true serialize disabled fields.
 //  - empty: [true | false]. If true serialize empty fields
 function serialize(form, opt) {
-  console.log(form, opt);
   let options = opt;
   if (typeof options !== 'object') {
     options = { hash: !!opt };

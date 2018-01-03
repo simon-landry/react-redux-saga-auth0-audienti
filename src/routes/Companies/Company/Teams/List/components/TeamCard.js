@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Card, CardHeader, CardBody, Button } from 'reactstrap';
+import { Card, CardHeader, CardBody, Button, CardFooter } from 'reactstrap';
 
 import { injectIntl } from 'components/Intl';
 
@@ -9,7 +9,7 @@ export const TeamCard = ({ data: { attributes }, formatMessage, remove, companyI
   <Card>
     <CardHeader>
       <h3 className="float-left">
-        <Link to={`/companies/${companyId}/teams/${attributes.id}`}>{attributes.name}</Link>
+        <Link to={`/companies/${companyId}/teams`}>{attributes.name}</Link>
       </h3>
       {!!remove && (
         <i
@@ -19,10 +19,13 @@ export const TeamCard = ({ data: { attributes }, formatMessage, remove, companyI
       )}
     </CardHeader>
     <CardBody className="text-center">
+      {attributes.description === null ? formatMessage('There is no description yet') : attributes.description }
+    </CardBody>
+    <CardFooter className="text-center">
       <Button outline color="secondary">
         {formatMessage('Details')}
       </Button>
-    </CardBody>
+    </CardFooter>
   </Card>
 );
 

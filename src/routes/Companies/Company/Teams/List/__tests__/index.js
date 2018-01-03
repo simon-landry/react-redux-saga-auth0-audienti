@@ -6,38 +6,28 @@ import { fromJS } from 'immutable';
 import BreadcrumbMenu from 'components/BreadcrumbMenu';
 import HeaderTitle from 'components/HeaderTitle';
 
-import { KeywordsList } from '../index';
-import AddKeywordsModal from '../components/AddKeywordsModal';
+import { TeamsList } from '../index';
+import AddTeamModal from '../components/AddTeamModal';
 
 const { expect, shallow, createSpy } = testHelper;
-const testProjectId = 'testProject';
+const testCompanyId = 'testCompany';
 const testProps = {
   formatMessage: () => 'somewthing',
-  listKeywords: noop,
-  listNegativeKeywords: noop,
-  keywords: fromJS([]),
-  negativeKeywords: fromJS([]),
-  keywordsRequesting: false,
-  negativeKeywordsRequesting: false,
-  keywordsMeta: fromJS({}),
-  negativeKeywordsMeta: fromJS({}),
-  match: { params: { projectId: testProjectId } },
-  project: fromJS({}),
-  createKeywords: noop,
-  createNegativeKeywords: noop,
-  createKeywordsRequesting: false,
-  createNegativeKeywordsRequesting: false,
+  match: { params: { companyId: testCompanyId } },
+  teamsMeta: fromJS({}),
+  company: fromJS({}),
+  teams: fromJS({}),
+  listTeams: noop,
+  createTeams: noop,
   setConfirmMessage: noop,
-  removeKeywordRequesting: false,
-  removeNegativeKeywordRequesting: false,
-  removeKeyword: noop,
-  removeNegativeKeyword: noop,
-  removeMultipleKeywords: noop,
-  removeMultipleNegativeKeywords: noop,
+  removeTeam: noop,
+  createTeamsRequesting: false,
+  removeTeamRequesting: false,
+  teamsRequesting: false,
 };
 
 const shallowRenderer = (props = testProps) =>
-  shallow(<KeywordsList {...props} />);
+  shallow(<TeamsList {...props} />);
 
 test('Renders a div', () => {
   const component = shallowRenderer();
@@ -54,27 +44,21 @@ test('Renders a HeaderTitle.', () => {
   expect(component).toContain(HeaderTitle);
 });
 
-test('Renders a AddKeywordsModal.', () => {
+test('Renders a AddTeamModal.', () => {
   const component = shallowRenderer();
-  expect(component).toContain(AddKeywordsModal);
+  expect(component).toContain(AddTeamModal);
 });
 
-test('Renders a SmartTable when prop keywords is not empty.', () => {
+test('Renders a SmartItemGroup when prop teams is not empty.', () => {
   const component = shallowRenderer({
     ...testProps,
-    keywords: fromJS([{}]),
+    teams: fromJS([{}]),
   });
-  expect(component).toContain('SmartTable');
+  expect(component).toContain('SmartItemGroup');
 });
 
-test('Renders a NotificationCard when prop keywords is empty.', () => {
+test('Renders a NotificationCard when prop teams is empty.', () => {
   const component = shallowRenderer();
-  expect(component).toContain('NotificationCard');
-});
-
-test('Renders a NotificationCard when prop negativeKeywords is empty and state negative is true.', () => {
-  const component = shallowRenderer();
-  component.setState({ negative: true });
   expect(component).toContain('NotificationCard');
 });
 
@@ -84,156 +68,90 @@ const testValues = [
   ['whatever'],
 ];
 
-test('onAddKeywords of AddKeywordsModal triggers createKeywords with proper params.', () => {
-  const createKeywords = createSpy();
+test('onAddTeams of AddTeamModal triggers createTeams with proper params.', () => {
+  const createTeams = createSpy();
   const component = shallowRenderer({
     ...testProps,
-    createKeywords,
+    createTeams,
   });
-  const testKeywords = ['whatever', 'I do not know.'];
-  const modal = component.find(AddKeywordsModal);
-  modal.props().onAddKeywords(testKeywords);
-  expect(createKeywords).toHaveBeenCalledWith(testProjectId, testKeywords);
+  const testTeams = ['whatever', 'I do not know.'];
+  const modal = component.find(AddTeamModal);
+  modal.props().onAddTeams(testTeams);
+  expect(createTeams).toHaveBeenCalledWith(testCompanyId, testTeams);
 });
 
-test('onAddNegativeKeywords of AddKeywordsModal triggers createNegativeKeywords with proper params.', () => {
-  const createNegativeKeywords = createSpy();
+test('onAddNegativeTeams of AddTeamModal triggers createNegativeTeams with proper params.', () => {
+  const createNegativeTeams = createSpy();
   const component = shallowRenderer({
     ...testProps,
-    createNegativeKeywords,
+    createNegativeTeams,
   });
-  const testKeywords = ['whatever', 'I do not know.'];
-  const modal = component.find(AddKeywordsModal);
-  modal.props().onAddNegativeKeywords(testKeywords);
-  expect(createNegativeKeywords).toHaveBeenCalledWith(testProjectId, testKeywords);
+  const testTeams = ['whatever', 'I do not know.'];
+  const modal = component.find(AddTeamModal);
+  modal.props().onAddNegativeTeams(testTeams);
+  expect(createNegativeTeams).toHaveBeenCalledWith(testCompanyId, testTeams);
 });
 
-test('listKeywords is called.', () => {
-  const listKeywords = createSpy();
+test('listTeams is called.', () => {
+  const listTeams = createSpy();
   shallowRenderer({
     ...testProps,
-    listKeywords,
+    listTeams,
   });
-  expect(listKeywords).toHaveBeenCalled();
+  expect(listTeams).toHaveBeenCalled();
 });
 
-test('listKeywords is called when createKeywords request is successful.', () => {
-  const listKeywords = createSpy();
+test('listTeams is called when createTeams request is successful.', () => {
+  const listTeams = createSpy();
   const component = shallowRenderer({
     ...testProps,
-    listKeywords,
-    createKeywordsRequesting: true,
+    listTeams,
+    createTeamsRequesting: true,
   });
-  component.setProps({ createKeywordsRequesting: false });
-  expect(listKeywords).toHaveBeenCalled();
+  component.setProps({ createTeamsRequesting: false });
+  expect(listTeams).toHaveBeenCalled();
 });
 
-test('listKeywords is not called when createKeywordsReqesting was not true.', () => {
-  let listKeywords = createSpy();
+test('listTeams is not called when createTeamsReqesting was not true.', () => {
+  let listTeams = createSpy();
   const component = shallowRenderer({
     ...testProps,
-    listKeywords,
-    createKeywordsRequesting: false,
+    listTeams,
+    createTeamsRequesting: false,
   });
-  listKeywords = createSpy();
-  component.setProps({ listKeywords });
-  expect(listKeywords).toNotHaveBeenCalled();
+  listTeams = createSpy();
+  component.setProps({ listTeams });
+  expect(listTeams).toNotHaveBeenCalled();
 });
 
-test('listKeywords is called when removeKeyword request is successful.', () => {
-  const listKeywords = createSpy();
+test('listTeams is called when removeTeam request is successful.', () => {
+  const listTeams = createSpy();
   const component = shallowRenderer({
     ...testProps,
-    listKeywords,
-    removeKeywordRequesting: true,
+    listTeams,
+    removeTeamRequesting: true,
   });
-  component.setProps({ removeKeywordRequesting: false });
-  expect(listKeywords).toHaveBeenCalled();
+  component.setProps({ removeTeamRequesting: false });
+  expect(listTeams).toHaveBeenCalled();
 });
 
-test('listKeywords is not called when removeKeywordRequesting was not true.', () => {
+test('listTeams is not called when removeTeamRequesting was not true.', () => {
   const component = shallowRenderer({
     ...testProps,
-    removeKeywordRequesting: false,
+    removeTeamRequesting: false,
   });
-  const listKeywords = createSpy();
-  component.setProps({ listKeywords });
-  expect(listKeywords).toNotHaveBeenCalled();
+  const listTeams = createSpy();
+  component.setProps({ listTeams });
+  expect(listTeams).toNotHaveBeenCalled();
 });
 
-test('onAddTags is called when onClick is called on first action.', () => {
+test('sets state tags and calls listTeams when one of tags is clicked.', () => {
+  const listTeams = createSpy();
   const component = shallowRenderer({
     ...testProps,
-    keywords: fromJS([{}]),
-  });
-  const smartTable = component.find('SmartTable');
-  const { actions } = smartTable.props();
-  const addTagAction = actions[0];
-  const checks = [
-    {},
-    { attributes: { name: 'first' } },
-    { attributes: { name: 'second' } },
-  ];
-  addTagAction.onClick(checks);
-  expect(component).toHaveState({ createModal: true, addKeywords: '***\nfirst\nsecond' });
-});
-
-test('setConfirmMessage for keywords is called when onClick is called on second action.', () => {
-  const setConfirmMessage = createSpy();
-  const removeMultipleKeywords = createSpy();
-  const component = shallowRenderer({
-    ...testProps,
-    keywords: fromJS([{}]),
-    setConfirmMessage,
-    removeMultipleKeywords,
-  });
-  const smartTable = component.find('SmartTable');
-  const { actions } = smartTable.props();
-  const removeMultipleAction = actions[1];
-  const checks = [
-    {},
-    { attributes: { id: 'first' } },
-    { attributes: { id: 'second' } },
-  ];
-  removeMultipleAction.onClick(checks);
-  expect(setConfirmMessage).toHaveBeenCalled();
-  const { action } = setConfirmMessage.calls[0].arguments[0];
-  action();
-  expect(removeMultipleKeywords).toHaveBeenCalledWith(testProjectId, { selected_ids: ['all', 'first', 'second'] });
-});
-
-test('setConfirmMessage for negative keywords is called when onClick is called on second action.', () => {
-  const setConfirmMessage = createSpy();
-  const removeMultipleNegativeKeywords = createSpy();
-  const component = shallowRenderer({
-    ...testProps,
-    negativeKeywords: fromJS([{}]),
-    setConfirmMessage,
-    removeMultipleNegativeKeywords,
-  });
-  component.instance().toggleNegative();
-  const smartTable = component.find('SmartTable');
-  const { actions } = smartTable.props();
-  const removeMultipleAction = actions[1];
-  const checks = [
-    {},
-    { attributes: { id: 'first' } },
-    { attributes: { id: 'second' } },
-  ];
-  removeMultipleAction.onClick(checks);
-  expect(setConfirmMessage).toHaveBeenCalled();
-  const { action } = setConfirmMessage.calls[0].arguments[0];
-  action();
-  expect(removeMultipleNegativeKeywords).toHaveBeenCalledWith(testProjectId, { selected_ids: ['all', 'first', 'second'] });
-});
-
-test('sets state tags and calls listKeywords when one of tags is clicked.', () => {
-  const listKeywords = createSpy();
-  const component = shallowRenderer({
-    ...testProps,
-    listKeywords,
-    keywordsRequesting: false,
-    keywords: fromJS([{}]),
+    listTeams,
+    teamsRequesting: false,
+    teams: fromJS([{}]),
   });
   const smartTable = component.find('SmartTable');
   const { fields } = smartTable.props();
@@ -242,16 +160,16 @@ test('sets state tags and calls listKeywords when one of tags is clicked.', () =
   const tagsButton = renderedComponent.find('Button').first();
   tagsButton.simulate('click');
   expect(component.instance().state.tags).toEqual([testValues[1][0]]);
-  expect(listKeywords).toHaveBeenCalled();
+  expect(listTeams).toHaveBeenCalled();
 });
 
-test('listKeywords is called and tag filter is removed when tag button is clicked on the right header .', () => {
-  const listKeywords = createSpy();
+test('listTeams is called and tag filter is removed when tag button is clicked on the right header .', () => {
+  const listTeams = createSpy();
   const component = shallowRenderer({
     ...testProps,
-    listKeywords,
-    keywordsRequesting: false,
-    keywords: fromJS([{}]),
+    listTeams,
+    teamsRequesting: false,
+    teams: fromJS([{}]),
   });
   component.setState({ tags: ['tag1', 'tag2'] });
   const smartTable = component.find('SmartTable');
@@ -259,31 +177,31 @@ test('listKeywords is called and tag filter is removed when tag button is clicke
   const firstTag = shallow(headerRight[0]);
   firstTag.simulate('click');
   expect(component).toHaveState({ tags: ['tag2'] });
-  expect(listKeywords).toHaveBeenCalled();
+  expect(listTeams).toHaveBeenCalled();
 });
 
-test('sets state pageIndex and calls listKeywords when onPageChange is called.', () => {
-  const listKeywords = createSpy();
+test('sets state pageIndex and calls listTeams when onPageChange is called.', () => {
+  const listTeams = createSpy();
   const component = shallowRenderer({
     ...testProps,
-    listKeywords,
-    keywordsRequesting: false,
-    keywords: fromJS([{}]),
+    listTeams,
+    teamsRequesting: false,
+    teams: fromJS([{}]),
   });
   const smartTable = component.find('SmartTable');
   const { onPageChange } = smartTable.props();
   const pageIndex = 3;
   onPageChange(pageIndex);
   expect(component).toHaveState({ pageIndex });
-  expect(listKeywords).toHaveBeenCalled();
+  expect(listTeams).toHaveBeenCalled();
 });
 
-test('AddKeywordsModal is open when second buttonLink of breadcrumbmenu is clicked.', () => {
+test('AddTeamModal is open when second buttonLink of breadcrumbmenu is clicked.', () => {
   const component = shallowRenderer();
   const secondButtonLink = component.find(BreadcrumbMenu).find('ButtonLink').at(1);
   secondButtonLink.props().handleClick();
-  const addKeywordsModal = component.find(AddKeywordsModal);
-  expect(addKeywordsModal).toHaveProps({ isOpen: true });
+  const addTeamModal = component.find(AddTeamModal);
+  expect(addTeamModal).toHaveProps({ isOpen: true });
 });
 
 test('state negative is set to true/false when third buttonLink is clicked.', () => {
@@ -295,16 +213,16 @@ test('state negative is set to true/false when third buttonLink is clicked.', ()
   expect(component).toHaveState({ negative: false });
 });
 
-test('calls setConfirmMessage when trash icon is clicked and when action is called removeKeyword is triggered.', () => {
+test('calls setConfirmMessage when trash icon is clicked and when action is called removeTeam is triggered.', () => {
   const testId = 'testId';
   const setConfirmMessage = createSpy();
-  const removeKeyword = createSpy();
+  const removeTeam = createSpy();
   const component = shallowRenderer({
     ...testProps,
-    keywordsRequesting: false,
-    keywords: fromJS([{ id: testId }]),
+    teamsRequesting: false,
+    teams: fromJS([{ id: testId }]),
     setConfirmMessage,
-    removeKeyword,
+    removeTeam,
   });
   const smartTable = component.find('SmartTable');
   const { fields } = smartTable.props();
@@ -314,19 +232,19 @@ test('calls setConfirmMessage when trash icon is clicked and when action is call
   expect(setConfirmMessage).toHaveBeenCalled();
   const { action } = setConfirmMessage.calls[0].arguments[0];
   action();
-  expect(removeKeyword).toHaveBeenCalledWith(testProjectId, testId);
+  expect(removeTeam).toHaveBeenCalledWith(testCompanyId, testId);
 });
 
-test('calls setConfirmMessage when trash icon is clicked and when action is called removeNegativeKeyword is triggered.', () => {
+test('calls setConfirmMessage when trash icon is clicked and when action is called removeNegativeTeam is triggered.', () => {
   const testId = 'testId';
   const setConfirmMessage = createSpy();
-  const removeNegativeKeyword = createSpy();
+  const removeNegativeTeam = createSpy();
   const component = shallowRenderer({
     ...testProps,
-    negativeKeywordsRequesting: false,
-    negativeKeywords: fromJS([{ id: testId }]),
+    negativeTeamsRequesting: false,
+    negativeTeams: fromJS([{ id: testId }]),
     setConfirmMessage,
-    removeNegativeKeyword,
+    removeNegativeTeam,
   });
   component.instance().toggleNegative();
   const smartTable = component.find('SmartTable');
@@ -337,26 +255,26 @@ test('calls setConfirmMessage when trash icon is clicked and when action is call
   expect(setConfirmMessage).toHaveBeenCalled();
   const { action } = setConfirmMessage.calls[0].arguments[0];
   action();
-  expect(removeNegativeKeyword).toHaveBeenCalledWith(testProjectId, testId);
+  expect(removeNegativeTeam).toHaveBeenCalledWith(testCompanyId, testId);
 });
 
-test('listKeywords is called when onSearch is triggered.', () => {
-  const listKeywords = createSpy();
+test('listTeams is called when onSearch is triggered.', () => {
+  const listTeams = createSpy();
   const search = 'testValue';
   const component = shallowRenderer({
     ...testProps,
-    listKeywords,
+    listTeams,
   });
   const searchBox = component.find('SearchBox');
   searchBox.props().onSearch(search);
   expect(component).toHaveState({ search });
-  expect(listKeywords).toHaveBeenCalled();
+  expect(listTeams).toHaveBeenCalled();
 });
 
 test('Renders fields without problem', () => {
   const component = shallowRenderer({
     ...testProps,
-    keywordsRequesting: true,
+    teamsRequesting: true,
   });
   const smartTable = component.find('SmartTable');
   const { fields } = smartTable.props();

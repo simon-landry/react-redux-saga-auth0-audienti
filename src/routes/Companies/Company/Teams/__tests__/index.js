@@ -1,30 +1,26 @@
 import React from 'react';
 import test from 'ava';
 
-import BreadcrumbItem from 'components/BreadcrumbItem';
-
-import { Keywords } from '../index';
+import { Teams } from '../index';
 
 const { expect, shallow } = testHelper;
 
-const testCompanyId = 'testCompany';
 const testProps = {
   formatMessage: () => 'something',
-  match: { params: { companyId: testCompanyId } },
 };
 
 const shallowRenderer = (props = testProps) =>
-  shallow(<Keywords {...props} />);
+  shallow(<Teams {...props} />);
 
-test('Renders a div', () => {
+test('Renders a div.', () => {
   const component = shallowRenderer();
   expect(component).toBeA('div');
 });
 
-test('Renders a BreadcrumbItem', () => {
+test('Renders a BreadcrumbItem with a proper prop `to`.', () => {
   const component = shallowRenderer();
-  const breadcrumb = component.find(BreadcrumbItem);
-  expect(breadcrumb).toHaveProps({ to: `/companies/${testCompanyId}/keywords` });
+  const breadcrumbItem = component.find('BreadcrumbItem');
+  expect(breadcrumbItem).toHaveProps({ to: '/companies' });
 });
 
 test('Renders a Routes.', () => {

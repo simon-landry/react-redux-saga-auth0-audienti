@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 
 import { injectIntl } from 'components/Intl';
 import BreadcrumbItem from 'components/BreadcrumbItem';
-import SidebarItems from 'components/SidebarItems';
 import { readCompany } from 'redux/company/actions';
 import { selectState } from 'redux/selectors';
 
@@ -18,7 +17,6 @@ export class Company extends Component {
         companyId: PropTypes.string.isRequired,
       }).isRequired,
     }).isRequired,
-    formatMessage: PropTypes.func.isRequired,
     readCompany: PropTypes.func.isRequired,
     company: ImmutablePropTypes.mapContains({
       id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -33,23 +31,12 @@ export class Company extends Component {
   render() {
     const {
       match: { params: { companyId } },
-      formatMessage,
       company,
     } = this.props;
     const companyName = company.getIn(['attributes', 'name']);
     return (
       <div>
         <BreadcrumbItem to={`/companies/${companyId}`}>{companyName}</BreadcrumbItem>
-        <SidebarItems
-          items={[
-            { title: true, name: companyName },
-            {
-              name: formatMessage('Teams'),
-              url: `/companies/${companyId}/teams`,
-              icon: 'fa fa-users',
-            },
-          ]}
-        />
         <Routes url="/companies/:companyId" />
       </div>
     );

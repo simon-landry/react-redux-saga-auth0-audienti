@@ -32,6 +32,10 @@ export const AddTeamModal = ({ isOpen, toggle, onSave, className, formatMessage 
           <Label htmlFor="name">{formatMessage('Team Name')}</Label>
           <Input type="text" name="name" required />
         </FormGroup>
+        <FormGroup>
+          <Label htmlFor="description">{formatMessage('Team Description')}</Label>
+          <Input type="text" name="description" required />
+        </FormGroup>
       </ModalBody>
       <ModalFooter>
         <Button color="secondary" onClick={toggle}>{formatMessage('Cancel')}</Button>{' '}

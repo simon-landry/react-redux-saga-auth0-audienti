@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-import { get } from 'lodash';
 
 import { injectIntl } from 'components/Intl';
 import { selectState, getRequestingSelector } from 'redux/selectors';
@@ -70,20 +69,11 @@ export class TeamsList extends Component {
     }
   }
 
-  onAddTags = (checks) => {
-    this.setState({
-      createModal: true,
-      addTeams: checks.map(check => get(check, 'attributes.name') || '***').join('\n'),
-    });
-  }
-
   onSearch = () => {
     const { match: { params: { companyId } } } = this.props;
     const { list } = this.state;
     list(companyId);
   }
-
-  getTag = tags => (tags.length ? tags.join(' ') : undefined);
 
   load = () => {
     const { match: { params: { companyId } } } = this.props;
@@ -122,7 +112,6 @@ export class TeamsList extends Component {
     const ghost = teamsRequesting || createTeamsRequesting || removeTeamRequesting;
     const ItemComponent = props =>
       (ghost ? <TeamCardGhost /> : <TeamCard {...props} companyId={companyId} />);
-
     return (
       <div className="animated fadeIn">
         <Helmet

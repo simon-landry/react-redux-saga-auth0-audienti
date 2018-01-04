@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Card, CardHeader, CardBody, Button, CardFooter } from 'reactstrap';
-
+import LoadingIndicator from 'components/LoadingIndicator';
 import { injectIntl } from 'components/Intl';
 
-export const TeamCard = ({ data: { attributes }, formatMessage, remove, companyId }) => (
+export const TeamCard = ({ data: { attributes }, formatMessage, remove, companyId, ghost }) => (
   <Card>
     <CardHeader>
       <h3 className="float-left">
-        <Link to={`/companies/${companyId}/teams`}>{attributes.name}</Link>
+        { ghost ? '--' : <Link to={`/companies/${companyId}/teams`}>{attributes.name}</Link> }
       </h3>
       {!!remove && (
         <i
@@ -18,9 +18,17 @@ export const TeamCard = ({ data: { attributes }, formatMessage, remove, companyI
         />
       )}
     </CardHeader>
-    <CardBody className="text-center">
-      {attributes.description === null ? formatMessage('There is no description yet') : attributes.description }
-    </CardBody>
+    {
+      ghost ? (
+        <CardBody>
+          <LoadingIndicator />
+        </CardBody>
+      ) : (
+        <CardBody className="text-center">
+          {attributes.description === null ? formatMessage('There is no description yet') : attributes.description }
+        </CardBody>
+      )
+    }
     <CardFooter className="text-center">
       <Button outline color="secondary">
         {formatMessage('Details')}
@@ -42,6 +50,7 @@ TeamCard.propTypes = {
   ]).isRequired,
   formatMessage: PropTypes.func.isRequired,
   remove: PropTypes.func.isRequired,
+  ghost: PropTypes.bool.isRequired,
 };
 
 export default injectIntl(TeamCard);

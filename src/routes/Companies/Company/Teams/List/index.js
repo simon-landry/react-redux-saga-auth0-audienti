@@ -16,7 +16,6 @@ import SearchBox from 'components/SearchBox';
 
 import AddTeamModal from './components/AddTeamModal';
 import TeamCard from './components/TeamCard';
-import TeamCardGhost from './components/TeamCardGhost';
 import { setConfirmMessage } from '../../../../../redux/ui/actions';
 
 export class TeamsList extends Component {
@@ -50,6 +49,7 @@ export class TeamsList extends Component {
   state = {
     createModal: false,
     addTeams: '',
+    search: '',
     createRequesting: 'createTeamsRequesting',
     removeRequesting: 'removeTeamRequesting',
   };
@@ -69,6 +69,7 @@ export class TeamsList extends Component {
 
   onSearch = (value) => {
     const { match: { params: { companyId } }, listTeams } = this.props;
+    this.setState({ search: value });
     listTeams(companyId, { 'page[number]': 1, search: value });
   }
 
@@ -79,9 +80,10 @@ export class TeamsList extends Component {
 
   toggleCreateModal = () => this.setState({ createModal: !this.state.createModal, addTeams: '' })
 
-  loadPage = () => {
+  loadPage = (index) => {
     const { match: { params: { companyId } }, listTeams } = this.props;
-    listTeams(companyId);
+    const { search } = this.state;
+    listTeams(companyId, { 'page[number]': index, search });
   }
 
   render() {
@@ -105,7 +107,7 @@ export class TeamsList extends Component {
     const teamsCount = formatMessage('{count} {count, plural, one {team} other {teams}}', { count: teamsMeta.get('total') });
     const ghost = teamsRequesting || createTeamsRequesting || removeTeamRequesting;
     const ItemComponent = props =>
-      (ghost ? <TeamCardGhost /> : <TeamCard {...props} companyId={companyId} />);
+      <TeamCard {...props} companyId={companyId} ghost={ghost} />;
     return (
       <div className="animated fadeIn">
         <Helmet

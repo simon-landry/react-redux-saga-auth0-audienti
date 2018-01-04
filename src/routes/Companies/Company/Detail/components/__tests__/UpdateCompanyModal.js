@@ -24,6 +24,12 @@ test('Renders a Modal', () => {
   expect(component).toBeA('Modal');
 });
 
+test('set companyName when component is rendered', () => {
+  const component = shallowRenderer();
+  const companyName = 'testCompanyName';
+  component.setProps({ companyName });
+});
+
 test('toggle is called when cancel Button is clicked.', () => {
   const toggle = createSpy();
   const component = shallowRenderer({

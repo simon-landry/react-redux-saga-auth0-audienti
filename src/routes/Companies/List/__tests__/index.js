@@ -156,3 +156,15 @@ test('Calls createCompany when onSave is called.', () => {
   createCompanyModal.props().onSave(company);
   expect(createCompany).toHaveBeenCalledWith(company);
 });
+
+test('onSearch triggers a list state function with search value.', () => {
+  const listCompanies = createSpy();
+  const search = 'testValue';
+  const component = shallowRenderer({
+    ...testProps,
+    listCompanies,
+  });
+  const searchBox = component.find('SearchBox');
+  searchBox.props().onSearch(search);
+  expect(listCompanies).toHaveBeenCalledWith({ 'page[number]': 1, search });
+});

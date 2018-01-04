@@ -13,6 +13,7 @@ const testProps = {
   formatMessage: noop,
   companyId: testCompanyId,
   remove: noop,
+  ghost: false,
 };
 
 const shallowRenderer = (props = testProps) =>
@@ -31,6 +32,14 @@ test('Renders a CardHeader', () => {
 test('Renders a CardBody', () => {
   const component = shallowRenderer();
   expect(component).toContain('CardHeader');
+});
+
+test('Renders a LoadingIndicator when ghost is true.', () => {
+  const component = shallowRenderer({
+    ...testProps,
+    ghost: true,
+  });
+  expect(component).toContain('LoadingIndicator');
 });
 
 test('remove is called when trash icon is clicked.', () => {

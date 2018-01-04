@@ -52,7 +52,6 @@ export class TeamsList extends Component {
     addTeams: '',
     createRequesting: 'createTeamsRequesting',
     removeRequesting: 'removeTeamRequesting',
-    requesting: 'teamsRequesting',
   };
 
   componentWillMount() {
@@ -68,9 +67,9 @@ export class TeamsList extends Component {
     }
   }
 
-  onSearch = (search) => {
+  onSearch = (value) => {
     const { match: { params: { companyId } }, listTeams } = this.props;
-    listTeams(companyId, search);
+    listTeams(companyId, { 'page[number]': 1, search: value });
   }
 
   load = () => {
@@ -102,7 +101,6 @@ export class TeamsList extends Component {
     const {
       createModal,
       addTeams,
-      requesting,
     } = this.state;
     const teamsCount = formatMessage('{count} {count, plural, one {team} other {teams}}', { count: teamsMeta.get('total') });
     const ghost = teamsRequesting || createTeamsRequesting || removeTeamRequesting;
@@ -117,10 +115,10 @@ export class TeamsList extends Component {
           ]}
         />
         <BreadcrumbMenu>
-          {!this.props[requesting] && (
-            <ButtonLink className="no-border" handleClick={this.load}>
-              {teamsCount}
-            </ButtonLink>)}
+          <SearchBox onSearch={this.onSearch} />
+          <ButtonLink className="no-border" handleClick={this.load}>
+            {teamsCount}
+          </ButtonLink>
           <ButtonLink className="no-border" handleClick={this.toggleCreateModal} icon="fa fa-plus">
             {formatMessage('Add Team')}
           </ButtonLink>
@@ -139,7 +137,6 @@ export class TeamsList extends Component {
           teams={addTeams}
           key={addTeams}
         />
-        <SearchBox onSearch={this.onSearch} />
         {
           !ghost && !teams.size ? (
             <NotificationCard

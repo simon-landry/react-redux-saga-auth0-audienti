@@ -87,10 +87,10 @@ export class CompaniesList extends Component {
     return (
       <div className="animated fadeIn">
         <BreadcrumbMenu>
-          {!companiesRequesting && (
-            <ButtonLink className="no-border" handleClick={this.load}>
-              {companiesCount}
-            </ButtonLink>)}
+          <SearchBox onSearch={this.onSearch} />
+          <ButtonLink className="no-border" handleClick={this.load}>
+            {companiesCount}
+          </ButtonLink>
           <ButtonLink className="no-border" handleClick={this.toggleCreateModal} icon="fa fa-plus">
             {formatMessage('Add Company')}
           </ButtonLink>
@@ -101,7 +101,6 @@ export class CompaniesList extends Component {
           className="primary"
           onSave={createCompany}
         />
-        <SearchBox onSearch={this.onSearch} />
         {
           !ghost && !companies.size ? (
             <NotificationCard

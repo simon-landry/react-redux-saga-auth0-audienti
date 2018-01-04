@@ -13,6 +13,7 @@ const testProps = {
   formatMessage: () => 'something',
   company: fromJS({}),
   updateCompany: noop,
+  className: '',
 };
 
 const shallowRenderer = (props = testProps) =>
@@ -34,25 +35,17 @@ test('toggle is called when cancel Button is clicked.', () => {
   expect(toggle).toHaveBeenCalled();
 });
 
-test('toggle is called when form is submitted.', () => {
+test('updateCompany and toggle are called when form is submitted.', () => {
   const toggle = createSpy();
-  const component = shallowRenderer({
-    ...testProps,
-    toggle,
-  });
-  const form = component.find('Form');
-  form.simulate('submit', { preventDefault: noop, target: null });
-  expect(toggle).toHaveBeenCalled();
-});
-
-test('UpdateCompany is called when form submitted.', () => {
   const updateCompany = createSpy();
   const component = shallowRenderer({
     ...testProps,
+    toggle,
     updateCompany,
   });
   const form = component.find('Form');
   form.simulate('submit', { preventDefault: noop, target: null });
+  expect(toggle).toHaveBeenCalled();
   expect(updateCompany).toHaveBeenCalled();
 });
 

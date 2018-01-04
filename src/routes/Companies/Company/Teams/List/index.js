@@ -50,7 +50,6 @@ export class TeamsList extends Component {
   state = {
     createModal: false,
     addTeams: '',
-    list: this.props.listTeams,
     createRequesting: 'createTeamsRequesting',
     removeRequesting: 'removeTeamRequesting',
     requesting: 'teamsRequesting',
@@ -70,23 +69,20 @@ export class TeamsList extends Component {
   }
 
   onSearch = (search) => {
-    const { match: { params: { companyId } } } = this.props;
-    const { list } = this.state;
-    list(companyId, search);
+    const { match: { params: { companyId } }, listTeams } = this.props;
+    listTeams(companyId, search);
   }
 
   load = () => {
-    const { match: { params: { companyId } } } = this.props;
-    const { list } = this.state;
-    list(companyId);
+    const { match: { params: { companyId } }, listTeams } = this.props;
+    listTeams(companyId);
   }
 
   toggleCreateModal = () => this.setState({ createModal: !this.state.createModal, addTeams: '' })
 
   loadPage = () => {
-    const { match: { params: { companyId } } } = this.props;
-    const { list } = this.state;
-    list(companyId);
+    const { match: { params: { companyId } }, listTeams } = this.props;
+    listTeams(companyId);
   }
 
   render() {

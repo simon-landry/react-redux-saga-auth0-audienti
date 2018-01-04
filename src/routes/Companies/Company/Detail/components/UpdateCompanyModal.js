@@ -22,13 +22,17 @@ export class UpdateCompanyModal extends Component {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
     toggle: PropTypes.func.isRequired,
-    className: PropTypes.string.isRequired,
+    className: PropTypes.string,
     formatMessage: PropTypes.func.isRequired,
     company: ImmutablePropTypes.mapContains({
       id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     }).isRequired,
     updateCompany: PropTypes.func.isRequired,
   };
+
+  static defaultProps = {
+    className: '',
+  }
 
   state = { companyName: '' };
 

@@ -5,8 +5,11 @@ import { Teams } from '../index';
 
 const { expect, shallow } = testHelper;
 
+const testCompanyId = 'testCompany';
+
 const testProps = {
   formatMessage: () => 'something',
+  match: { params: { companyId: testCompanyId } },
 };
 
 const shallowRenderer = (props = testProps) =>
@@ -20,7 +23,7 @@ test('Renders a div.', () => {
 test('Renders a BreadcrumbItem with a proper prop `to`.', () => {
   const component = shallowRenderer();
   const breadcrumbItem = component.find('BreadcrumbItem');
-  expect(breadcrumbItem).toHaveProps({ to: '/companies' });
+  expect(breadcrumbItem).toHaveProps({ to: `/companies/${testCompanyId}/teams` });
 });
 
 test('Renders a Routes.', () => {

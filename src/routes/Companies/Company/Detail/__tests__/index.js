@@ -21,7 +21,7 @@ const shallowRenderer = (props = testProps) =>
 
 test('Renders a div', () => {
   const component = shallowRenderer();
-  expect(component).toBeA('div');
+  expect(component).toBeA('Row');
 });
 
 test('Renders a BreadcrumbMenu', () => {

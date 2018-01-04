@@ -3,8 +3,6 @@ import test from 'ava';
 import { fromJS } from 'immutable';
 import { noop } from 'lodash';
 
-import SidebarItems from 'components/SidebarItems';
-
 import { Company } from '../index';
 
 const { expect, shallow, createSpy } = testHelper;
@@ -30,11 +28,6 @@ test('Renders a BreadcrumbItem with a proper prop `to`.', () => {
   const component = shallowRenderer();
   const breadcrumbItem = component.find('BreadcrumbItem');
   expect(breadcrumbItem).toHaveProps({ to: `/companies/${testCompanyId}` });
-});
-
-test('Renders a SidebarItems.', () => {
-  const component = shallowRenderer();
-  expect(component).toContain(SidebarItems);
 });
 
 test('Renders a Routes.', () => {

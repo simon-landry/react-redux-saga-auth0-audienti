@@ -69,10 +69,10 @@ export class TeamsList extends Component {
     }
   }
 
-  onSearch = () => {
+  onSearch = (search) => {
     const { match: { params: { companyId } } } = this.props;
     const { list } = this.state;
-    list(companyId);
+    list(companyId, search);
   }
 
   load = () => {

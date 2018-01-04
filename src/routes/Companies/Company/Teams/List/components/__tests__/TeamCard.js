@@ -41,5 +41,5 @@ test('remove is called when trash icon is clicked.', () => {
   });
   const iconTrash = component.find('i.fa-trash');
   iconTrash.simulate('click');
-  expect(remove).toHaveBeenCalledWith(testTeamId);
+  expect(remove).toHaveBeenCalledWith(testCompanyId, testTeamId);
 });

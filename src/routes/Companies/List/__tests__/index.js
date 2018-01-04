@@ -12,7 +12,7 @@ import CompanyCard from '../components/CompanyCard';
 const { expect, shallow, createSpy } = testHelper;
 
 const testProps = {
-  formatMessage: () => 'somewthing',
+  formatMessage: () => 'something',
   listCompanies: noop,
   companies: fromJS([{}]),
   companiesRequesting: false,

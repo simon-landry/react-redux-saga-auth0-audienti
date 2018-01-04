@@ -10,7 +10,7 @@ const { expect, shallow, createSpy } = testHelper;
 const testProps = {
   isOpen: false,
   toggle: noop,
-  formatMessage: noop,
+  formatMessage: () => 'something',
   company: fromJS({}),
   updateCompany: noop,
 };
@@ -34,16 +34,35 @@ test('toggle is called when cancel Button is clicked.', () => {
   expect(toggle).toHaveBeenCalled();
 });
 
-test('onSave, toggle is called when form is submitted.', () => {
+test('toggle is called when form is submitted.', () => {
   const toggle = createSpy();
-  const updateCompany = createSpy();
   const component = shallowRenderer({
     ...testProps,
     toggle,
-    updateCompany,
   });
   const form = component.find('Form');
   form.simulate('submit', { preventDefault: noop, target: null });
   expect(toggle).toHaveBeenCalled();
+});
+
+test('UpdateCompany is called when form submitted.', () => {
+  const updateCompany = createSpy();
+  const component = shallowRenderer({
+    ...testProps,
+    updateCompany,
+  });
+  const form = component.find('Form');
+  form.simulate('submit', { preventDefault: noop, target: null });
   expect(updateCompany).toHaveBeenCalled();
+});
+
+test('change state companyName when Input with `name` is changed.', () => {
+  const companyName = 'testName';
+  const component = shallowRenderer({
+    ...testProps,
+    company: fromJS({}),
+  });
+  const input = component.find('Input[name="name"]');
+  input.simulate('change', { target: { value: companyName } });
+  expect(component).toHaveState({ companyName });
 });

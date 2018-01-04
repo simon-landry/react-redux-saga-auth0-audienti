@@ -22,7 +22,7 @@ export class UpdateCompanyModal extends Component {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
     toggle: PropTypes.func.isRequired,
-    className: PropTypes.string,
+    className: PropTypes.string.isRequired,
     formatMessage: PropTypes.func.isRequired,
     company: ImmutablePropTypes.mapContains({
       id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -78,14 +78,9 @@ export class UpdateCompanyModal extends Component {
   }
 }
 
-UpdateCompanyModal.defaultProps = {
-  className: '',
-};
-
 /* istanbul ignore next */
 const mapStateToProps = state => ({
-  ...selectState('segment', 'segment')(state, 'segment'),
-  ...selectState('filterType', 'filterType')(state, 'filterType'),
+  ...selectState('company', 'company')(state, 'company'),
 });
 
 /* istanbul ignore next */

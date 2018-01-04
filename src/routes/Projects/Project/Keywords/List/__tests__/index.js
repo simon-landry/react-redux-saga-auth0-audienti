@@ -12,7 +12,7 @@ import AddKeywordsModal from '../components/AddKeywordsModal';
 const { expect, shallow, createSpy } = testHelper;
 const testProjectId = 'testProject';
 const testProps = {
-  formatMessage: () => 'somewthing',
+  formatMessage: () => 'something',
   listKeywords: noop,
   listNegativeKeywords: noop,
   keywords: fromJS([]),

@@ -13,7 +13,7 @@ import ProjectCard from '../components/ProjectCard';
 const { expect, shallow, createSpy } = testHelper;
 
 const testProps = {
-  formatMessage: () => 'somewthing',
+  formatMessage: () => 'something',
   listProjects: noop,
   projects: fromJS([{}]),
   projectsRequesting: false,

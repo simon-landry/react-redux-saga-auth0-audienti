@@ -33,3 +33,6 @@ documentation/*.html
 .env.development
 .env.production
 .env.test
+
+# Editor configuration
+.vscode

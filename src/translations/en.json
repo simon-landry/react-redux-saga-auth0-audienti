@@ -182,6 +182,8 @@
   "Save Company": "Save Company",
   "Remove Company": "Remove Company",
   "Update Company": "Update Company",
+  "UPDATE COMPANY REQUEST": "UPDATE COMPANY REQUEST",
+  "Unprocessable Entity": "Unprocessable Entity",
   "Are you sure you want to remove the company?": "Are you sure you want to remove the company?",
   "All Projects": "All Projects",
   "All Companies": "All Companies",

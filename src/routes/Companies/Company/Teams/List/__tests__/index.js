@@ -12,7 +12,7 @@ import AddTeamModal from '../components/AddTeamModal';
 const { expect, shallow, createSpy } = testHelper;
 const testCompanyId = 'testCompany';
 const testProps = {
-  formatMessage: () => 'somewthing',
+  formatMessage: () => 'something',
   match: { params: { companyId: testCompanyId } },
   teamsMeta: fromJS({}),
   company: fromJS({}),

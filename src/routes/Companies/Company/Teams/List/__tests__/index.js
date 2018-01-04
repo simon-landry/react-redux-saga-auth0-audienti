@@ -157,16 +157,15 @@ test('calls setConfirmMessage when trash icon is clicked and when action is call
 
 test('onSearch triggers a list state function with current companyId as a param.', () => {
   const listTeams = createSpy();
-  // const search = '';
+  const search = 'testValue';
   const component = shallowRenderer({
     ...testProps,
     listTeams,
   });
   const searchBox = component.find('SearchBox');
-  console.log(searchBox);
-  // searchBox.props().onSearch(search);
-  // expect(component).toHaveState({ search });
-  // expect(listTeams).toHaveBeenCalledWith({ testCompanyId, search });
+  searchBox.props().onSearch(search);
+  expect(component).toHaveState({ search });
+  expect(listTeams).toHaveBeenCalledWith(testCompanyId, { 'page[number]': 1, search });
 });
 
 test('listTeams is called when loadPage is triggered.', () => {

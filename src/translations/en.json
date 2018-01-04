@@ -204,6 +204,9 @@
   "Team Name": "Team Name",
   "Team Description": "Team Description",
   "Remove Team": "Remove Team",
+  "LIST TEAMS REQUEST": "LIST TEAMS REQUEST",
+  "Internal Server Error": "Internal Server Error",
+  "LIST COMPANIES REQUEST": "LIST COMPANIES REQUEST",
   "Are you sure you want to remove the team?": "Are you sure you want to remove the team?",
   "{userName} profile": "{userName} profile"
 }

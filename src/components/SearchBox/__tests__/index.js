@@ -14,9 +14,9 @@ const testProps = {
 const shallowRenderer = (props = testProps) =>
   shallow(<SearchBox {...props} />);
 
-test('Renders a FormGroup', () => {
+test('Renders a InputGroup', () => {
   const component = shallowRenderer();
-  expect(component).toBeA('FormGroup');
+  expect(component).toBeA('InputGroup');
 });
 
 test('onSearch is called when pressing enter key.', () => {

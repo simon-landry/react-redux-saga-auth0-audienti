@@ -115,7 +115,7 @@ test('calls setConfirmMessage when trash icon is clicked and when action is call
   const removeSegment = createSpy();
   const component = shallowRenderer({
     ...testProps,
-    segmentsRequesting: false,
+    segmentsRequesting: true,
     segments: fromJS([{ id: testId }]),
     setConfirmMessage,
     removeSegment,

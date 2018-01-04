@@ -1,4 +1,5 @@
 .breadcrumb {
   @include borders($breadcrumb-borders);
   position: relative;
+  align-items: center;
 }

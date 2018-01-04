@@ -1,8 +1,6 @@
 import React from 'react';
 import test from 'ava';
 
-import HeaderTitle from 'components/HeaderTitle';
-
 import { Companies } from '../index';
 
 const { expect, shallow } = testHelper;
@@ -26,9 +24,4 @@ test('Renders a BreadcrumbItem with a proper prop `to`.', () => {
   const component = shallowRenderer();
   const breadcrumbItem = component.find('BreadcrumbItem');
   expect(breadcrumbItem).toHaveProps({ to: `/users/${testUserId}/companies` });
-});
-
-test('Renders a HeaderTitle.', () => {
-  const component = shallowRenderer();
-  expect(component).toContain(HeaderTitle);
 });

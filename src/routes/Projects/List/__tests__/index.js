@@ -97,7 +97,7 @@ test('calls setConfirmMessage when trash icon is clicked and when action is call
   const removeProject = createSpy();
   const component = shallowRenderer({
     ...testProps,
-    projectsRequesting: false,
+    projectsRequesting: true,
     projects: fromJS([{ id: testId }]),
     setConfirmMessage,
     removeProject,

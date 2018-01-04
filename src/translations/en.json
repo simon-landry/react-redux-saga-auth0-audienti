@@ -81,7 +81,6 @@
   "New Project": "New Project",
   "Next": "Next",
   "No Connected Accounts": "No Connected Accounts",
-  "You do not have any projects": "You do not have any projects",
   "Not Found": "Not Found",
   "Ok": "Ok",
   "People": "People",
@@ -108,6 +107,7 @@
   "Remove Project": "Remove Project",
   "Remove Segment": "Remove Segment",
   "Remove Workflow": "Remove Workflow",
+  "Save Changes": "Save Changes",
   "Save Project": "Save Project",
   "Save Segment": "Save Segment",
   "Search": "Search",
@@ -152,8 +152,10 @@
   "Visibility Score": "Visibility Score",
   "Visit": "Visit",
   "Wordsmaster Id": "Wordsmaster Id",
+  "Workflow": "Workflow",
   "Workflow is created successfully": "Workflow is created successfully",
   "Workflows": "Workflows",
+  "You do not have any projects": "You do not have any projects",
   "You have not added any keywords yet": "You have not added any keywords yet",
   "company": "company",
   "mention": "mention",
@@ -167,6 +169,5 @@
   "{count} {count, plural, one {segment} other {segments}}": "{count} {count, plural, one {segment} other {segments}}",
   "{count} {count, plural, one {workflow} other {workflows}}": "{count} {count, plural, one {workflow} other {workflows}}",
   "{target} must match ALL of the following": "{target} must match ALL of the following",
-  "{userName} profile": "{userName} profile",
-  "Save Changes": "Save Changes"
+  "{userName} profile": "{userName} profile"
 }

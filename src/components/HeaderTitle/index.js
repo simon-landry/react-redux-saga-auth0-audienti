@@ -33,4 +33,7 @@ const mapDispatchToProps = dispatch => ({
   clearHeaderTitle: () => dispatch(clearHeaderTitle()),
 });
 
-export default connect(undefined, mapDispatchToProps)(HeaderTitle);
+const wrappedHeaderTitle = connect(undefined, mapDispatchToProps)(HeaderTitle);
+wrappedHeaderTitle.displayName = 'HeaderTitle';
+
+export default wrappedHeaderTitle;

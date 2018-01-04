@@ -12,8 +12,19 @@ const shallowRenderer = (props = testProps) =>
   shallow(<Pagination {...props} />);
 
 test('Renders a Pagination', () => {
-  const component = shallowRenderer();
+  const component = shallowRenderer({
+    pageIndex: 8,
+    pageCount: 100,
+  });
   expect(component).toBeA('Pagination');
+});
+
+test('Renders null when pageCount < 2', () => {
+  const component = shallowRenderer({
+    pageIndex: 0,
+    pageCount: 1,
+  });
+  expect(component.type()).toBe(null);
 });
 
 test('Renders correct number of pagination items', () => {

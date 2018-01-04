@@ -11,7 +11,7 @@ import ButtonLink from 'components/ButtonLink';
 import SmartItemGroup from 'components/SmartItemGroup';
 import NotificationCard from 'components/NotificationCard';
 import SearchBox from 'components/SearchBox';
-import { listWorkflows, removeWorkflow } from 'redux/workflow/actions';
+import { listWorkflows, removeWorkflow, updateWorkflow } from 'redux/workflow/actions';
 import { setConfirmMessage } from 'redux/ui/actions';
 import { selectState, getRequestingSelector } from 'redux/selectors';
 
@@ -40,6 +40,8 @@ export class WorkflowsList extends Component {
     listWorkflows: PropTypes.func.isRequired,
     removeWorkflow: PropTypes.func.isRequired,
     removeWorkflowRequesting: PropTypes.bool.isRequired,
+    workflowRequesting: PropTypes.bool.isRequired,
+    updateWorkflow: PropTypes.func.isRequired,
     setConfirmMessage: PropTypes.func.isRequired,
   };
 
@@ -75,6 +77,14 @@ export class WorkflowsList extends Component {
     listWorkflows(projectId, { 'page[number]': index, search });
   }
 
+  toggleStatus = (workflowId, currentWorkflowStatus) => {
+    const { updateWorkflow, match: { params: { projectId } } } = this.props;
+    let status = 'active';
+    if (currentWorkflowStatus === 'active') status = 'draft';
+    this.setState({ updatingWorkflowId: workflowId });
+    updateWorkflow(projectId, workflowId, { status });
+  }
+
   render() {
     const {
       formatMessage,
@@ -85,12 +95,20 @@ export class WorkflowsList extends Component {
       workflows,
       match: { params: { projectId } },
       removeWorkflow,
+      workflowRequesting,
       setConfirmMessage,
     } = this.props;
-    const workflowsCount = formatMessage('{count} {count, plural, one {workflow} other {workflows}}', { count: workflowsMeta.get('total') });
+    const { updatingWorkflowId } = this.state;
+    const workflowsCount = formatMessage('{count} {count, plural, one {workflow} other {workflows}}', { count: workflowsRequesting ? '--' : workflowsMeta.get('total') });
     const ghost = workflowsRequesting || removeWorkflowRequesting;
-    const ItemComponent = props =>
-      <WorkflowCard {...props} projectId={projectId} ghost={ghost} />;
+    const ItemComponent = props => (
+      <WorkflowCard
+        {...props}
+        projectId={projectId}
+        ghost={ghost || (props.data.attributes.id === updatingWorkflowId && workflowRequesting)}
+        toggleStatus={this.toggleStatus}
+      />
+    );
     return (
       <div className="animated fadeIn">
         <Helmet
@@ -100,10 +118,10 @@ export class WorkflowsList extends Component {
           ]}
         />
         <BreadcrumbMenu>
-          {!workflowsRequesting && (
-            <ButtonLink className="no-border" handleClick={this.load}>
-              {workflowsCount}
-            </ButtonLink>)}
+          <SearchBox onSearch={this.onSearch} />
+          <ButtonLink className="no-border" handleClick={this.load}>
+            {workflowsCount}
+          </ButtonLink>
           <ButtonLink className="no-border" to={`/projects/${projectId}/workflows/new`} icon="fa fa-plus">
             {formatMessage('Add workflows(s)')}
           </ButtonLink>
@@ -114,7 +132,6 @@ export class WorkflowsList extends Component {
             { projectName: project.getIn(['attributes', 'name']) || '--' },
           )}
         </HeaderTitle>
-        <SearchBox onSearch={this.onSearch} />
         {
           !ghost && !workflows.size ? (
             <NotificationCard
@@ -148,12 +165,15 @@ const mapStateToProps = state => ({
   ...selectState('project', 'project')(state, 'project'),
   ...selectState('workflow', 'workflows')(state, 'workflows'),
   removeWorkflowRequesting: getRequestingSelector('workflow', 'removeWorkflow')(state),
+  workflowRequesting: getRequestingSelector('workflow', 'workflow')(state),
 });
 
 /* istanbul ignore next */
 const mapDispatchToProps = dispatch => ({
   listWorkflows: (projectId, query) => dispatch(listWorkflows(projectId, query)),
   removeWorkflow: (projectId, workflowId) => dispatch(removeWorkflow(projectId, workflowId)),
+  updateWorkflow: (projectId, workflowId, payload) =>
+    dispatch(updateWorkflow(projectId, workflowId, payload)),
   setConfirmMessage: payload => dispatch(setConfirmMessage(payload)),
 });
 

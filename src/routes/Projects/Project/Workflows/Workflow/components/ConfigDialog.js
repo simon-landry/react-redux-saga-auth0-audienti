@@ -24,8 +24,9 @@ export const ConfigDialog = ({
   className,
   formatMessage,
   defaultConfig,
-  agentType: { config },
-}) => (
+  agentType: { config, default_schedule: defaultSchedule },
+  schedules,
+}) => isOpen && (
   <Modal
     isOpen={isOpen}
     toggle={toggle}
@@ -39,11 +40,24 @@ export const ConfigDialog = ({
     }}>
       <ModalHeader toggle={toggle}>
         {config.type}
+        {defaultSchedule && (
+          <div className="schedule-header">
+            <Label htmlFor="schedule">Schedule</Label>
+            <Select
+              options={schedules.map(schedule => ({ value: schedule, label: startCase(schedule) }))}
+              name="schedule"
+              defaultValue={defaultConfig.schedule || defaultSchedule}
+              required
+            />
+          </div>
+        )}
       </ModalHeader>
       <ModalBody>
         <p>{config.description}</p>
         {
-          config.fields.map(({ type, name, help, description, options, ...props }, index) => {
+          config.fields.map(({
+            type, name, help, description, options, display_name: displayName, ...props
+          }, index) => {
             let inputField = null;
             const inputProps = {
               ...props,
@@ -71,9 +85,16 @@ export const ConfigDialog = ({
                 );
                 break;
               case 'select':
+                if (options.length && defaultConfig[name]) {
+                  const selectedOption = options.find(option => `${(option.id || option.value)}` === `${defaultConfig[name]}`);
+                  inputProps.defaultValue = selectedOption.id || selectedOption.value;
+                }
                 inputField = (
                   <Select
-                    options={options.map(({ value, name }) => ({ value, label: startCase(name) }))}
+                    options={
+                      options.map(({ id, value, name }) =>
+                        ({ value: id || value, label: name }))
+                    }
                     {...inputProps}
                   />
                 );
@@ -83,7 +104,7 @@ export const ConfigDialog = ({
             }
             return (
               <FormGroup key={index}>
-                <Label htmlFor={name}>{startCase(name)}</Label>
+                <Label htmlFor={name}>{displayName || startCase(name)}</Label>
                 {inputField}
                 <div style={{ fontSize: 9, color: 'gray', marginTop: -1 }}>{help || description}</div>
               </FormGroup>
@@ -111,6 +132,7 @@ ConfigDialog.propTypes = {
       type: PropTypes.string,
     }),
   }),
+  schedules: PropTypes.arrayOf(PropTypes.string),
 };
 
 ConfigDialog.defaultProps = {
@@ -119,6 +141,7 @@ ConfigDialog.defaultProps = {
   toggle: noop,
   defaultConfig: {},
   agentType: { config: { fields: [] } },
+  schedules: [],
 };
 
 const injectIntlConfigDialog = injectIntl(ConfigDialog);

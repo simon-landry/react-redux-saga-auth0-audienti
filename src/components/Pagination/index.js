@@ -54,6 +54,7 @@ export class Pagination extends Component {
       middleEndPage === endPage ? 0 : middleEndPage,
       lastPage === middleEndPage ? 0 : lastPage,
     ]);
+    if (pages.length < 2) return null;
     return (
       <RSPagination style={{ justifyContent: 'center' }}>
         {

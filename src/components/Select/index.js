@@ -5,7 +5,9 @@ import RsSelect from 'react-select';
 class Select extends Component {
 
   static propTypes = {
-    defaultValue: PropTypes.oneOfType([PropTypes.shape, PropTypes.array, PropTypes.string]),
+    defaultValue: PropTypes.oneOfType([
+      PropTypes.shape, PropTypes.array, PropTypes.string, PropTypes.number,
+    ]),
   }
 
   static defaultProps = {
@@ -23,7 +25,6 @@ class Select extends Component {
         {...props}
         onChange={this.onChange}
         value={this.state.value}
-        defaultValue={defaultValue}
       />
     );
   }

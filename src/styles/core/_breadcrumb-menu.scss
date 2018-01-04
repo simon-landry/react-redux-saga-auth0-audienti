@@ -1,5 +1,15 @@
 .breadcrumb-menu {
   margin-left: auto;
+  align-items: center;
+  display: flex;
+
+  label {
+    margin-bottom: 0;
+  }
+
+  i {
+    margin-top: 0 !important;
+  }
 
   &::before {
     display: none;

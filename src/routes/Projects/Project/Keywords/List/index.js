@@ -196,8 +196,8 @@ export class KeywordsList extends Component {
       search,
       removeMultiple,
     } = this.state;
-    const keywordsCount = formatMessage('{count} {count, plural, one {keyword} other {keywords}}', { count: keywordsMeta.get('total') });
-    const negativeKeywordsCount = formatMessage('{count} {count, plural, one {negative keyword} other {negative keywords}}', { count: negativeKeywordsMeta.get('total') });
+    const keywordsCount = formatMessage('{count} {count, plural, one {keyword} other {keywords}}', { count: this.props[requesting] ? '--' : keywordsMeta.get('total') });
+    const negativeKeywordsCount = formatMessage('{count} {count, plural, one {negative keyword} other {negative keywords}}', { count: this.props[requesting] ? '--' : negativeKeywordsMeta.get('total') });
     return (
       <div className="animated fadeIn">
         <Helmet
@@ -207,10 +207,10 @@ export class KeywordsList extends Component {
           ]}
         />
         <BreadcrumbMenu>
-          {!this.props[requesting] && (
-            <ButtonLink className="no-border" handleClick={this.load}>
-              {negative ? negativeKeywordsCount : keywordsCount}
-            </ButtonLink>)}
+          <SearchBox onSearch={this.onSearch} />
+          <ButtonLink className="no-border" handleClick={this.load}>
+            {negative ? negativeKeywordsCount : keywordsCount}
+          </ButtonLink>
           <ButtonLink className="no-border" handleClick={this.toggleCreateModal} icon="fa fa-plus">
             {formatMessage('Add Keyword(s)')}
           </ButtonLink>
@@ -245,7 +245,6 @@ export class KeywordsList extends Component {
           keywords={addKeywords}
           key={addKeywords}
         />
-        <SearchBox onSearch={this.onSearch} />
         {
           !this.props[requesting] && !this.props[data].size && !tags.length && !search.length ? (
             negative ? (

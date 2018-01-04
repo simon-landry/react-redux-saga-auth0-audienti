@@ -28,7 +28,7 @@ const apiStateHandlers = (states, storage, listValues) => {
   let actionHandlers = {};
   let initialState = {};
   states.forEach((state) => {
-    const { type, name, apiField, append, onSuccess, clear } = state;
+    const { type, name, apiField, append, update, onSuccess, clear } = state;
     const types = apiTypes(type);
     const defaultValue = listValues.indexOf(name) === -1 ? {} : [];
     actionHandlers = {
@@ -58,6 +58,13 @@ const apiStateHandlers = (states, storage, listValues) => {
           return newState.updateIn(
             [append, 'data'],
             list => list.unshift(payload),
+          );
+        }
+        // used when update is done
+        if (update) {
+          return newState.updateIn(
+            [update, 'data'],
+            list => list.map(item => (item.get('id') === payload.get('id') ? payload : item)),
           );
         }
         return newState;

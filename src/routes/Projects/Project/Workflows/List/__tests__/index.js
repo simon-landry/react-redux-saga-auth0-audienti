@@ -28,7 +28,9 @@ const testProps = {
   listWorkflows: noop,
   removeWorkflow: noop,
   removeWorkflowRequesting: false,
+  workflowRequesting: false,
   setConfirmMessage: noop,
+  updateWorkflow: noop,
 };
 
 const shallowRenderer = (props = testProps) =>
@@ -103,9 +105,10 @@ test('ItemComponent should be a WorkflowCard.', () => {
       },
     }),
   });
+  component.setState({ updatingWorkflowId: 'whatever' });
   const smartItemGroup = component.find('SmartItemGroup');
   const { ItemComponent } = smartItemGroup.props();
-  const itemComponent = shallow(<ItemComponent />);
+  const itemComponent = shallow(<ItemComponent data={{ attributes: { id: 'whatever' } }} />);
   expect(itemComponent).toBeA(WorkflowCard);
 });
 
@@ -115,7 +118,7 @@ test('calls setConfirmMessage when trash icon is clicked and when action is call
   const removeWorkflow = createSpy();
   const component = shallowRenderer({
     ...testProps,
-    workflowsRequesting: false,
+    workflowsRequesting: true,
     workflows: fromJS([{ id: testId }]),
     setConfirmMessage,
     removeWorkflow,
@@ -161,4 +164,30 @@ test('listWorkflows is called when onSearch is triggered.', () => {
   searchBox.props().onSearch(search);
   expect(component).toHaveState({ search });
   expect(listWorkflows).toHaveBeenCalledWith(testProjectId, { 'page[number]': 1, search });
+});
+
+test('toggleStatus calls updateWorkflow to make status draft when it is active', () => {
+  const updateWorkflow = createSpy();
+  const testWorkflowId = 'testWorkflow';
+  const component = shallowRenderer({
+    ...testProps,
+    workflows: fromJS([{ id: testWorkflowId }]),
+    updateWorkflow,
+  });
+  const instance = component.instance();
+  instance.toggleStatus(testWorkflowId, 'active');
+  expect(updateWorkflow).toHaveBeenCalledWith(testProjectId, testWorkflowId, { status: 'draft' });
+});
+
+test('toggleStatus calls updateWorkflow to make status active when it is not active', () => {
+  const updateWorkflow = createSpy();
+  const testWorkflowId = 'testWorkflow';
+  const component = shallowRenderer({
+    ...testProps,
+    workflows: fromJS([{ id: testWorkflowId }]),
+    updateWorkflow,
+  });
+  const instance = component.instance();
+  instance.toggleStatus(testWorkflowId, 'whatever');
+  expect(updateWorkflow).toHaveBeenCalledWith(testProjectId, testWorkflowId, { status: 'active' });
 });

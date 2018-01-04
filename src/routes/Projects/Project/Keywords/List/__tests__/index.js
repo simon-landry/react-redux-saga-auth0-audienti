@@ -232,7 +232,7 @@ test('sets state tags and calls listKeywords when one of tags is clicked.', () =
   const component = shallowRenderer({
     ...testProps,
     listKeywords,
-    keywordsRequesting: false,
+    keywordsRequesting: true,
     keywords: fromJS([{}]),
   });
   const smartTable = component.find('SmartTable');
@@ -250,7 +250,7 @@ test('listKeywords is called and tag filter is removed when tag button is clicke
   const component = shallowRenderer({
     ...testProps,
     listKeywords,
-    keywordsRequesting: false,
+    keywordsRequesting: true,
     keywords: fromJS([{}]),
   });
   component.setState({ tags: ['tag1', 'tag2'] });

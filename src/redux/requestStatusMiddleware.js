@@ -1,4 +1,5 @@
 import invariant from 'invariant';
+import { startCase, last } from 'lodash';
 
 /**
  * requestStatusMiddleware takes an API Request action and handles updating the state
@@ -40,13 +41,23 @@ export default function requestStatusMiddleware({ dispatch }) {
         payload: error,
         request: payload,
       });
-      dispatch({
-        type: 'GLOBAL_NOTIFICATION',
-        payload: {
-          data: error,
-          kind: 'error',
-        },
-      });
+      if (error.title || error.detail) {
+        dispatch({
+          type: 'GLOBAL_NOTIFICATION',
+          payload: {
+            data: error,
+            kind: 'error',
+          },
+        });
+      } else {
+        dispatch({
+          type: 'GLOBAL_NOTIFICATION',
+          payload: {
+            data: { title: startCase(last(requestType.split('/'))), detail: error },
+            kind: 'error',
+          },
+        });
+      }
     } else if (response.body.errors || response.body.error) {
       dispatch({
         type: failureType,

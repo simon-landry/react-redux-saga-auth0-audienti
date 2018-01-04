@@ -81,7 +81,7 @@ export class ProjectsList extends Component {
       createProjectRequesting, removeProject, removeProjectRequesting, setConfirmMessage,
     } = this.props;
     const { createModal } = this.state;
-    const projectsCount = formatMessage('{count} {count, plural, one {project} other {projects}}', { count: projectsMeta.get('total') });
+    const projectsCount = formatMessage('{count} {count, plural, one {project} other {projects}}', { count: projectsRequesting ? '--' : projectsMeta.get('total') });
     const ghost = projectsRequesting || createProjectRequesting || removeProjectRequesting;
     const ItemComponent = ghost ? ProjectCardGhost : ProjectCard;
     return (
@@ -93,10 +93,10 @@ export class ProjectsList extends Component {
           ]}
         />
         <BreadcrumbMenu>
-          {!projectsRequesting && (
-            <ButtonLink className="no-border" handleClick={this.load}>
-              {projectsCount}
-            </ButtonLink>)}
+          <SearchBox onSearch={this.onSearch} />
+          <ButtonLink className="no-border" handleClick={this.load}>
+            {projectsCount}
+          </ButtonLink>
           <ButtonLink className="no-border" handleClick={this.toggleCreateModal} icon="fa fa-plus">
             {formatMessage('Add Project')}
           </ButtonLink>
@@ -108,7 +108,6 @@ export class ProjectsList extends Component {
           className="primary"
           onSave={createProject}
         />
-        <SearchBox onSearch={this.onSearch} />
         {
           !ghost && !projects.size ? (
             <NotificationCard

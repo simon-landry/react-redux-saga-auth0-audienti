@@ -185,7 +185,7 @@ test('listServices is called with proper userId, if userId is me.', () => {
     listServices,
     match: { params: { userId: 'me' } },
   });
-  expect(listServices).toHaveBeenCalledWith(testUserMeId, { 'page[number]': 1, search: '' });
+  expect(listServices).toHaveBeenCalledWith('me', { 'page[number]': 1, search: '' });
 });
 
 // values vary from one render to another.

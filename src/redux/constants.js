@@ -67,9 +67,11 @@ export const REMOVE_COMPANY = 'companies/REMOVE_COMPANY';
 
 // Teams
 export const LIST_TEAMS = 'teams/LIST_TEAMS';
-export const CREATE_TEAMS = 'teams/CREATE_TEAMS';
+export const CREATE_TEAM = 'teams/CREATE_TEAM';
+export const UPDATE_TEAM = 'teams/UPDATE_TEAM';
 export const READ_TEAM = 'teams/READ_TEAM';
 export const REMOVE_TEAM = 'teams/REMOVE_TEAM';
+export const TEAM_ROLE = 'teams/TEAM_ROLE';
 
 // Agent Type
 export const LIST_AGENT_TYPES = 'agentTypes/LIST_AGENT_TYPES';

@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Card, CardHeader, CardBody, Button } from 'reactstrap';
-
+import { Card, CardHeader, CardBody, Button, CardFooter } from 'reactstrap';
+import moment from 'moment';
 import { injectIntl } from 'components/Intl';
 
 export const CompanyCard = ({ data: { attributes }, formatMessage, remove }) => (
@@ -18,13 +18,18 @@ export const CompanyCard = ({ data: { attributes }, formatMessage, remove }) => 
         />
       )}
     </CardHeader>
-    <CardBody className="text-center">
+    <CardBody>
+      {formatMessage('Created')}: {moment(attributes.created_at).fromNow()}
+      <br />
+      {formatMessage('Updated')}: {moment(attributes.updated_at).fromNow()}
+    </CardBody>
+    <CardFooter className="text-center">
       <Link to={`/companies/${attributes.id}`}>
         <Button outline color="secondary">
           {formatMessage('Details')}
         </Button>
       </Link>
-    </CardBody>
+    </CardFooter>
   </Card>
 );
 

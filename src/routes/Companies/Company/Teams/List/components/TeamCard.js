@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Card, CardHeader, CardBody, Button, CardFooter } from 'reactstrap';
+import moment from 'moment';
 import LoadingIndicator from 'components/LoadingIndicator';
 import { injectIntl } from 'components/Intl';
 
@@ -9,7 +10,7 @@ export const TeamCard = ({ data: { attributes }, formatMessage, remove, companyI
   <Card>
     <CardHeader>
       <h3 className="float-left">
-        { ghost ? '--' : <Link to={`/companies/${companyId}/teams`}>{attributes.name}</Link> }
+        { ghost ? '--' : <Link to={`/companies/${companyId}/teams/${attributes.id}`}>{attributes.name}</Link> }
       </h3>
       {!!remove && (
         <i
@@ -24,7 +25,11 @@ export const TeamCard = ({ data: { attributes }, formatMessage, remove, companyI
           <LoadingIndicator />
         </CardBody>
       ) : (
-        <CardBody className="text-center">
+        <CardBody>
+          {formatMessage('Created')}: {moment(attributes.created_at).fromNow()}
+          <br />
+          {formatMessage('Updated')}: {moment(attributes.updated_at).fromNow()}
+          <br />
           {attributes.description === null ? formatMessage('There is no description yet') : attributes.description }
         </CardBody>
       )

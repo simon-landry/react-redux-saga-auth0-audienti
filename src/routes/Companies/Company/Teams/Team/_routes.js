@@ -4,13 +4,19 @@ import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 
 import Detail from './Detail';
-import Teams from './Teams';
+import Members from './Members';
+import Team from './Team';
+import Projects from './Projects';
+import Settings from './Settings';
 
 const Routes = ({ url }) => (
   <div>
     <Switch>
       <Route exact path={url} component={Detail} />
-      <Route path={`${url}/teams`} component={Teams} />
+      <Route path={`${url}/members`} component={Members} />
+      <Route path={`${url}/team`} component={Team} />
+      <Route path={`${url}/projects`} component={Projects} />
+      <Route path={`${url}/settings`} component={Settings} />
     </Switch>
   </div>
 );

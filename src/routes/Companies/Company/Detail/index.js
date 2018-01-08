@@ -53,7 +53,7 @@ export class CompanyDetail extends Component {
               </ButtonLink>
               {formatMessage('{count} {count, plural, one {team} other {teams}}', { count: (company.getIn(['teams', 'length']) || 0) })}
             </BreadcrumbMenu>
-            <HeaderTitle>{formatMessage('Company {companyName}', { companyName: companyName || '--' })}</HeaderTitle>
+            <HeaderTitle>{formatMessage('{companyName}', { companyName: companyName || '--' })}</HeaderTitle>
             <Card>
               <CardHeader className="team-card-header">
                 <h3 className="float-left">

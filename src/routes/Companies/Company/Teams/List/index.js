@@ -6,7 +6,7 @@ import Helmet from 'react-helmet';
 
 import { injectIntl } from 'components/Intl';
 import { selectState, getRequestingSelector } from 'redux/selectors';
-import { listTeams, createTeams, removeTeam } from 'redux/team/actions';
+import { listTeams, createTeam, removeTeam } from 'redux/team/actions';
 import BreadcrumbMenu from 'components/BreadcrumbMenu';
 import ButtonLink from 'components/ButtonLink';
 import HeaderTitle from 'components/HeaderTitle';
@@ -38,10 +38,10 @@ export class TeamsList extends Component {
       }),
     ).isRequired,
     listTeams: PropTypes.func.isRequired,
-    createTeams: PropTypes.func.isRequired,
+    createTeam: PropTypes.func.isRequired,
     setConfirmMessage: PropTypes.func.isRequired,
     removeTeam: PropTypes.func.isRequired,
-    createTeamsRequesting: PropTypes.bool.isRequired,
+    createTeamRequesting: PropTypes.bool.isRequired,
     removeTeamRequesting: PropTypes.bool.isRequired,
     teamsRequesting: PropTypes.bool.isRequired,
   };
@@ -50,7 +50,7 @@ export class TeamsList extends Component {
     createModal: false,
     addTeams: '',
     search: '',
-    createRequesting: 'createTeamsRequesting',
+    createRequesting: 'createTeamRequesting',
     removeRequesting: 'removeTeamRequesting',
   };
 
@@ -92,10 +92,10 @@ export class TeamsList extends Component {
       teamsMeta,
       company,
       teams,
-      createTeams,
+      createTeam,
       match: { params: { companyId } },
       setConfirmMessage,
-      createTeamsRequesting,
+      createTeamRequesting,
       removeTeamRequesting,
       teamsRequesting,
       removeTeam,
@@ -105,7 +105,7 @@ export class TeamsList extends Component {
       addTeams,
     } = this.state;
     const teamsCount = formatMessage('{count} {count, plural, one {team} other {teams}}', { count: teamsMeta.get('total') });
-    const ghost = teamsRequesting || createTeamsRequesting || removeTeamRequesting;
+    const ghost = teamsRequesting || createTeamRequesting || removeTeamRequesting;
     const ItemComponent = props =>
       <TeamCard {...props} companyId={companyId} ghost={ghost} />;
     return (
@@ -127,7 +127,7 @@ export class TeamsList extends Component {
         </BreadcrumbMenu>
         <HeaderTitle>
           {formatMessage(
-            'All Teams of Company {companyName}',
+            'All Teams of {companyName}',
             { companyName: company.getIn(['attributes', 'name']) || '--' },
           )}
         </HeaderTitle>
@@ -135,7 +135,7 @@ export class TeamsList extends Component {
           isOpen={createModal}
           toggle={this.toggleCreateModal}
           className="primary"
-          onSave={payload => createTeams(companyId, payload)}
+          onSave={payload => createTeam(companyId, payload)}
           teams={addTeams}
           key={addTeams}
         />
@@ -172,14 +172,14 @@ export class TeamsList extends Component {
 const mapStateToProps = state => ({
   ...selectState('company', 'company')(state, 'company'),
   ...selectState('team', 'teams')(state, 'teams'),
-  createTeamsRequesting: getRequestingSelector('team', 'createTeams')(state),
+  createTeamRequesting: getRequestingSelector('team', 'createTeam')(state),
   removeTeamRequesting: getRequestingSelector('team', 'removeTeam')(state),
 });
 
 /* istanbul ignore next */
 const mapDispatchToProps = dispatch => ({
   listTeams: (companyId, query) => dispatch(listTeams(companyId, query)),
-  createTeams: (companyId, payload) => dispatch(createTeams(companyId, payload)),
+  createTeam: (companyId, payload) => dispatch(createTeam(companyId, payload)),
   setConfirmMessage: payload => dispatch(setConfirmMessage(payload)),
   removeTeam: (companyId, teamId) => dispatch(removeTeam(companyId, teamId)),
 });

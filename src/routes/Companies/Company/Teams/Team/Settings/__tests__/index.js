@@ -39,6 +39,12 @@ test('Renders a div', () => {
   expect(component).toBeA('div');
 });
 
+test('set teamName when component is rendered', () => {
+  const component = shallowRenderer();
+  const teamName = 'testTeamName';
+  component.setProps({ teamName });
+});
+
 test('Renders a BreadcrumbItem', () => {
   const component = shallowRenderer();
   const breadcrumb = component.find(BreadcrumbItem);

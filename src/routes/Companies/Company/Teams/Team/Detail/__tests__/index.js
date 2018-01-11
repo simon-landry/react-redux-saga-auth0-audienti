@@ -25,7 +25,6 @@ const testProps = {
       name: 'testName',
     },
   }),
-  teamRequesting: false,
   updateTeam: noop,
   readTeam: noop,
   formatMessage: noop,
@@ -48,4 +47,19 @@ test('Renders a BreadcrumbItem', () => {
 test('Renders a HeaderTitle', () => {
   const component = shallowRenderer();
   expect(component).toContain(HeaderTitle);
+});
+
+test('Renders a Card', () => {
+  const component = shallowRenderer();
+  expect(component).toBeA('div');
+});
+
+test('Renders a CardHeader', () => {
+  const component = shallowRenderer();
+  expect(component).toContain('CardHeader');
+});
+
+test('Renders a CardBody', () => {
+  const component = shallowRenderer();
+  expect(component).toContain('CardBody');
 });

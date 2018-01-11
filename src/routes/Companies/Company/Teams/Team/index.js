@@ -45,7 +45,7 @@ export class Team extends Component {
           {teamName}
         </BreadcrumbItem>
         <HeaderTitle>
-          {teamName}
+          {formatMessage('Team')} {teamName}
         </HeaderTitle>
         <SidebarItems
           items={[

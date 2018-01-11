@@ -3,20 +3,19 @@ import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
+import moment from 'moment';
 
 import { injectIntl } from 'components/Intl';
 import { selectState, getRequestingSelector } from 'redux/selectors';
-import { listTeams, createTeam, removeTeam } from 'redux/team/actions';
+import { listTeams, createTeam } from 'redux/team/actions';
 import BreadcrumbMenu from 'components/BreadcrumbMenu';
 import ButtonLink from 'components/ButtonLink';
 import HeaderTitle from 'components/HeaderTitle';
-import SmartItemGroup from 'components/SmartItemGroup';
+import SmartTable from 'components/SmartTable';
 import NotificationCard from 'components/NotificationCard';
 import SearchBox from 'components/SearchBox';
 
 import AddTeamModal from './components/AddTeamModal';
-import TeamCard from './components/TeamCard';
-import { setConfirmMessage } from '../../../../../redux/ui/actions';
 
 export class TeamsList extends Component {
   static propTypes = {
@@ -39,19 +38,14 @@ export class TeamsList extends Component {
     ).isRequired,
     listTeams: PropTypes.func.isRequired,
     createTeam: PropTypes.func.isRequired,
-    setConfirmMessage: PropTypes.func.isRequired,
-    removeTeam: PropTypes.func.isRequired,
     createTeamRequesting: PropTypes.bool.isRequired,
-    removeTeamRequesting: PropTypes.bool.isRequired,
     teamsRequesting: PropTypes.bool.isRequired,
   };
 
   state = {
     createModal: false,
     addTeams: '',
-    search: '',
     createRequesting: 'createTeamRequesting',
-    removeRequesting: 'removeTeamRequesting',
   };
 
   componentWillMount() {
@@ -59,17 +53,14 @@ export class TeamsList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { createRequesting, removeRequesting } = this.state;
+    const { createRequesting } = this.state;
     if (!nextProps[createRequesting] && this.props[createRequesting]) {
-      this.load();
-    } else if (!nextProps[removeRequesting] && this.props[removeRequesting]) {
       this.load();
     }
   }
 
   onSearch = (value) => {
     const { match: { params: { companyId } }, listTeams } = this.props;
-    this.setState({ search: value });
     listTeams(companyId, { 'page[number]': 1, search: value });
   }
 
@@ -80,10 +71,9 @@ export class TeamsList extends Component {
 
   toggleCreateModal = () => this.setState({ createModal: !this.state.createModal, addTeams: '' })
 
-  loadPage = (index) => {
+  loadPage = () => {
     const { match: { params: { companyId } }, listTeams } = this.props;
-    const { search } = this.state;
-    listTeams(companyId, { 'page[number]': index, search });
+    listTeams(companyId);
   }
 
   render() {
@@ -94,20 +84,15 @@ export class TeamsList extends Component {
       teams,
       createTeam,
       match: { params: { companyId } },
-      setConfirmMessage,
       createTeamRequesting,
-      removeTeamRequesting,
       teamsRequesting,
-      removeTeam,
     } = this.props;
     const {
       createModal,
       addTeams,
     } = this.state;
     const teamsCount = formatMessage('{count} {count, plural, one {team} other {teams}}', { count: teamsMeta.get('total') });
-    const ghost = teamsRequesting || createTeamRequesting || removeTeamRequesting;
-    const ItemComponent = props =>
-      <TeamCard {...props} companyId={companyId} ghost={ghost} />;
+    const ghost = teamsRequesting || createTeamRequesting;
     return (
       <div className="animated fadeIn">
         <Helmet
@@ -147,19 +132,63 @@ export class TeamsList extends Component {
               description={formatMessage('You can create a new team.')}
             />
           ) : (
-            <SmartItemGroup
+            <SmartTable
               data={teams.toJS()}
-              ItemComponent={ItemComponent}
-              total={teamsMeta.get('total')}
-              onPageChange={this.loadPage}
+              fields={[
+                {
+                  label: formatMessage('Team'),
+                  name: 'attributes.name',
+                  render: ((value, row) => (
+                    <ButtonLink
+                      className="no-border"
+                      to={`/companies/${companyId}/teams/${row.id}`}
+                    >
+                      {value}
+                    </ButtonLink>
+                  )),
+                },
+                {
+                  label: 'Members',
+                  name: 'id',
+                  render: (() => (
+                    <span>
+                      {formatMessage('{count} {count, plural, one {member} other {members}}', { count: 0 })}
+                    </span>
+                  )),
+                },
+                {
+                  label: 'Visibility',
+                  name: 'attributes.visibility',
+                  render: (value => (
+                    <span>
+                      {value}
+                    </span>
+                  )),
+                },
+                {
+                  label: 'Created',
+                  name: 'attributes.created_at',
+                  render: (value => (
+                    <span>
+                      {moment(value).fromNow()}
+                    </span>
+                  )),
+                },
+                {
+                  label: 'Updated',
+                  name: 'attributes.updated_at',
+                  render: (value => (
+                    <span>
+                      {moment(value).fromNow()}
+                    </span>
+                  )),
+                },
+              ]}
               ghost={ghost}
+              actions={[]}
+              onPageChange={this.loadPage}
+              total={teamsMeta.get('total')}
               checkable
-              companyPagination
-              remove={(companyId, teamId) => setConfirmMessage({
-                title: formatMessage('Remove Team'),
-                message: formatMessage('Are you sure you want to remove the team?'),
-                action: () => removeTeam(companyId, teamId),
-              })}
             />
           )
         }
@@ -173,15 +202,12 @@ const mapStateToProps = state => ({
   ...selectState('company', 'company')(state, 'company'),
   ...selectState('team', 'teams')(state, 'teams'),
   createTeamRequesting: getRequestingSelector('team', 'createTeam')(state),
-  removeTeamRequesting: getRequestingSelector('team', 'removeTeam')(state),
 });
 
 /* istanbul ignore next */
 const mapDispatchToProps = dispatch => ({
   listTeams: (companyId, query) => dispatch(listTeams(companyId, query)),
   createTeam: (companyId, payload) => dispatch(createTeam(companyId, payload)),
-  setConfirmMessage: payload => dispatch(setConfirmMessage(payload)),
-  removeTeam: (companyId, teamId) => dispatch(removeTeam(companyId, teamId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(TeamsList));

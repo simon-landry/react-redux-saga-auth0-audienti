@@ -1,15 +1,15 @@
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
+import { Card, CardHeader, CardBody, Button, Input, Form, FormGroup, Label } from 'reactstrap';
 
+import Serializer from 'helpers/form-serialize';
 import BreadcrumbItem from 'components/BreadcrumbItem';
-import BreadcrumbMenu from 'components/BreadcrumbMenu';
 import HeaderTitle from 'components/HeaderTitle';
 import { injectIntl } from 'components/Intl';
 import { selectState } from 'redux/selectors';
-import { readTeam, updateTeam } from 'redux/team/actions';
+import { updateTeam } from 'redux/team/actions';
 
 export class TeamDetail extends Component {
   static propTypes = {
@@ -22,22 +22,35 @@ export class TeamDetail extends Component {
     team: ImmutablePropTypes.mapContains({
       id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     }).isRequired,
-    readTeam: PropTypes.func.isRequired,
     formatMessage: PropTypes.func.isRequired,
+    updateTeam: PropTypes.func.isRequired,
   };
 
-  componentWillMount() {
-    const { match: { params: { companyId, teamId } }, readTeam } = this.props;
-    readTeam(companyId, teamId);
+  state = { editable: false, description: '' }
+
+  onEdit = () => {
+    this.setState({ editable: true });
   }
+
+  onCancel = () => {
+    this.setState({ editable: false });
+  }
+
+  onDescriptionChange = ({ target: { value } }) => this.setState({ description: value });
 
   render() {
     const {
       match: { params: { companyId, teamId } },
       team,
       formatMessage,
+      updateTeam,
     } = this.props;
-    const teamName = team.getIn(['attributes', 'name']);
+    const {
+      editable,
+      description,
+    } = this.state;
+    const teamName = team.getIn(['attributes', 'name']) || '--';
+    const teamDescription = team.getIn(['attributes', 'description']) || formatMessage('There is no description yet');
     return (
       <div>
         <BreadcrumbItem to={`/companies/${companyId}/teams/${teamId}`}>
@@ -46,9 +59,47 @@ export class TeamDetail extends Component {
         <HeaderTitle>
           {formatMessage('Team')} {teamName}
         </HeaderTitle>
-        <BreadcrumbMenu>
-          {formatMessage('{count} {count, plural, one {team} other {members}}', { count: (team.getIn(['members', 'length']) || 0) })}
-        </BreadcrumbMenu>
+        <Card>
+          <CardHeader>
+            <h3 className="float-left">
+              {teamName}
+            </h3>
+          </CardHeader>
+          <CardBody>
+            {editable ? (
+              <div>
+                <Form onSubmit={(e) => {
+                  e.preventDefault();
+                  updateTeam(
+                    companyId,
+                    teamId,
+                    {
+                      ...Serializer.serialize(e.target, { hash: true }),
+                    },
+                  );
+                }}>
+                  <FormGroup>
+                    <Label htmlFor="description"><h5>{formatMessage('Description')}</h5></Label>
+                    <Input type="text" name="description" value={description} onChange={this.onDescriptionChange} required />
+                  </FormGroup>
+                  <Button type="submit" color="primary">{formatMessage('Save')}</Button>
+                  <Button color="secondary" className="ml-3" onClick={() => this.onCancel()}>
+                    {formatMessage('Cancel')}
+                  </Button>
+                </Form>
+              </div>) : (
+                <div>
+                  <span>
+                    {teamDescription}
+                  </span>
+                  <Button color="link" className="float-right" onClick={() => this.onEdit()}>
+                    {formatMessage('Edit')}
+                  </Button>
+                </div>
+              )
+            }
+          </CardBody>
+        </Card>
       </div>
     );
   }
@@ -61,7 +112,6 @@ const mapStateToProps = state => ({
 
 /* istanbul ignore next */
 const mapDispatchToProps = dispatch => ({
-  readTeam: (companyId, teamId) => dispatch(readTeam(companyId, teamId)),
   updateTeam: (companyId, teamId, payload) =>
     dispatch(updateTeam(companyId, teamId, payload)),
 });

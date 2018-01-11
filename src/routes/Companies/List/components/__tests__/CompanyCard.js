@@ -28,7 +28,7 @@ test('Renders a CardHeader', () => {
 
 test('Renders a CardBody', () => {
   const component = shallowRenderer();
-  expect(component).toContain('CardHeader');
+  expect(component).toContain('CardBody');
 });
 
 test('remove is called when trash icon is clicked.', () => {

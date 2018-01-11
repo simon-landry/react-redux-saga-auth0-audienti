@@ -8,7 +8,6 @@ import HeaderTitle from 'components/HeaderTitle';
 
 import { TeamsList } from '../index';
 import AddTeamModal from '../components/AddTeamModal';
-// import TeamCard from '../components/TeamCard';
 
 const { expect, shallow, createSpy } = testHelper;
 const testCompanyId = 'testCompany';
@@ -50,23 +49,13 @@ test('Renders a AddTeamModal.', () => {
   expect(component).toContain(AddTeamModal);
 });
 
-test('Renders a SmartItemGroup when prop teams is not empty.', () => {
+test('Renders a SmartTable when prop teams is not empty.', () => {
   const component = shallowRenderer({
     ...testProps,
     teams: fromJS([{}]),
   });
-  expect(component).toContain('SmartItemGroup');
+  expect(component).toContain('SmartTable');
 });
-
-// test('ItemComponent should be TeamCard.', () => {
-//   const component = shallowRenderer({
-//     ...testProps,
-//   });
-//   const smartItemGroup = component.find('SmartItemGroup');
-//   const { ItemComponent } = smartItemGroup.props();
-//   const itemComponent = shallow(<ItemComponent />);
-//   expect(itemComponent).toBeA(TeamCard);
-// });
 
 test('Renders a NotificationCard when prop teams is empty.', () => {
   const component = shallowRenderer();
@@ -146,26 +135,6 @@ test('AddTeamModal is open when second buttonLink of breadcrumbmenu is clicked.'
   expect(addTeamModal).toHaveProps({ isOpen: true });
 });
 
-test('calls setConfirmMessage when trash icon is clicked and when action is called removeTeam is triggered.', () => {
-  const testId = 'testId';
-  const setConfirmMessage = createSpy();
-  const removeTeam = createSpy();
-  const component = shallowRenderer({
-    ...testProps,
-    teamsRequesting: false,
-    teams: fromJS([{ id: testId }]),
-    setConfirmMessage,
-    removeTeam,
-  });
-  const smartItemGroup = component.find('SmartItemGroup');
-  const { remove } = smartItemGroup.props();
-  remove(testCompanyId, testId);
-  expect(setConfirmMessage).toHaveBeenCalled();
-  const { action } = setConfirmMessage.calls[0].arguments[0];
-  action();
-  expect(removeTeam).toHaveBeenCalledWith(testCompanyId, testId);
-});
-
 test('onSearch triggers a list state function with current companyId as a param.', () => {
   const listTeams = createSpy();
   const search = 'testValue';
@@ -178,14 +147,35 @@ test('onSearch triggers a list state function with current companyId as a param.
   expect(listTeams).toHaveBeenCalledWith(testCompanyId, { 'page[number]': 1, search });
 });
 
-// test('listTeams is called when loadPage is triggered.', () => {
-//   const listTeams = createSpy();
-//   const search = 'testValue';
-//   const component = shallowRenderer({
-//     ...testProps,
-//     listTeams,
-//   });
-//   const instance = component.instance();
-//   instance.loadPage(1);
-//   expect(listTeams).toHaveBeenCalledWith(testCompanyId, { 'page[number]': 1, search });
-// });
+test('listTeams is called when loadPage is triggered.', () => {
+  const listTeams = createSpy();
+  shallowRenderer({
+    ...testProps,
+    listTeams,
+  });
+  expect(listTeams).toHaveBeenCalled(testCompanyId);
+});
+
+// values vary from one render to another.
+const testValues = [
+  'whatever',
+  ['whatever'],
+];
+
+test('Renders fields without problem', () => {
+  const component = shallowRenderer({
+    ...testProps,
+    teams: fromJS([{}]),
+  });
+  const smartTable = component.find('SmartTable');
+  const { fields } = smartTable.props();
+  fields.forEach((field, index) => {
+    if (!field.render) return;
+    const renderedComponent = shallow(
+      <div>
+        {field.render(testValues[index], { id: 'rowId' })}
+      </div>,
+    );
+    expect(renderedComponent).toBeA('div');
+  });
+});

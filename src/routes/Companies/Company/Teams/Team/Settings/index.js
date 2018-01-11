@@ -21,7 +21,8 @@ import HeaderTitle from 'components/HeaderTitle';
 import Select from 'components/Select';
 import { injectIntl } from 'components/Intl';
 import { selectState } from 'redux/selectors';
-import { readTeam, updateTeam } from 'redux/team/actions';
+import { readTeam, updateTeam, removeTeam } from 'redux/team/actions';
+import { setConfirmMessage } from '../../../../../../redux/ui/actions';
 
 export class Settings extends Component {
   static propTypes = {
@@ -34,10 +35,15 @@ export class Settings extends Component {
     team: ImmutablePropTypes.mapContains({
       id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     }).isRequired,
+    history: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
     readTeam: PropTypes.func.isRequired,
     updateTeam: PropTypes.func.isRequired,
+    removeTeam: PropTypes.func.isRequired,
     teamRequesting: PropTypes.bool.isRequired,
     formatMessage: PropTypes.func.isRequired,
+    setConfirmMessage: PropTypes.func.isRequired,
   };
 
   state = { teamName: '', teamDescription: '' };
@@ -49,14 +55,32 @@ export class Settings extends Component {
 
   componentWillReceiveProps({ team }) {
     this.setState({
-      teamName: team.getIn(['attributes', 'name']),
+      teamName: team.getIn(['attributes', 'name']) || '',
       teamDescription: team.getIn(['attributes', 'description']) || '',
     });
   }
 
-  onTeamNameChange = ({ target: { value } }) => this.setState({ teamName: value });
+  teamNameChange = ({ target: { value } }) => this.setState({ teamName: value });
 
-  onTeamDescriptionChange = ({ target: { value } }) => this.setState({ teamDescription: value });
+  teamDescriptionChange = ({ target: { value } }) => this.setState({ teamDescription: value });
+
+  deleteTeam = () => {
+    const {
+      match: { params: { companyId, teamId } },
+      removeTeam,
+      formatMessage,
+      setConfirmMessage,
+      history,
+    } = this.props;
+    setConfirmMessage({
+      title: formatMessage('Delete this team'),
+      message: formatMessage('Are you sure you want to remove the team?'),
+      action: () => {
+        removeTeam(companyId, teamId);
+        history.push(`/companies/${companyId}/teams`);
+      },
+    });
+  }
 
   render() {
     const {
@@ -66,8 +90,8 @@ export class Settings extends Component {
       teamRequesting,
       formatMessage,
     } = this.props;
-    const { teamDescription } = this.state;
     const teamName = team.getIn(['attributes', 'name']);
+    const teamVisibility = team.getIn(['attributes', 'visibility']) || 'visible';
     return (
       <div>
         <BreadcrumbItem to={`/companies/${companyId}/teams/${teamId}/settings`}>
@@ -93,38 +117,21 @@ export class Settings extends Component {
             }}>
               <FormGroup>
                 <Label htmlFor="name"><h5>{formatMessage('Team Name')}</h5></Label>
-                <Input type="text" name="name" value={this.state.teamName} onChange={this.onTeamNameChange} required />
+                <Input type="text" name="name" value={this.state.teamName} onChange={this.teamNameChange} required />
               </FormGroup>
               <FormGroup>
                 <Label htmlFor="description"><h5>{formatMessage('Description')}</h5></Label>
-                <Input type="text" name="description" value={teamDescription} onChange={this.onTeamDescriptionChange} />
+                <Input type="text" name="description" value={this.state.teamDescription} onChange={this.teamDescriptionChange} />
               </FormGroup>
               <FormGroup>
-                <Label htmlFor="description"><h5>{formatMessage('Parent team')}</h5></Label>
+                <Label htmlFor="visibility"><h5>{formatMessage('Team visibility')}</h5></Label>
                 <Select
                   options={[
-                    { value: 10, label: 'team1' },
-                    { value: 11, label: 'team2' },
-                    { value: 12, label: 'team3' },
-                    { value: 23, label: 'team4' },
-                    { value: 24, label: 'team5' },
+                    { value: 'visible', label: 'Visible' },
+                    { value: 'secret', label: 'Secret' },
                   ]}
-                  name="parentTeam"
-                  defaultValue={formatMessage('Select parent team')}
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label htmlFor="description"><h5>{formatMessage('Team visibility')}</h5></Label>
-                <Select
-                  options={[
-                    { value: 10, label: 'team1' },
-                    { value: 11, label: 'team2' },
-                    { value: 12, label: 'team3' },
-                    { value: 23, label: 'team4' },
-                    { value: 24, label: 'team5' },
-                  ]}
-                  name="parentTeam"
-                  defaultValue={formatMessage('Select parent team')}
+                  name="visibility"
+                  defaultValue={teamVisibility}
                 />
               </FormGroup>
               <Button type="submit" color="primary" disabled={teamRequesting}>{formatMessage('Save Changes')}</Button>
@@ -140,7 +147,7 @@ export class Settings extends Component {
             <Label>{formatMessage('Once deleted, it will be gone forever. Please be certain.')}</Label> <br />
           </CardBody>
           <CardFooter>
-            <Button type="submit" color="danger">{formatMessage('Delete this team')}</Button>
+            <Button type="submit" color="danger" onClick={this.deleteTeam}>{formatMessage('Delete this team')}</Button>
           </CardFooter>
         </Card>
       </div>
@@ -151,6 +158,7 @@ export class Settings extends Component {
 /* istanbul ignore next */
 const mapStateToProps = state => ({
   ...selectState('team', 'team')(state, 'team'),
+  ...selectState('team', 'teams')(state, 'teams'),
 });
 
 /* istanbul ignore next */
@@ -158,6 +166,8 @@ const mapDispatchToProps = dispatch => ({
   readTeam: (companyId, teamId) => dispatch(readTeam(companyId, teamId)),
   updateTeam: (companyId, teamId, payload) =>
     dispatch(updateTeam(companyId, teamId, payload)),
+  setConfirmMessage: payload => dispatch(setConfirmMessage(payload)),
+  removeTeam: (companyId, teamId) => dispatch(removeTeam(companyId, teamId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(Settings));

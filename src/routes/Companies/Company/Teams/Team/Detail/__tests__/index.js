@@ -8,10 +8,11 @@ import HeaderTitle from 'components/HeaderTitle';
 
 import { TeamDetail } from '../index';
 
-const { expect, shallow } = testHelper;
+const { expect, shallow, createSpy } = testHelper;
 
 const testCompanyId = 'testCompany';
 const testTeamId = 'testTeam';
+const testTeamName = 'testTeamName';
 const testProps = {
   match: {
     params: {
@@ -49,58 +50,59 @@ test('Renders a HeaderTitle', () => {
   expect(component).toContain(HeaderTitle);
 });
 
-test('Renders a Card', () => {
+test('Renders a team description span and edit button when editable state is false', () => {
   const component = shallowRenderer();
-  expect(component).toBeA('div');
+  expect(component).toContain('span');
+  expect(component).toHaveState({ editable: false });
 });
 
-test('Renders a CardHeader', () => {
+test('editable state is changed when edit button is clicked', () => {
   const component = shallowRenderer();
-  expect(component).toContain('CardHeader');
-});
-
-test('Renders a CardBody', () => {
-  const component = shallowRenderer();
-  expect(component).toContain('CardBody');
-});
-
-test('description state is set when component is rendered.', () => {
-  const description = 'testDescription';
-  const component = shallowRenderer();
-  expect(component).toHaveState({ description });
-});
-
-test('editable value is changed when onEdit is called', () => {
-  const component = shallowRenderer();
-  const newValue = 'testValue';
-  component.setState({ editable: 'whatever' });
-  const input = component.find('Input');
-  input.simulate('change', { target: { value: newValue } });
-});
-
-test('onEdit called when edit button is clicked.', () => {
-  const editable = true;
-  const component = shallowRenderer({
-    ...testProps,
-  });
   const editButton = component.find('Button[color="link"]');
   editButton.simulate('click');
-  expect(component).toHaveState({ editable });
+  component.setState({ editable: true });
 });
 
-test('Renders a Form when state editable is true.', () => {
+test('editable state is changed when cancel button is clicked', () => {
   const component = shallowRenderer();
   component.setState({ editable: true });
-  expect(component).toContain('Card');
+  const cancelButton = component.find('Button[color="secondary"]');
+  cancelButton.simulate('click');
+  component.setState({ editable: false });
 });
 
-test('onCancel called when cancel button is clicked.', () => {
+test('updateTeam is called when submit button is clicked', () => {
+  const updateTeam = createSpy();
+  const component = shallowRenderer({
+    ...testProps,
+    updateTeam,
+  });
+  component.setState({ editable: true });
+  const submitButton = component.find('Button[color="primary"]');
+  const form = component.find('Form');
+  form.simulate('submit', { preventDefault: noop, target: null });
+  submitButton.simulate('click');
+  expect(updateTeam).toHaveBeenCalled();
+  component.setState({ editable: false });
+});
+
+test('description value is set when component is rendered', () => {
+  const testDescription = 'testDescription';
   const component = shallowRenderer();
-  // const cancelButton = component.find('CardBody').find('Button').at(2);
-  const cancelButton = component.find('CardBody');
-  console.log(cancelButton.node);
-  // cancelButton.props().handleClick();
-  // expect(component).toHaveState({ editable: true });
-  // cancelButton.props().handleClick();
-  // expect(component).toHaveState({ editable: false });
+  component.setProps({ description: testDescription });
+});
+
+test('description value is set when component is rendered', () => {
+  const testDescription = 'testDescription';
+  const component = shallowRenderer();
+  component.setProps({ description: testDescription });
+});
+
+test('BreadCrumbItem does not have a team name when there is not an attributes name', () => {
+  const component = shallowRenderer({
+    ...testProps,
+    team: fromJS({}),
+  });
+  const breadCrumbItem = component.find('BreadcrumbItem');
+  expect(breadCrumbItem.props().children).toNotInclude(testTeamName);
 });

@@ -54,7 +54,7 @@ export class Settings extends Component {
 
   componentWillReceiveProps({ team }) {
     this.setState({
-      teamName: team.getIn(['attributes', 'name']) || '',
+      teamName: team.getIn(['attributes', 'name']) || '--',
       teamDescription: team.getIn(['attributes', 'description']) || '',
     });
   }
@@ -89,7 +89,7 @@ export class Settings extends Component {
       teamRequesting,
       formatMessage,
     } = this.props;
-    const teamName = team.getIn(['attributes', 'name']);
+    const teamName = team.getIn(['attributes', 'name']) || '--';
     const teamVisibility = team.getIn(['attributes', 'visibility']) || 0;
     return (
       <div>
@@ -146,7 +146,7 @@ export class Settings extends Component {
             <Label>{formatMessage('Once deleted, it will be gone forever. Please be certain.')}</Label> <br />
           </CardBody>
           <CardFooter>
-            <Button type="submit" color="danger" onClick={this.deleteTeam}>{formatMessage('Delete this team')}</Button>
+            <Button color="danger" onClick={this.deleteTeam}>{formatMessage('Delete this team')}</Button>
           </CardFooter>
         </Card>
       </div>

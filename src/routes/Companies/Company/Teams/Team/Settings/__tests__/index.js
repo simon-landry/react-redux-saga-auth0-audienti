@@ -12,6 +12,7 @@ const { expect, shallow, createSpy } = testHelper;
 
 const testCompanyId = 'testCompany';
 const testTeamId = 'testTeam';
+const testTeamName = 'testTeamName';
 const testProps = {
   match: {
     params: {
@@ -42,10 +43,20 @@ test('Renders a div', () => {
   expect(component).toBeA('div');
 });
 
-test('set teamName when component is rendered', () => {
+test('readTeam is called when component is rendered', () => {
+  const readTeam = createSpy();
+  shallowRenderer({
+    ...testProps,
+    readTeam,
+  });
+  expect(readTeam).toHaveBeenCalled(testCompanyId, testTeamId);
+});
+
+test('set team name and description when component is rendered', () => {
   const component = shallowRenderer();
   const teamName = 'testTeamName';
-  component.setProps({ teamName });
+  const teamDescription = 'testTeamDescription';
+  component.setProps({ teamName, teamDescription });
 });
 
 test('Renders a BreadcrumbItem', () => {
@@ -74,10 +85,55 @@ test('change state teamName when Input with `name` is changed.', () => {
   const teamName = 'testName';
   const component = shallowRenderer({
     ...testProps,
-    teamRequesting: true, // to check if it renders fine when teamRequesting is true
-    team: fromJS({}), // to check if it renders fine when team is not set
+    teamRequesting: true,
+    team: fromJS({}),
   });
   const input = component.find('Input[name="name"]');
   input.simulate('change', { target: { value: teamName } });
+  component.setState({ teamName });
   expect(component).toHaveState({ teamName });
+});
+
+test('change state teamDescription when Input with `description` is changed.', () => {
+  const teamDescription = 'testTeamDescription';
+  const component = shallowRenderer({
+    ...testProps,
+    teamRequesting: true,
+    team: fromJS({}),
+  });
+  const input = component.find('Input[name="description"]');
+  input.simulate('change', { target: { value: teamDescription } });
+  component.setState({ teamDescription });
+  expect(component).toHaveState({ teamDescription });
+});
+
+test('HeaderTitle does not have a team name when there is not an attributes name', () => {
+  const component = shallowRenderer({
+    ...testProps,
+    team: fromJS({}),
+  });
+  const breadCrumbItem = component.find('HeaderTitle');
+  expect(breadCrumbItem.props().children).toNotInclude(testTeamName);
+});
+
+test('removeTeam is called when delete button is clicked', () => {
+  const setConfirmMessage = createSpy();
+  const removeTeam = createSpy();
+  const component = shallowRenderer({
+    ...testProps,
+    setConfirmMessage,
+    removeTeam,
+  });
+  const deleteButton = component.find('Button[color="danger"]');
+  deleteButton.simulate('click');
+  expect(setConfirmMessage).toHaveBeenCalled();
+  const { action } = setConfirmMessage.calls[0].arguments[0];
+  action();
+  expect(removeTeam).toHaveBeenCalledWith(testCompanyId, testTeamId);
+});
+
+test('Input does not have a team name when there is not an attributes name', () => {
+  const component = shallowRenderer();
+  const inputName = component.find('Input');
+  expect(inputName.node.props.value).toNotInclude(testTeamName);
 });

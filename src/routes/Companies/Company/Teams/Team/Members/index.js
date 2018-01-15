@@ -45,7 +45,6 @@ export class Members extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('rendered');
     const { createRequesting } = this.state;
     if (!nextProps[createRequesting] && this.props[createRequesting]) {
       this.load();

@@ -149,10 +149,17 @@ test('onSearch triggers a list state function with current companyId as a param.
 
 test('listTeams is called when loadPage is triggered.', () => {
   const listTeams = createSpy();
-  shallowRenderer({
+  const pageIndex = 5;
+  const search = 'testSearch';
+  const component = shallowRenderer({
     ...testProps,
     listTeams,
+    createTeamRequesting: true,
+    teamsRequesting: true,
   });
+  component.setState({ search });
+  const smartTable = component.find('SmartTable');
+  smartTable.props().onPageChange(pageIndex);
   expect(listTeams).toHaveBeenCalled(testCompanyId);
 });
 

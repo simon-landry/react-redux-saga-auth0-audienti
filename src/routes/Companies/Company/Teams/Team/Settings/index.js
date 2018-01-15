@@ -54,7 +54,7 @@ export class Settings extends Component {
 
   componentWillReceiveProps({ team }) {
     this.setState({
-      teamName: team.getIn(['attributes', 'name']) || '--',
+      teamName: team.getIn(['attributes', 'name']),
       teamDescription: team.getIn(['attributes', 'description']) || '',
     });
   }
@@ -116,7 +116,7 @@ export class Settings extends Component {
             }}>
               <FormGroup>
                 <Label htmlFor="name"><h5>{formatMessage('Team Name')}</h5></Label>
-                <Input type="text" name="name" value={this.state.teamName} onChange={this.teamNameChange} required />
+                <Input type="text" name="name" value={this.state.teamName || ''} onChange={this.teamNameChange} required />
               </FormGroup>
               <FormGroup>
                 <Label htmlFor="description"><h5>{formatMessage('Description')}</h5></Label>

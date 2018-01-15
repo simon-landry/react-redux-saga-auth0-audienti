@@ -32,7 +32,7 @@ test('toggle is called when cancel Button is clicked.', () => {
   expect(toggle).toHaveBeenCalled();
 });
 
-test('onSave, toggle is called when form is submitted.', () => {
+test('onSave and toggle are called when form is submitted.', () => {
   const toggle = createSpy();
   const onSave = createSpy();
   const component = shallowRenderer({
@@ -41,7 +41,7 @@ test('onSave, toggle is called when form is submitted.', () => {
     onSave,
   });
   const form = component.find('Form');
-  form.simulate('submit', { preventDefault: noop, target: null });
+  form.simulate('submit', { preventDefault: noop });
   expect(toggle).toHaveBeenCalled();
   expect(onSave).toHaveBeenCalled();
 });

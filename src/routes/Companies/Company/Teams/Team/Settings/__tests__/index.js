@@ -55,7 +55,7 @@ test('readTeam is called when component is rendered', () => {
 test('set team name and description when component is rendered', () => {
   const component = shallowRenderer();
   const teamName = 'testTeamName';
-  const teamDescription = 'testTeamDescription';
+  const teamDescription = 'testTeamDescription' || '';
   component.setProps({ teamName, teamDescription });
 });
 
@@ -68,6 +68,11 @@ test('Renders a BreadcrumbItem', () => {
 test('Renders a HeaderTitle', () => {
   const component = shallowRenderer();
   expect(component).toContain(HeaderTitle);
+});
+
+test('Renders a Select with proper values', () => {
+  const component = shallowRenderer();
+  expect(component).toContain('Select[name="visibility"]');
 });
 
 test('Update Team is called when form is submitted.', () => {
@@ -112,8 +117,8 @@ test('HeaderTitle does not have a team name when there is not an attributes name
     ...testProps,
     team: fromJS({}),
   });
-  const breadCrumbItem = component.find('HeaderTitle');
-  expect(breadCrumbItem.props().children).toNotInclude(testTeamName);
+  const headerTitle = component.find('HeaderTitle');
+  expect(headerTitle.props().children).toNotInclude(testTeamName);
 });
 
 test('removeTeam is called when delete button is clicked', () => {

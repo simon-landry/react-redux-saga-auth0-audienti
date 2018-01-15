@@ -168,7 +168,9 @@ function serialize(form, opt) {
 
     const key = element.name;
     let { value } = element;
-
+    if (key === 'visibility') {
+      value = parseInt(value, 10);
+    }
     // we can't just use element.value for checkboxes cause some browsers lie to us
     // they say "on" for value when the box isn't checked
     if ((element.type === 'checkbox' || element.type === 'radio') && !element.checked) {

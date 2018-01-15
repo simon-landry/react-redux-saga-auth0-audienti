@@ -28,6 +28,12 @@ export class TeamDetail extends Component {
 
   state = { editable: false, description: '' }
 
+  componentWillReceiveProps({ team }) {
+    this.setState({
+      description: team.getIn(['attributes', 'description']) || '',
+    });
+  }
+
   onEdit = () => {
     this.setState({ editable: true });
   }
@@ -77,6 +83,7 @@ export class TeamDetail extends Component {
                       ...Serializer.serialize(e.target, { hash: true }),
                     },
                   );
+                  this.setState({ editable: false });
                 }}>
                   <FormGroup>
                     <Label htmlFor="description"><h5>{formatMessage('Description')}</h5></Label>

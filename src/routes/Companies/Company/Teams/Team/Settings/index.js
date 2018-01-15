@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -91,7 +90,7 @@ export class Settings extends Component {
       formatMessage,
     } = this.props;
     const teamName = team.getIn(['attributes', 'name']);
-    const teamVisibility = team.getIn(['attributes', 'visibility']) || 'visible';
+    const teamVisibility = team.getIn(['attributes', 'visibility']) || 0;
     return (
       <div>
         <BreadcrumbItem to={`/companies/${companyId}/teams/${teamId}/settings`}>
@@ -127,8 +126,8 @@ export class Settings extends Component {
                 <Label htmlFor="visibility"><h5>{formatMessage('Team visibility')}</h5></Label>
                 <Select
                   options={[
-                    { value: 'visible', label: 'Visible' },
-                    { value: 'secret', label: 'Secret' },
+                    { value: 0, label: 'Visible' },
+                    { value: 1, label: 'Secret' },
                   ]}
                   name="visibility"
                   defaultValue={teamVisibility}

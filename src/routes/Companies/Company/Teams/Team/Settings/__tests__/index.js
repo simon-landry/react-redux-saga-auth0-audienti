@@ -25,10 +25,13 @@ const testProps = {
       name: 'testName',
     },
   }),
+  history: { push: noop },
   teamRequesting: false,
   updateTeam: noop,
+  removeTeam: noop,
   readTeam: noop,
   formatMessage: noop,
+  setConfirmMessage: noop,
 };
 
 const shallowRenderer = (props = testProps) =>

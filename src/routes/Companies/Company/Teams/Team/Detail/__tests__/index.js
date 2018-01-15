@@ -63,3 +63,44 @@ test('Renders a CardBody', () => {
   const component = shallowRenderer();
   expect(component).toContain('CardBody');
 });
+
+test('description state is set when component is rendered.', () => {
+  const description = 'testDescription';
+  const component = shallowRenderer();
+  expect(component).toHaveState({ description });
+});
+
+test('editable value is changed when onEdit is called', () => {
+  const component = shallowRenderer();
+  const newValue = 'testValue';
+  component.setState({ editable: 'whatever' });
+  const input = component.find('Input');
+  input.simulate('change', { target: { value: newValue } });
+});
+
+test('onEdit called when edit button is clicked.', () => {
+  const editable = true;
+  const component = shallowRenderer({
+    ...testProps,
+  });
+  const editButton = component.find('Button[color="link"]');
+  editButton.simulate('click');
+  expect(component).toHaveState({ editable });
+});
+
+test('Renders a Form when state editable is true.', () => {
+  const component = shallowRenderer();
+  component.setState({ editable: true });
+  expect(component).toContain('Card');
+});
+
+test('onCancel called when cancel button is clicked.', () => {
+  const component = shallowRenderer();
+  // const cancelButton = component.find('CardBody').find('Button').at(2);
+  const cancelButton = component.find('CardBody');
+  console.log(cancelButton.node);
+  // cancelButton.props().handleClick();
+  // expect(component).toHaveState({ editable: true });
+  // cancelButton.props().handleClick();
+  // expect(component).toHaveState({ editable: false });
+});

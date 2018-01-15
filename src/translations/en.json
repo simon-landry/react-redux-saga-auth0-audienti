@@ -217,7 +217,6 @@
   "Parent team": "Parent team",
   "Save Team": "Save Team",
   "Members": "Members",
-  "members": "members",
   "team": "team",
   "projects": "projects",
   "settings": "settings",
@@ -225,5 +224,7 @@
   "Internal Server Error": "Internal Server Error",
   "LIST COMPANIES REQUEST": "LIST COMPANIES REQUEST",
   "Are you sure you want to remove the team?": "Are you sure you want to remove the team?",
-  "{userName} profile": "{userName} profile"
+  "{userName} profile": "{userName} profile",
+  "You have not added any members yet": "You have not added any members yet",
+  "You can add new member.": "You can add new member."
 }

@@ -36,19 +36,8 @@ export class Members extends Component {
     }).isRequired,
   };
 
-  state = {
-    createRequesting: 'createMemberRequesting',
-  };
-
   componentWillMount() {
     this.load();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { createRequesting } = this.state;
-    if (!nextProps[createRequesting] && this.props[createRequesting]) {
-      this.load();
-    }
   }
 
   load = () => {

@@ -82,3 +82,45 @@ test('Renders a SmartTable when prop member is not empty.', () => {
   });
   expect(component).toContain('SmartTable');
 });
+
+// values vary from one render to another.
+const testValues = [
+  'whatever',
+  ['whatever'],
+];
+
+test('Renders fields without problem', () => {
+  const component = shallowRenderer({
+    ...testProps,
+    teams: fromJS([{}]),
+    membersRequesting: true,
+    createMemberRequesting: true,
+  });
+  const smartTable = component.find('SmartTable');
+  const { fields } = smartTable.props();
+  fields.forEach((field, index) => {
+    if (!field.render) return;
+    const renderedComponent = shallow(
+      <div>
+        {field.render(testValues[index], { id: 'rowId' })}
+      </div>,
+    );
+    expect(renderedComponent).toBeA('div');
+  });
+});
+
+test('listMembers is called when loadPage is triggered.', () => {
+  const listMembers = createSpy();
+  const pageIndex = 5;
+  const search = 'testSearch';
+  const component = shallowRenderer({
+    ...testProps,
+    listMembers,
+    createMemberRequesting: true,
+    membersRequesting: true,
+  });
+  component.setState({ search });
+  const smartTable = component.find('SmartTable');
+  smartTable.props().onPageChange(pageIndex);
+  expect(listMembers).toHaveBeenCalled(testCompanyId, testTeamId);
+});

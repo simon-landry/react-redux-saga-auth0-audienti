@@ -8,7 +8,7 @@ import HeaderTitle from 'components/HeaderTitle';
 import NotificationCard from 'components/NotificationCard';
 import SmartTable from 'components/SmartTable';
 import { injectIntl } from 'components/Intl';
-import { selectState } from 'redux/selectors';
+import { selectState, getRequestingSelector } from 'redux/selectors';
 import { listMembers } from 'redux/member/actions';
 
 export class Members extends Component {
@@ -37,10 +37,6 @@ export class Members extends Component {
   };
 
   componentWillMount() {
-    this.load();
-  }
-
-  load = () => {
     const { match: { params: { companyId, teamId } }, listMembers } = this.props;
     listMembers(companyId, teamId);
   }
@@ -62,10 +58,11 @@ export class Members extends Component {
     } = this.props;
     const teamName = team.getIn(['attributes', 'name']);
     const ghost = membersRequesting || createMemberRequesting;
+    console.log('members', members.toJS());
     return (
       <div>
         <BreadcrumbItem to={`/companies/${companyId}/teams/${teamId}/members`}>
-          {formatMessage('Members')}
+          {formatMessage('members')}
         </BreadcrumbItem>
         <HeaderTitle>
           {formatMessage('Team')} {teamName}
@@ -107,7 +104,8 @@ export class Members extends Component {
 /* istanbul ignore next */
 const mapStateToProps = state => ({
   ...selectState('team', 'team')(state, 'team'),
-  ...selectState('members', 'members')(state, 'members'),
+  ...selectState('member', 'members')(state, 'members'),
+  createTeamRequesting: getRequestingSelector('team', 'createTeam')(state),
 });
 
 /* istanbul ignore next */

@@ -217,6 +217,8 @@
   "Parent team": "Parent team",
   "Save Team": "Save Team",
   "Members": "Members",
+  "members": "members",
+  "Member": "Member",
   "team": "team",
   "projects": "projects",
   "settings": "settings",
@@ -226,5 +228,6 @@
   "Are you sure you want to remove the team?": "Are you sure you want to remove the team?",
   "{userName} profile": "{userName} profile",
   "You have not added any members yet": "You have not added any members yet",
-  "You can add new member.": "You can add new member."
+  "You can add new member.": "You can add new member.",
+  "Failed to fetch": "Failed to fetch"
 }

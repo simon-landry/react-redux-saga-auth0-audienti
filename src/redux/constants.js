@@ -58,5 +58,27 @@ export const READ_SERVICE = 'services/READ_SERVICE';
 export const UPDATE_SERVICE = 'services/UPDATE_SERVICE';
 export const REMOVE_SERVICE = 'services/REMOVE_SERVICE';
 
+// Company
+export const LIST_COMPANIES = 'companies/LIST_COMPANIES';
+export const CREATE_COMPANY = 'companies/CREATE_COMPANY';
+export const READ_COMPANY = 'companies/READ_COMPANY';
+export const UPDATE_COMPANY = 'companies/UPDATE_COMPANY';
+export const REMOVE_COMPANY = 'companies/REMOVE_COMPANY';
+
+// Teams
+export const LIST_TEAMS = 'teams/LIST_TEAMS';
+export const CREATE_TEAM = 'teams/CREATE_TEAM';
+export const UPDATE_TEAM = 'teams/UPDATE_TEAM';
+export const READ_TEAM = 'teams/READ_TEAM';
+export const REMOVE_TEAM = 'teams/REMOVE_TEAM';
+export const LIST_TEAM_ROLES = 'teams/LIST_TEAM_ROLES';
+
+// Members
+export const LIST_MEMBERS = 'members/LIST_MEMBERS';
+export const CREATE_MEMBER = 'members/CREATE_MEMBER';
+export const UPDATE_MEMBER = 'members/UPDATE_MEMBER';
+export const READ_MEMBER = 'members/READ_MEMBER';
+export const REMOVE_MEMBER = 'members/REMOVE_MEMBER';
+
 // Agent Type
 export const LIST_AGENT_TYPES = 'agentTypes/LIST_AGENT_TYPES';

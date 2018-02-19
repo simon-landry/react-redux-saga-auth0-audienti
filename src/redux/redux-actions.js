@@ -28,7 +28,10 @@ export function createApiAction(
 ) {
   const types = apiTypes(type).slice(0, 3);
   invariant(isFunction(apiCall), 'Expected apiCall to be a function');
-
+  // console.log('membmer type', type);
+  // console.log('membmer apiCall', apiCall);
+  // console.log('membmer notification', notification);
+  // console.log('membmer metaCreator', metaCreator);
   const hasMeta = isFunction(metaCreator);
 
   const actionCreator = (...args) => {

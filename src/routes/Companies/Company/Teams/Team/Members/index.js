@@ -4,12 +4,16 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
 
 import BreadcrumbItem from 'components/BreadcrumbItem';
+import BreadcrumbMenu from 'components/BreadcrumbMenu';
+import ButtonLink from 'components/ButtonLink';
 import HeaderTitle from 'components/HeaderTitle';
 import NotificationCard from 'components/NotificationCard';
 import SmartTable from 'components/SmartTable';
 import { injectIntl } from 'components/Intl';
 import { selectState, getRequestingSelector } from 'redux/selectors';
-import { listMembers } from 'redux/member/actions';
+import { listMembers, createMember } from 'redux/member/actions';
+
+import AddMembershipModal from './components/AddMembershipModal';
 
 export class Members extends Component {
   static propTypes = {
@@ -27,13 +31,27 @@ export class Members extends Component {
       ImmutablePropTypes.mapContains({
         id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       }),
-    ).isRequired,
+    ),
     listMembers: PropTypes.func.isRequired,
     membersRequesting: PropTypes.bool.isRequired,
+    createMember: PropTypes.func.isRequired,
     createMemberRequesting: PropTypes.bool.isRequired,
     membersMeta: ImmutablePropTypes.mapContains({
       total: PropTypes.number,
     }).isRequired,
+  };
+
+  static defaultProps = {
+    members: [
+      {
+        id: '1',
+      },
+    ],
+  }
+
+  state = {
+    createModal: false,
+    addMembers: '',
   };
 
   componentWillMount() {
@@ -46,6 +64,8 @@ export class Members extends Component {
     listMembers(companyId, teamId);
   }
 
+  toggleCreateModal = () => this.setState({ createModal: !this.state.createModal, addMembers: '' })
+
   render() {
     const {
       match: { params: { companyId, teamId } },
@@ -53,25 +73,47 @@ export class Members extends Component {
       formatMessage,
       members,
       membersRequesting,
+      createMember,
       createMemberRequesting,
       membersMeta,
     } = this.props;
+    const {
+      createModal,
+      addMembers,
+    } = this.state;
     const teamName = team.getIn(['attributes', 'name']);
     const ghost = membersRequesting || createMemberRequesting;
-    console.log('members', members.toJS());
+    const membersCount = formatMessage('{count} {count, plural, one {member} other {members}}', { count: membersMeta.get('total') });
+    console.log(members.toJS());
     return (
       <div>
         <BreadcrumbItem to={`/companies/${companyId}/teams/${teamId}/members`}>
           {formatMessage('members')}
         </BreadcrumbItem>
+        <BreadcrumbMenu>
+          <ButtonLink className="no-border" handleClick={this.load}>
+            {membersCount}
+          </ButtonLink>
+          <ButtonLink className="no-border" handleClick={this.toggleCreateModal} icon="fa fa-plus">
+            {formatMessage('Add Member')}
+          </ButtonLink>
+        </BreadcrumbMenu>
         <HeaderTitle>
           {formatMessage('Team')} {teamName}
         </HeaderTitle>
+        <AddMembershipModal
+          isOpen={createModal}
+          toggle={this.toggleCreateModal}
+          className="primary"
+          onSave={payload => createMember(companyId, teamId, payload)}
+          teams={addMembers}
+          key={addMembers}
+        />
         {
           !ghost && !members.size ? (
             <NotificationCard
               icon="users"
-              title={formatMessage('You have not added any members yet')}
+              title={formatMessage('You do not have any members yet')}
               description={formatMessage('You can add new member.')}
             />
           ) : (
@@ -79,8 +121,8 @@ export class Members extends Component {
               data={members.toJS()}
               fields={[
                 {
-                  label: formatMessage('Member'),
-                  name: 'attributes.name',
+                  label: formatMessage('Created'),
+                  name: 'attributes.created_at',
                   render: (() => (
                     <span>
                       {formatMessage('members', { count: 0 })}
@@ -102,15 +144,18 @@ export class Members extends Component {
 }
 
 /* istanbul ignore next */
-const mapStateToProps = state => ({
-  ...selectState('team', 'team')(state, 'team'),
-  ...selectState('member', 'members')(state, 'members'),
-  createTeamRequesting: getRequestingSelector('team', 'createTeam')(state),
-});
+function mapStateToProps(state) {
+  return {
+    ...selectState('team', 'team')(state, 'team'),
+    ...selectState('member', 'members')(state, 'members'),
+    createMemberRequesting: getRequestingSelector('member', 'createMember')(state),
+  };
+}
 
 /* istanbul ignore next */
 const mapDispatchToProps = dispatch => ({
   listMembers: (companyId, teamId, query) => dispatch(listMembers(companyId, teamId, query)),
+  createMember: (companyId, teamId, payload) => dispatch(createMember(companyId, teamId, payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(Members));

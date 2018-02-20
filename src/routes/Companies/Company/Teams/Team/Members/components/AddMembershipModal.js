@@ -12,10 +12,10 @@ import {
   Button,
 } from 'reactstrap';
 import Serializer from 'helpers/form-serialize';
-
+import Select from 'components/Select';
 import { injectIntl } from 'components/Intl';
 
-export const AddMembershipModal = ({ isOpen, toggle, onSave, className, formatMessage }) => (
+export const AddMembershipModal = ({ isOpen, toggle, onSave, className, formatMessage, teamName }) => (
   <Modal
     isOpen={isOpen}
     toggle={toggle}
@@ -26,15 +26,22 @@ export const AddMembershipModal = ({ isOpen, toggle, onSave, className, formatMe
       onSave(Serializer.serialize(e.target, { hash: true }));
       toggle();
     }}>
-      <ModalHeader toggle={toggle}>{formatMessage('Add Member')}</ModalHeader>
+      <ModalHeader toggle={toggle}>{formatMessage('Add members to')} {teamName}</ModalHeader>
       <ModalBody>
         <FormGroup>
-          <Label htmlFor="name">{formatMessage('Name')}</Label>
-          <Input type="text" name="name" required />
+          <Label htmlFor="user_id">{formatMessage('User')}</Label>
+          <Input type="text" name="user_id" icon="users" placeholder={formatMessage('Search by userId, full name, or email address')} required />
+          {/* Todo: User should be selected on search input like Github */}
         </FormGroup>
         <FormGroup>
-          <Label htmlFor="description">{formatMessage('Description')}</Label>
-          <Input type="text" name="description" required />
+          <Select
+            options={[
+              { value: 'owner', label: 'Owner' },
+              { value: 'reader', label: 'Reader' },
+            ]}
+            name="role"
+            defaultValue="owner"
+          />
         </FormGroup>
       </ModalBody>
       <ModalFooter>
@@ -51,10 +58,12 @@ AddMembershipModal.propTypes = {
   className: PropTypes.string,
   formatMessage: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
+  teamName: PropTypes.string,
 };
 
 AddMembershipModal.defaultProps = {
   className: '',
+  teamName: '',
 };
 
 export default injectIntl(AddMembershipModal);

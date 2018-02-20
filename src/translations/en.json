@@ -230,7 +230,12 @@
   "You do not have any members yet": "You do not have any members yet",
   "You can add new member.": "You can add new member.",
   "Failed to fetch": "Failed to fetch",
+  "Add members to": "Add members to",
   "Add Member": "Add Member",
   "Add": "Add",
-  "CREATE MEMBER REQUEST": "CREATE MEMBER REQUEST"
+  "CREATE MEMBER REQUEST": "CREATE MEMBER REQUEST",
+  "Role": "Role",
+  "User": "User",
+  "You’ve successfully created the member.": "You’ve successfully created the member.",
+  "Search by userId, full name, or email address": "Search by userId, full name, or email address"
 }

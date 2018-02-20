@@ -2,16 +2,19 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
-
+import moment from 'moment';
+import { Row, Col } from 'reactstrap';
 import BreadcrumbItem from 'components/BreadcrumbItem';
 import BreadcrumbMenu from 'components/BreadcrumbMenu';
 import ButtonLink from 'components/ButtonLink';
 import HeaderTitle from 'components/HeaderTitle';
 import NotificationCard from 'components/NotificationCard';
 import SmartTable from 'components/SmartTable';
+import SearchBox from 'components/SearchBox';
 import { injectIntl } from 'components/Intl';
 import { selectState, getRequestingSelector } from 'redux/selectors';
 import { listMembers, createMember } from 'redux/member/actions';
+import { listUsers } from 'redux/user/actions';
 
 import AddMembershipModal from './components/AddMembershipModal';
 
@@ -32,7 +35,13 @@ export class Members extends Component {
         id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       }),
     ),
+    users: ImmutablePropTypes.listOf(
+      ImmutablePropTypes.mapContains({
+        id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      }),
+    ),
     listMembers: PropTypes.func.isRequired,
+    listUsers: PropTypes.func.isRequired,
     membersRequesting: PropTypes.bool.isRequired,
     createMember: PropTypes.func.isRequired,
     createMemberRequesting: PropTypes.bool.isRequired,
@@ -47,6 +56,11 @@ export class Members extends Component {
         id: '1',
       },
     ],
+    users: [
+      {
+        id: '1',
+      },
+    ],
   }
 
   state = {
@@ -55,7 +69,13 @@ export class Members extends Component {
   };
 
   componentWillMount() {
-    const { match: { params: { companyId, teamId } }, listMembers } = this.props;
+    const { match: { params: { companyId, teamId } }, listMembers, listUsers } = this.props;
+    listMembers(companyId, teamId);
+    listUsers();
+  }
+
+  onSearch = () => {
+    const { listMembers, match: { params: { companyId, teamId } } } = this.props;
     listMembers(companyId, teamId);
   }
 
@@ -72,6 +92,7 @@ export class Members extends Component {
       team,
       formatMessage,
       members,
+      users,
       membersRequesting,
       createMember,
       createMemberRequesting,
@@ -84,7 +105,7 @@ export class Members extends Component {
     const teamName = team.getIn(['attributes', 'name']);
     const ghost = membersRequesting || createMemberRequesting;
     const membersCount = formatMessage('{count} {count, plural, one {member} other {members}}', { count: membersMeta.get('total') });
-    console.log(members.toJS());
+    console.log('users', users.toJS());
     return (
       <div>
         <BreadcrumbItem to={`/companies/${companyId}/teams/${teamId}/members`}>
@@ -94,10 +115,17 @@ export class Members extends Component {
           <ButtonLink className="no-border" handleClick={this.load}>
             {membersCount}
           </ButtonLink>
-          <ButtonLink className="no-border" handleClick={this.toggleCreateModal} icon="fa fa-plus">
-            {formatMessage('Add Member')}
-          </ButtonLink>
         </BreadcrumbMenu>
+        <Row>
+          <Col md={6} sm={6} xs="12">
+            <SearchBox onSearch={this.onSearch} />
+          </Col>
+          <Col md={6} sm={6} xs="12" className="text-right">
+            <ButtonLink className="no-border" handleClick={this.toggleCreateModal} icon="fa fa-plus">
+              {formatMessage('Add Member')}
+            </ButtonLink>
+          </Col>
+        </Row>
         <HeaderTitle>
           {formatMessage('Team')} {teamName}
         </HeaderTitle>
@@ -108,6 +136,7 @@ export class Members extends Component {
           onSave={payload => createMember(companyId, teamId, payload)}
           teams={addMembers}
           key={addMembers}
+          teamName={teamName}
         />
         {
           !ghost && !members.size ? (
@@ -117,25 +146,45 @@ export class Members extends Component {
               description={formatMessage('You can add new member.')}
             />
           ) : (
-            <SmartTable
-              data={members.toJS()}
-              fields={[
-                {
-                  label: formatMessage('Created'),
-                  name: 'attributes.created_at',
-                  render: (() => (
-                    <span>
-                      {formatMessage('members', { count: 0 })}
-                    </span>
-                  )),
-                },
-              ]}
-              ghost={ghost}
-              actions={[]}
-              onPageChange={this.loadPage}
-              total={membersMeta.get('total')}
-              checkable
-            />
+            <div className="margin-t-20">
+              <SmartTable
+                data={members.toJS()}
+                fields={[
+                  {
+                    label: formatMessage('Role'),
+                    name: 'attributes.role',
+                    render: (value => (
+                      <span>
+                        {value}
+                      </span>
+                    )),
+                  },
+                  {
+                    label: formatMessage('Created'),
+                    name: 'attributes.created_at',
+                    render: (value => (
+                      <span>
+                        {moment(value).fromNow()}
+                      </span>
+                    )),
+                  },
+                  {
+                    label: formatMessage('Updated'),
+                    name: 'attributes.updated_at',
+                    render: (value => (
+                      <span>
+                        {moment(value).fromNow()}
+                      </span>
+                    )),
+                  },
+                ]}
+                ghost={ghost}
+                actions={[]}
+                onPageChange={this.loadPage}
+                total={membersMeta.get('total')}
+                checkable
+              />
+            </div>
           )
         }
       </div>
@@ -148,6 +197,7 @@ function mapStateToProps(state) {
   return {
     ...selectState('team', 'team')(state, 'team'),
     ...selectState('member', 'members')(state, 'members'),
+    ...selectState('user', 'users')(state, 'users'),
     createMemberRequesting: getRequestingSelector('member', 'createMember')(state),
   };
 }
@@ -155,6 +205,7 @@ function mapStateToProps(state) {
 /* istanbul ignore next */
 const mapDispatchToProps = dispatch => ({
   listMembers: (companyId, teamId, query) => dispatch(listMembers(companyId, teamId, query)),
+  listUsers: query => dispatch(listUsers(query)),
   createMember: (companyId, teamId, payload) => dispatch(createMember(companyId, teamId, payload)),
 });
 

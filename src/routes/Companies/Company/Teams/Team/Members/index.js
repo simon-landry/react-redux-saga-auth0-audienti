@@ -105,7 +105,6 @@ export class Members extends Component {
     const teamName = team.getIn(['attributes', 'name']);
     const ghost = membersRequesting || createMemberRequesting;
     const membersCount = formatMessage('{count} {count, plural, one {member} other {members}}', { count: membersMeta.get('total') });
-    console.log('users', users.toJS());
     return (
       <div>
         <BreadcrumbItem to={`/companies/${companyId}/teams/${teamId}/members`}>
@@ -137,6 +136,7 @@ export class Members extends Component {
           teams={addMembers}
           key={addMembers}
           teamName={teamName}
+          users={users.toJS()}
         />
         {
           !ghost && !members.size ? (

@@ -237,5 +237,6 @@
   "Role": "Role",
   "User": "User",
   "You’ve successfully created the member.": "You’ve successfully created the member.",
-  "Search by userId, full name, or email address": "Search by userId, full name, or email address"
+  "Search by userId, full name, or email address": "Search by userId, full name, or email address",
+  "Invalid team_id": "Invalid team_id"
 }

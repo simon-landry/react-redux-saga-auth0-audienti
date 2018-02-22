@@ -18,7 +18,7 @@ import ButtonDropdown from 'components/ButtonDropdown';
 import { listServices, removeService, createService } from 'redux/service/actions';
 import { setConfirmMessage } from 'redux/ui/actions';
 import { selectState, getRequestingSelector } from 'redux/selectors';
-import { currentUserSelector } from 'redux/auth/selectors';
+import { currentUserSelector, accessTokenSelector } from 'redux/auth/selectors';
 
 export class ServicesList extends Component {
   static propTypes = {
@@ -43,12 +43,17 @@ export class ServicesList extends Component {
     currentUser: ImmutablePropTypes.mapContains({
       id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     }).isRequired,
+    accessToken: PropTypes.string,
     listServices: PropTypes.func.isRequired,
     removeService: PropTypes.func.isRequired,
     removeServiceRequesting: PropTypes.bool.isRequired,
     // createService: PropTypes.func.isRequired,
     createServiceRequesting: PropTypes.bool.isRequired,
     setConfirmMessage: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    accessToken: '',
   };
 
   state = { pageIndex: 1, search: '' };
@@ -66,8 +71,7 @@ export class ServicesList extends Component {
   }
 
   onSearch = (value) => {
-    const { listServices } = this.props;
-    const userId = this.getUser().get('id');
+    const { listServices, match: { params: { userId } } } = this.props;
     this.setState({ search: value, pageIndex: 1 });
     listServices(userId, { 'page[number]': 1, search: value });
   }
@@ -86,15 +90,13 @@ export class ServicesList extends Component {
   } */
 
   load = () => {
-    const { listServices } = this.props;
-    const userId = this.getUser().get('id');
+    const { listServices, match: { params: { userId } } } = this.props;
     const { pageIndex, search } = this.state;
     listServices(userId, { 'page[number]': pageIndex, search });
   }
 
   loadPage = (index) => {
-    const { listServices } = this.props;
-    const userId = this.getUser().get('id');
+    const { listServices, match: { params: { userId } } } = this.props;
     const { search } = this.state;
     this.setState({ pageIndex: index });
     listServices(userId, { 'page[number]': index, search });
@@ -110,6 +112,7 @@ export class ServicesList extends Component {
       match: { params: { userId } },
       removeService,
       setConfirmMessage,
+      accessToken,
     } = this.props;
     const servicesCount = formatMessage('{count} {count, plural, one {account} other {accounts}}', { count: servicesMeta.get('total') });
     const ghost = servicesRequesting || removeServiceRequesting;
@@ -147,7 +150,7 @@ export class ServicesList extends Component {
                 >
                   <a
                     className="drop-down-item-link"
-                    href={`${process.env.API_HOST}/auth/${serviceType.provider}?for=authorization&origin=${window.location.href}`}
+                    href={`${process.env.API_HOST}/auth/${serviceType.provider}?for=authorization&origin=${window.location.href}&token=${accessToken}`}
                     icon={`fa fa-${serviceType.icon}`}
                   >
                     {serviceType.label}
@@ -224,6 +227,7 @@ const mapStateToProps = state => ({
   ...selectState('user', 'user')(state, 'user'),
   ...selectState('service', 'services')(state, 'services'),
   currentUser: currentUserSelector(state),
+  accessToken: accessTokenSelector(state),
   createServiceRequesting: getRequestingSelector('service', 'createService')(state),
   removeServiceRequesting: getRequestingSelector('service', 'removeService')(state),
 });

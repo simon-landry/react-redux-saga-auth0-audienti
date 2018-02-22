@@ -67,7 +67,7 @@ file, You can obtain one at http://jointjs.com/license/rappid_v2.txt
 */
 #rappid-container {
   position: relative;
-  height: calc(100vh - 101px);
+  height: calc(100vh - 110px);
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -181,7 +181,7 @@ file, You can obtain one at http://jointjs.com/license/rappid_v2.txt
   opacity: 0.7;
   transition: opacity 0.5s;
   &:hover {
-      opacity: 1;
+    opacity: 1;
   }
 }
 
@@ -197,7 +197,7 @@ file, You can obtain one at http://jointjs.com/license/rappid_v2.txt
   left: 10px;
 }
 
-.joint-halo[data-type="basic.Rect"]{
+.joint-halo[data-type="custom.RectEx"]{
   .handles {
     left: auto;
     top: auto;
@@ -238,7 +238,54 @@ file, You can obtain one at http://jointjs.com/license/rappid_v2.txt
   }
 }
 
-.joint-halo[data-type="basic.Circle"]{
+.joint-halo[data-type="custom.CircleEx"]{
+  .handles {
+    left: auto;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    .handle {
+      &.nw,
+      &.sw {
+        left: 2px;
+      }
+      &.nw,
+      &.ne {
+        top: 2px;
+      }
+      &.ne,
+      &.se {
+        right: 2px;
+      }
+      &.sw,
+      &.se {
+        bottom: 2px;
+      }
+      &.n { top: -7px; }
+      &.s { bottom: -7px; }
+      &.w { left: -7px; }
+      
+      &.e {
+        right: -7px;
+        top: calc(50% - 9px);
+      }
+      &.w {
+        left: -7px;
+        top: 50%;
+      }
+      &.n {
+        top: -7px;
+        left: 50%;
+      }
+      &.s {
+        bottom: -7px;
+        left: 50%;
+      }
+    }
+  }
+}
+
+.joint-halo[data-type="custom.PathEx"]{
   .handles {
     left: auto;
     top: auto;

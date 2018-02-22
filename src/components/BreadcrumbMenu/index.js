@@ -33,4 +33,7 @@ const mapDispatchToProps = dispatch => ({
   clearBreadcrumbMenu: () => dispatch(clearBreadcrumbMenu()),
 });
 
-export default connect(undefined, mapDispatchToProps)(BreadcrumbMenu);
+const wrappedBreadcrumbMenu = connect(undefined, mapDispatchToProps)(BreadcrumbMenu);
+wrappedBreadcrumbMenu.displayName = 'BreadcrumbMenu';
+
+export default wrappedBreadcrumbMenu;

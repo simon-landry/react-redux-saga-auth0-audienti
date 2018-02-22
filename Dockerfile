@@ -1,6 +1,6 @@
 FROM omalab/nodebox:0.1.2
 
-ENV APP_DIR /var/app/front
+ENV APP_DIR /var/app/react-app
 # set working directory
 RUN set -ex \
     && mkdir -p $APP_DIR

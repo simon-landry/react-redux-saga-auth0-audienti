@@ -20,16 +20,18 @@ class SmartItemGroup extends Component {
     onPageChange: PropTypes.func.isRequired,
     ghost: PropTypes.bool.isRequired,
     remove: PropTypes.func,
+    companyPagination: PropTypes.bool,
   };
 
   static defaultProps = {
     data: [],
     total: 0,
     remove: null,
+    companyPagination: false,
   }
 
   render() {
-    const { total, onPageChange, ItemComponent, ghost, remove } = this.props;
+    const { total, onPageChange, ItemComponent, ghost, remove, companyPagination } = this.props;
     const data = ghost ? new Array(perPage).fill({}) : this.props.data;
     return (
       <div>
@@ -42,10 +44,12 @@ class SmartItemGroup extends Component {
             ))
           }
         </Row>
-        <Pagination
-          pageCount={Math.ceil(total / perPage)}
-          onChange={onPageChange}
-        />
+        {!companyPagination &&
+          <Pagination
+            pageCount={Math.ceil(total / perPage)}
+            onChange={onPageChange}
+          />
+        }
       </div>
     );
   }

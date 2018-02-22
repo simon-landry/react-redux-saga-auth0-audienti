@@ -216,6 +216,7 @@ app-root {
   .breadcrumb {
     position: fixed;
     top: $navbar-height;
+    height: $navbar-height;
     right: 0;
     left: 0;
     z-index: $zindex-sticky - 2;
@@ -296,6 +297,7 @@ app-root {
 }
 .breadcrumb {
   transition: left $layout-transition-speed, right $layout-transition-speed, width $layout-transition-speed;
+  height: $navbar-height;
 }
 
 //

@@ -50,7 +50,7 @@ export class Team extends Component {
           items={[
             { title: true, name: teamName },
             {
-              name: formatMessage('Members'),
+              name: formatMessage('Membership'),
               url: `/companies/${companyId}/teams/${teamId}/members`,
               icon: 'fa fa-users',
             },

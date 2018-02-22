@@ -82,3 +82,10 @@ export const REMOVE_MEMBER = 'members/REMOVE_MEMBER';
 
 // Agent Type
 export const LIST_AGENT_TYPES = 'agentTypes/LIST_AGENT_TYPES';
+
+// Users
+export const LIST_USERS = 'users/LIST_USERS';
+export const CREATE_USER = 'users/CREATE_USER';
+export const UPDATE_USER = 'users/UPDATE_USER';
+export const READ_USER = 'users/READ_USER';
+export const REMOVE_USER = 'users/REMOVE_USER';

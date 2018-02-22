@@ -216,7 +216,7 @@
   "Once deleted, it will be gone forever. Please be certain.": "Once deleted, it will be gone forever. Please be certain.",
   "Parent team": "Parent team",
   "Save Team": "Save Team",
-  "Members": "Members",
+  "Membership": "Membership",
   "members": "members",
   "Member": "Member",
   "team": "team",
@@ -227,7 +227,16 @@
   "LIST COMPANIES REQUEST": "LIST COMPANIES REQUEST",
   "Are you sure you want to remove the team?": "Are you sure you want to remove the team?",
   "{userName} profile": "{userName} profile",
-  "You have not added any members yet": "You have not added any members yet",
+  "You do not have any members yet": "You do not have any members yet",
   "You can add new member.": "You can add new member.",
-  "Failed to fetch": "Failed to fetch"
+  "Failed to fetch": "Failed to fetch",
+  "Add members to": "Add members to",
+  "Add Member": "Add Member",
+  "Add": "Add",
+  "CREATE MEMBER REQUEST": "CREATE MEMBER REQUEST",
+  "Role": "Role",
+  "User": "User",
+  "You’ve successfully created the member.": "You’ve successfully created the member.",
+  "Search by userId, full name, or email address": "Search by userId, full name, or email address",
+  "Invalid team_id": "Invalid team_id"
 }

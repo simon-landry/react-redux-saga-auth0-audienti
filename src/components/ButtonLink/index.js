@@ -22,7 +22,7 @@ ButtonLink.propTypes = {
   to: PropTypes.string,
   handleClick: PropTypes.func,
   icon: PropTypes.string,
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   className: PropTypes.string,
 };
 
@@ -31,6 +31,7 @@ ButtonLink.defaultProps = {
   handleClick: null,
   icon: null,
   className: '',
+  children: null,
 };
 
 export default ButtonLink;

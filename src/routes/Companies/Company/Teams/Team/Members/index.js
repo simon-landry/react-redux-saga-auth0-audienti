@@ -34,12 +34,12 @@ export class Members extends Component {
       ImmutablePropTypes.mapContains({
         id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       }),
-    ),
+    ).isRequired,
     users: ImmutablePropTypes.listOf(
       ImmutablePropTypes.mapContains({
         id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       }),
-    ),
+    ).isRequired,
     listMembers: PropTypes.func.isRequired,
     listUsers: PropTypes.func.isRequired,
     membersRequesting: PropTypes.bool.isRequired,
@@ -49,19 +49,6 @@ export class Members extends Component {
       total: PropTypes.number,
     }).isRequired,
   };
-
-  static defaultProps = {
-    members: [
-      {
-        id: '1',
-      },
-    ],
-    users: [
-      {
-        id: '1',
-      },
-    ],
-  }
 
   state = {
     createModal: false,

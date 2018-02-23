@@ -29,7 +29,10 @@ const testProps = {
   updateTeam: noop,
   formatMessage: noop,
   members: fromJS([]),
+  users: fromJS([]),
   listMembers: noop,
+  listUsers: noop,
+  createMember: noop,
   membersRequesting: false,
   createMemberRequesting: false,
   membersMeta: fromJS({}),
@@ -123,4 +126,27 @@ test('listMembers is called when loadPage is triggered.', () => {
   const smartTable = component.find('SmartTable');
   smartTable.props().onPageChange(pageIndex);
   expect(listMembers).toHaveBeenCalled(testCompanyId, testTeamId);
+});
+
+test('listMembers is called when onSearch is called.', () => {
+  const listMembers = createSpy();
+  const component = shallowRenderer({
+    ...testProps,
+    listMembers,
+  });
+  const searchBox = component.find('SearchBox');
+  searchBox.props().onSearch();
+  expect(listMembers).toHaveBeenCalled(testCompanyId, testTeamId);
+});
+
+test('createMember is called when onSave of dialog is called.', () => {
+  const createMember = createSpy();
+  const testPayload = { test: 'whatever' };
+  const component = shallowRenderer({
+    ...testProps,
+    createMember,
+  });
+  const searchBox = component.find('AddMembershipModal');
+  searchBox.props().onSave(testPayload);
+  expect(createMember).toHaveBeenCalled(testCompanyId, testTeamId, testPayload);
 });

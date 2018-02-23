@@ -29,31 +29,22 @@ export class AddMembershipModal extends Component {
           PropTypes.string, PropTypes.number,
         ]),
       }),
-    ),
+    ).isRequired,
   };
 
   static defaultProps = {
     className: '',
     teamName: '',
-    users: [
-      {
-        id: '1',
-      },
-    ],
   };
 
   state = {}
 
   render() {
     const { isOpen, toggle, onSave, className, formatMessage, teamName, users } = this.props;
-    const userOptions = [];
-    users.map((user) => {
-      const option = {
-        value: user.id,
-        label: user.attributes.name,
-      };
-      userOptions.push(option);
-    });
+    const userOptions = users.map(({ id, attributes }) => ({
+      value: id,
+      label: attributes.name,
+    }));
     return (
       <Modal
         isOpen={isOpen}
@@ -94,4 +85,7 @@ export class AddMembershipModal extends Component {
   }
 }
 
-export default injectIntl(AddMembershipModal);
+const wrappedAddmembershipModal = injectIntl(AddMembershipModal);
+wrappedAddmembershipModal.displayName = 'AddMembershipModal';
+
+export default wrappedAddmembershipModal;

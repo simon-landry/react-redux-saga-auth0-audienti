@@ -52,10 +52,7 @@ export class Workflow extends Component {
       })),
       schedules: ImmutablePropTypes.listOf(PropTypes.string),
     }).isRequired,
-<<<<<<< HEAD
-=======
     formatMessage: PropTypes.func.isRequired,
->>>>>>> a597db9d4d1c191c551b605709b7f216fc9d97a4
     // workflowRequesting: PropTypes.bool.isRequired,
     isScriptLoadSucceed: PropTypes.bool.isRequired,
     updateWorkflow: PropTypes.func.isRequired,
@@ -74,14 +71,10 @@ export class Workflow extends Component {
 
   componentWillReceiveProps(nextProps) {
     /* istanbul ignore else */
-<<<<<<< HEAD
-    if (nextProps.isScriptLoadSucceed && get(nextProps.agentTypes.toJS(), 'agents.length')) {
-=======
     if (nextProps.isScriptLoadSucceed
         && get(nextProps.agentTypes.toJS(), 'agents.length')
         && nextProps.workflow.get('id')
     ) {
->>>>>>> a597db9d4d1c191c551b605709b7f216fc9d97a4
       this.rappidInit(nextProps);
     }
     if (this.props.workflow !== nextProps.workflow) {
@@ -157,11 +150,6 @@ export class Workflow extends Component {
   }
 
   render() {
-<<<<<<< HEAD
-    // const { workflow, workflowRequesting, isScriptLoadSucceed } = this.props;
-    const { configDialog } = this.state;
-    const { agentTypes } = this.props;
-=======
     const { configDialog, toggleInProgress } = this.state;
     const {
       agentTypes,
@@ -171,7 +159,6 @@ export class Workflow extends Component {
     } = this.props;
     const workflowName = workflow.getIn(['attributes', 'name']) || '--';
     const workflowAttr = workflow.getIn(['attributes']);
->>>>>>> a597db9d4d1c191c551b605709b7f216fc9d97a4
     return (
       <div id="rappid-container">
         <BreadcrumbItem to={`/projects/${projectId}/workflows/${workflowId}`}>

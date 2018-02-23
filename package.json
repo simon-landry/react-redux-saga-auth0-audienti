@@ -10,8 +10,9 @@
     "lint-fix": "eslint . --fix",
     "lint-sass": "sass-lint -c .sass-lint.yml 'src/styles/**/*.scss' -v -q",
     "reinstall": "rimraf node_modules && yarn",
+    "heroku-postbuild": "npm run build",
     "serve:dev": "webpack-dev-server --open --env dev",
-    "serve:dist": "webpack-dev-server NODE_ENV=production --open --env dist -p --progress",
+    "serve:dist": "serve dist NODE_ENV=production",
     "start": "npm run serve:dev",
     "test": "cross-env NODE_PATH=src NODE_ENV=test ava --concurrency 18",
     "test:watch": "npm run test -- --watch",
@@ -71,6 +72,7 @@
     "redux-immutable": "^4.0.0",
     "redux-saga": "^0.16.0",
     "reselect": "^3.0.1",
+    "serve": "^6.4.11",
     "simple-line-icons": "^2.4.1",
     "spinkit": "^1.2.5"
   },

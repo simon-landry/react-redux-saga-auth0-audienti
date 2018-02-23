@@ -31,7 +31,6 @@ class WebpackDistConfig extends WebpackBaseConfig {
       },
     };
     const pluginObject = {};
-    console.log(process.env);
     Object.keys(process.env).forEach((key) => {
       pluginObject[key] = JSON.stringify(process.env[key]);
     });

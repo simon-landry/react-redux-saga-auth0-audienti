@@ -135,7 +135,7 @@ class WebpackBaseConfig {
         publicPath: '/assets/',
       },
       plugins: [
-        new Dotenv(),
+        new Dotenv({ silent: process.env.NODE_ENV === 'production' }),
       ],
       resolve: {
         extensions: ['.js', '.jsx'],

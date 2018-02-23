@@ -30,11 +30,14 @@ class WebpackDistConfig extends WebpackBaseConfig {
         chunkFilename: 'assets/[id].[hash].chunk.js',
       },
     };
-
+    const pluginObject = {};
+    console.log(process.env);
+    Object.keys(process.env).forEach((key) => {
+      pluginObject[key] = JSON.stringify(process.env[key]);
+    });
+    pluginObject.NODE_ENV = '"production"';
     this.config.plugins = this.config.plugins.concat([
-      new webpack.DefinePlugin({
-        'process.env.NODE_ENV': '"production"',
-      }),
+      new webpack.DefinePlugin({ 'process.env': pluginObject }),
       new webpack.optimize.AggressiveMergingPlugin(),
       new webpack.NoEmitOnErrorsPlugin(),
       new CopyWebpackPlugin([

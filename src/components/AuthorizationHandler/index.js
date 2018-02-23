@@ -29,6 +29,7 @@ export class AuthorizationHandler extends Component {
 
   authorize = ({ pathname, search, hash }) => {
     const redirectUrl = encodeURIComponent(`${pathname}${search}${hash}`);
+    console.log(process.env);
     const auth0 = new Auth0.WebAuth({
       domain: process.env.AUTH0_DOMAIN,
       clientID: process.env.AUTH0_CLIENT_ID,

@@ -1,35 +1,35 @@
-# Project Title
+# Audienti Frontend Application
 
-Audienti Frontend Application (React)
+This project is a collaboration platform built on React, Redux, Redux-Saga and Reactstrap.
+
+## Tech stack
+
+- [React](https://github.com/facebook/react)
+- [Redux](https://github.com/reactjs/redux)
+- [React-Saga](https://github.com/redux-saga/redux-saga)
+- [Reactstrap](https://github.com/reactstrap/reactstrap)
+- [Reselect](https://github.com/reduxjs/reselect)
+- [Immutable](https://github.com/immutable-js/immutable-js)
+- [Chart.js](https://github.com/chartjs/Chart.js)
+- [Auth0](https://github.com/auth0)
+- [Webpack](https://github.com/webpack/webpack)
 
 ## Getting Started
 
-Please follow the below instruction get it running.
+### Install the dependencies using npm
 
-### Prerequisites
+    $ npm install or yarn
 
-```
-node
-```
+### Run the app
 
-### Installing
-
-Please copy paste .env.sample to .env under your root folder.  
-You can ask values to fill it from admin.
-
-```
-npm install -g yarn
-yarn
-yarn start
-```
+    $ npm start or yarn start
 
 ### Building
 
-```
-yarn build
-```
+    $ yarn build
 
 ### Testing
+
 ```
 yarn lint // Run eslint (all js/jsx files)
 yarn lint-sass // Run sass lint (scss files)
@@ -40,6 +40,5 @@ yarn review // Do all testings together
 ```
 
 ### Translate
-```
-yarn translate
-```
+
+    $ yarn translate

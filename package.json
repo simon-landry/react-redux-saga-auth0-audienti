@@ -109,7 +109,7 @@
     "json-sort-cli": "^1.0.5",
     "less-loader": "^4.0.5",
     "mock-require": "^2.0.2",
-    "node-sass": "^4.6.1",
+    "node-sass": "^4.13.1",
     "npm-run-all": "^4.1.2",
     "null-loader": "^0.1.1",
     "nyc": "^11.3.0",
